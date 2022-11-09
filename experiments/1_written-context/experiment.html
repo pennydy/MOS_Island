@@ -52,15 +52,15 @@
   <p class="block-text" id="instruct-text">
     <br>
 
-<b> Instruction: </b>In this experiment, we ask you to imagine that you are at a party. You walk into the kitchen and overhear a conversation, during which one person, Hanaok, asked about something another person, Scott, just said. 
-<p class="block-text"> You are asked either to assess how natural the question is or to select what Scott was talking about.
+<b> Instruction: </b>In this experiment, we ask you to imagine that you are at a party. You walk into the kitchen and overhear a conversation, during which one person, Scott, asked about something another person, Hanako, just said. 
+<p class="block-text"> You are asked either to assess how natural/acceptable the question Scott's question sounds or to select what Hanako was talking about.
   
 <br> 
 <br>
 There are a total of 36 pairs of questions. </p>
 
-<p class="block-text"> <b> Payment:</b> You will be paid $2.00 to
-participate in this experiment, which will take about 8 minutes to
+<p class="block-text"> <b> Payment:</b> You will be paid $2.50 to
+participate in this experiment, which will take about 10 minutes to
 complete. <br> </p>
 <p class="block-text" id="instruct-text">We have included some items for which we already know the answer. If you are paying attention, you are sure to get those right! At the end of the task, we will ask you some short questions about you and your language use. You will be paid no matter what you answer there, so please answer truthfully.</p>
 
@@ -83,27 +83,28 @@ Thank you!
 
 
  <div class="slide" id="practice_slider_good_1">
-
   <br>
   <br>
-  <br>
-  <br>
-
   <p>Let's try one practice item. Please read the context sentence, and then rate the acceptability of the target sentence. Please indicate how acceptable the target sentence sounds by dragging the slider bar.</p>
   <br>
-  <p class="prompt">{{}} </p><br><br>
-  <p class="question">{{}} </p><br>
+  <p class="context">{{}} </p>
+  <p class="target">{{}} </p>
+  <br>
+  <br>
+  <p class="question">{{}} </p>
+  <br>
 
   <table id="slider_table" class="slider_table">
     <tr><td class="left">completely unacceptable</td><td colspan="2"><div id="practice_slider_1" class="slider"></div></td><td class="right">completely acceptable</td></tr>
   </table>
 
   <button onclick="_s.button()">Continue</button>
-  <div class="err">Please adjust the slider before continuing.</div>
-  <p class="errgood">This target question should be acceptable. Please try again.</p>
+  <div class="slider_err">Please adjust the slider before continuing.</div>
+  <p class="err_good">This target question should be acceptable. Please try again.</p>
 </div>
 
 <div class="slide" id="post_practice_1">
+  <br>
   <br>
   <br>
   <br>
@@ -116,35 +117,77 @@ Thank you!
 
 
 <div class="slide" id="practice_choice_good_2">
-
+<br>
+<br> 
 <p>Let's try another practice item. Please read the context sentence, and answer the question.</p>
-  <p class="prompt"> </p>
-  <label><input type="radio"  name="practice" value="forgrounded"><p class = "left_botton">{{}}</p></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <label><input type="radio"  name="practice" value="backgrounded"><p class = "right_botton">{{}}</p></label>
+<br>
+  <p class="context"> </p>
+  <p class="target"> </p>
+  <br>
+  <br>
+  <p class="question"> </p>
+  <br>
+
+  <div>
+    <label for="foreground">
+    <input type="radio" id="foreground" name="practice" value="foregrounded" style="float: left; margin-left:250px">
+    <p align="left" margin-left="10px" class = "left_button">{{}}</p></label>
+
+    <label for="background">
+    <input type="radio" id="background" name="practice" value="backgrouneded" style="float: left; margin-left:250px">
+    <p align="left" margin-left="10px" class = "right_button">{{}}</p></label>
+  </div>
+  <!-- <label><input type="radio"  name="practice" value="backgrounded"><p class = "right_button">{{}}</p></label> -->
   <button onclick="_s.button()">Continue</button>
   <div class="forced_choice_err">Please respond before continuing.</div>
-  <div class="errbad">Scott was talking about something else. Please try again.</div>
 </div>
+
+
+<div class="slide" id="practice_choice_bad_1">
+<br>
+<br> 
+  <p>Here is another practice item. Please read the context sentence, and answer the question.</p>
+  <br> 
+    <p class="context"> </p>
+    <p class="target"> </p>
+    <br>
+    <br>
+    <p class="question"> </p>
+    <br>
+
+    <div>
+      <label for="background">
+      <input type="radio" id="background" name="practice" value="backgrounded" style="float: left; margin-left:250px">
+      <p align="left" margin-left="10px" class = "left_button">{{}}</p></label>
+
+      <label for="foreground">
+      <input type="radio" id="foreground" name="practice" value="foregrounded" style="float: left; margin-left:250px">
+      <p align="left" margin-left="10px" class = "right_button">{{}}</p></label>
+    </div>
+    <!-- <label><input type="radio"  name="practice" value="backgrounded"><p class = "right_button">{{}}</p></label> -->
+    <button onclick="_s.button()">Continue</button>
+    <div class="forced_choice_err">Please respond before continuing.</div>
+  </div>
 
 
 <div class="slide" id="practice_slider_bad_2">
   <br>
   <br>
+  <p>Here is another practice item. Please read the context sentence, and then rate the acceptability of the target sentence. Please indicate how acceptable the target sentence sounds using the slider.</p>
   <br>
-  <br>
-  <br>
-
-  <p>Let's try another practice item. Please read the context sentence, and then rate the acceptability of the target sentence. Please indicate how acceptable the target sentence sounds using the slider.</p>
-  <p class="prompt"> </p>
+  <p class="context">{{}} </p>
+  <p class="target">{{}} </p><br><br>
+  <p class="question">{{}} </p><br>
   <table id="slider_table" class="slider_table">
     <tr><td class="left">completely unacceptable</td><td colspan="2"><div id="practice_slider_2" class="slider"></div></td><td class="right">completely acceptable</td></tr>
   </table>
   <button onclick="_s.button()">Continue</button>
-  <div class="err">Please adjust the slider before continuing.</div>
-  <p class="errgood">This target sentence should be acceptable. Please try again.</p>
+  <div class="slider_err">Please adjust the slider before continuing.</div>
+  <p class="err_bad">This target sentence should be unacceptable. Please try again.</p>
 </div>
 
 <div class="slide" id="post_practice_2">
+  <br>
   <br>
   <br>
   <br>
@@ -160,6 +203,7 @@ Thank you!
   <br>
   <br>
   <br>
+  <br>
 
   <p>Before we start the experiment, there are a few things to keep in mind:</p>
   <p>(1) You may see sentences that are totally acceptable or unacceptable, and you may also see sentences that are somewhere in between. Please make use of the full scale when rating them.</p>
@@ -169,32 +213,32 @@ Thank you!
 </div>
 
 
-<div class="slide" id="instructions1">
-  <br>  
-<p class="block-text" id="inst1">{{}}</p>
-    <button onclick="_s.button()">Continue</button>
-</div>  
-
-
  <div class="slide" id="block1">
   <br> 
-  	<br>
-	<p class="context">{{}}</p> <br> 
-  <p class="target">{{}}</p> <br> <br>	
+  <br>
+	<p class="context">{{}}</p> 
+  <p class="target">{{}}</p>
+  <br>
 	<p class="question">{{}}</p><br>
 
     <!-- the slider -->
     <table id="slider_table" class="slider_table">
-      <tr><td class="left"><h4><p class = "leftLabel">{{}}</p></h3></td><td colspan="2"><div id="single_slider" class="slider"></div></td><td class="right"><h4><p class = "rightLabel">{{}}</p></h3></td></tr>
+      <tr><td class="left">completely unacceptable</td><td colspan="2"><div id="single_slider" class="slider"></div></td><td class="right">completely acceptable</td></tr>
     </table>
-    <!-- two bottons for forced choice -->
-    <label><input type="radio"  name="practice" value="backgrounded"><p class = "left_botton">{{}}</p></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <label><input type="radio"  name="practice" value="forgrounded"><p class = "right_botton">{{}}</p></label>
+    <!-- two buttons for forced choice -->
+    <div>
+      <label for="background">
+      <input type="radio" id="background" name="critical" value="backgrounded" style="float: left; margin-left:250px">
+      <p align="left" margin-left="10px" class = "left_button">{{}}</p></label>
 
-    <button class="continue_button", id="continue_button", onclick="_s.belief_button()">Continue</button>
+      <label for="foreground">
+      <input type="radio" id="foreground" name="critical" value="foregrounded" style="float: left; margin-left:250px">
+      <p align="left" margin-left="10px" class = "right_button">{{}}</p></label>
+    </div>
+    <button class="continue_button", id="continue_button", onclick="_s.button()">Continue</button>
 
-	<p class="err">Please adjust the slider before continuing.</p> 
-  <p class="forced_choice_err">Please adjust the slider before continuing.</p> 
+	<p class="slider_err">Please adjust the slider before continuing.</p> 
+  <p class="forced_choice_err">Please respond before continuing.</p> 
 
 
 </div>

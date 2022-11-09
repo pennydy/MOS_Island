@@ -24,35 +24,37 @@ function make_slides(f) {
         name : "practice_slider_good_1",
         present : [{"a": 1}],
         start : function() {
-            $(".err").hide(); // hide the error message   
+            $(".slider_err").hide(); // hide the error message   
             $(".errgood").hide();
         },
         present_handle : function(stim) {
-            $(".err").hide();
-            $(".errgood").hide();
+            $(".slider_err").hide();
+            $(".err_good").hide();
             this.stim = stim;
             this.init_sliders();
             $(".slider_table").show();
-            $(".prompt").html("Scott said: Fiona didn't buy <strong>PINEAPPLES</strong>.  <p>  Hanako said: Then what did Fiona buy?");
-            $(".question").html("How natural/acceptable does Hanako's question sound?");
+            var context = "Hanako said: Fiona didn't buy <strong>PINEAPPLES</strong>.";
+            $(".context").html(context);
+            var target = "Scott said: Then what did Fiona buy?";
+            $(".target").html(target);
+            $(".question").html("How natural/acceptable does Scott's question sound?");
             exp.sliderPost = null; // erase current slider value
             // exp.first_response_wrong = 0;
-            exp.attempts = 0;
+            // exp.attempts = 0;
         },
 
         button : function() {
             if (exp.sliderPost == null) {
-                $(".err").show();
+                $(".slider_err").show();
             } else if (exp.sliderPost < 0.5) {
                 // exp.first_response_wrong = 1;
                 // exp.attempts = exp.attempts + 1;
-                $(".errgood").show();
+                $(".err_good").show();
             } else {
                 this.log_responses();
                 /* use _stream.apply(this); if and only if there is
                 "present" data. (and only *after* responses are logged) */
                 _stream.apply(this);
-                // exp.go(); // check if the response is logged
             }
         },
 
@@ -64,13 +66,14 @@ function make_slides(f) {
 
         log_responses : function() {
           exp.data_trials.push({
-            "response" : exp.sliderPost,
-            // "wrong_attempts": exp.attempts,
-
-            "item_type" : "practice_good_1",
-            "block_sequence": "practice",
-            "item_number": "practice_good_1",
-            "condition": "practice_good",
+            "trial_num" : 0,
+            "item_id" : "201",
+            "condition" : "practice_good_1",
+            "verb": "NA",
+            "task": "acceptability",
+            "context": "Hanako said: Then what did Fiona buy?",  // check if the context matches with the condition
+            "acceptability_rating" : exp.sliderPost,
+            "bg_response" : "NA",
           });
         }
     });
@@ -91,33 +94,33 @@ function make_slides(f) {
           and for each of these, present_handle will be run.) */
         present : [{"a": 2}],
         start : function() {
-            $(".err").hide(); // hide the error message   
-            $(".errgood").hide();
+            $(".forced_choice_err").hide(); // hide the error message   
+            $(".err_good").hide();
         },
         // this gets run only at the beginning of the block
         present_handle : function(stim) {
-            $(".err").hide();
-            $(".errgood").hide();
+            $(".forced_choice_err").hide();
+            $(".err_good").hide();
             this.stim = stim;
-            $(".prompt").html("Scott said: Vera didn't DRIVE to <b>Michigan<\/b>.  <p>  Hanako said: Then how did Vera get to Michigan?");
+            var context = "Hanako said: Vera didn't DRIVE to <strong>Michigan</strong>.";
+            $(".context").html(context);
+            var target = "Scott said: Then how did Vera get to Michigan?"
+            $(".target").html(target);
             $(".question").html("What was Scott talking about?");
-            exp.first_response_wrong = 0;
-            exp.response = undefined;
+            // exp.first_response_wrong = 0;
+            exp.bg_response = undefined;
             $('input[name="practice"]:checked').removeAttr("checked");
-            var left_botton = "Where Vera drove to."
-            $(".left_botton").html(left_botton);
-            var right_botton = "How Vera travelled to Michigan."
-            $(".right_botton").html(right_botton);
-            exp.attempts = 0;
+            var left_button = "Where Vera drove to."
+            $(".left_button").html(left_button);
+            var right_button = "How Vera travelled to Michigan."
+            $(".right_button").html(right_button);
+            // exp.attempts = 0;
         },
         button : function() {
-            exp.response = $('input[name="practice"]:checked').val()
-            if (exp.response == undefined) {
+            exp.bg_response = $('input[name="practice"]:checked').val()
+            console.log(exp.bg_response)
+            if (exp.bg_response == undefined) {
                 $(".forced_choice_err").show();
-            } else if (exp.response == "backgrounded") {
-                exp.first_response_wrong = 1;
-                exp.attempts = exp.attempts + 1;
-                $(".errgood").show();
             } else {
                 this.log_responses();
                 _stream.apply(this);
@@ -125,47 +128,53 @@ function make_slides(f) {
         },
         log_responses : function() {
           exp.data_trials.push({
-            "response" : exp.response,
-            "wrong_attempts": exp.attempts,
-            "item_type" : "practice_good_2",
-            "block_sequence": "practice",
-            "item_number": "practice_good_2",
-            "phase": "practice_good",
-            "trial_sequence_total": 0,
+            "trial_num" : 0,
+            "item_id" : "202",
+            "condition" : "practice_choice_good_2",
+            "verb": "NA",
+            "task": "backgroundedness",
+            "context": "Scott said: Then how did Vera get to Michigan?",  // check if the context matches with the condition
+            "acceptability_rating" : "NA",
+            "bg_response" : exp.bg_response,
           });
     
         }
       });
     
-    
-    slides.practice_slider_bad_2 = slide({
+      slides.practice_slider_bad_2 = slide({
         name : "practice_slider_bad_2",
     
         /* trial information for this block
          (the variable 'stim' will change between each of these values,
           and for each of these, present_handle will be run.) */
-        present : [1],
-    
+        present : [{"a":4}],
+        start : function() {
+          $(".slider_err").hide(); // hide the error message   
+          $(".err_bad").hide();
+        },
       
         //this gets run only at the beginning of the block
         present_handle : function(stim) {
-          $(".err").hide();
-          $(".errbad").hide();
-          $(".prompt").html("Prisha doesn't speak <b>KOREAN<\/b>.  <p>  Hanako said: Then what Prisha does speak the language?");
-          $(".question").html("Is Hanako's question natural?");
+          $(".slider_err").hide();
+          $(".err_bad").hide();
+          var context = "Hanako said: Prisha doesn't speak <strong>KOREAN</strong>.";
+          $(".context").html(context);
+          var target = "Scott said: Then what Prisha does speak the language?"
+          $(".target").html(target);
+          $(".question").html("How natural/acceptable does Scott's question sound?");
           this.init_sliders();
           exp.sliderPost = null; //erase current slider value
-          exp.first_response_wrong = 0;
-          exp.attempts = 0;
+          // exp.first_response_wrong = 0;
+          // exp.attempts = 0;
         },
         button : function() {
           if (exp.sliderPost == null) {
-            $(".err").show();
+            $(".slider_err").show();
           } 
           else if (exp.sliderPost > 0.5) {
-            exp.first_response_wrong = 1;
-            exp.attempts = exp.attempts + 1;
-            $(".errbad").show();
+            // exp.first_response_wrong = 1;
+            // exp.attempts = exp.attempts + 1;
+            $(".err_bad").show();
           }
           else {
             this.log_responses();
@@ -182,11 +191,14 @@ function make_slides(f) {
         },
         log_responses : function() {
           exp.data_trials.push({
+            "trial_num" : 0,
+            "item_id" : "204",
+            "condition" : "practice_slider_bad_2",
+            "verb": "NA",
+            "task": "acceptability",
+            "context": "Scott said: Then what Prisha does speak the language?",  // check if the context matches with the condition
             "acceptability_rating" : exp.sliderPost,
-            "wrong_attempts": exp.attempts,
-            "item_type" : "practice_bad_2",
-            "condition": "practice",
-            "bg_response" : "NA"
+            "bg_response" : "NA",
           });
     
         }
@@ -198,7 +210,59 @@ function make_slides(f) {
           exp.go(); //use exp.go() if and only if there is no "present" data.
         }
       });
+
+      slides.practice_choice_bad_1 = slide({
+        name : "practice_choice_bad_1",
     
+        /* trial information for this block
+         (the variable 'stim' will change between each of these values,
+          and for each of these, present_handle will be run.) */
+        present : [{"a": 3}],
+        start : function() {
+            $(".forced_choice_err").hide(); // hide the error message   
+            $(".err_good").hide();
+        },
+        // this gets run only at the beginning of the block
+        present_handle : function(stim) {
+            $(".forced_choice_err").hide();
+            $(".err_good").hide();
+            this.stim = stim;
+            var context = "Hanako said: Hank didn't buy the <strong>RED</strong> car.";
+            $(".context").html(context);
+            var target = "Scott said: Then what color did Hank buy car?"
+            $(".target").html(target);
+            $(".question").html("What was Scott talking about?");
+            // exp.first_response_wrong = 0;
+            exp.bg_response = undefined;
+            $('input[name="practice"]:checked').removeAttr("checked");
+            var left_button = "Which car Hank bought."
+            $(".left_button").html(left_button);
+            var right_button = "Who bought the red car."
+            $(".right_button").html(right_button);
+            // exp.attempts = 0;
+        },
+        button : function() {
+            exp.bg_response = $('input[name="practice"]:checked').val()
+            if (exp.bg_response == undefined) {
+                $(".forced_choice_err").show();
+            } else {
+                this.log_responses();
+                _stream.apply(this);
+            }
+        },
+        log_responses : function() {
+          exp.data_trials.push({
+            "trial_num" : 0,
+            "item_id" : "203",
+            "condition" : "practice_choice_bad_1",
+            "verb": "NA",
+            "task": "backgroundedness",
+            "context": "Scott said: Then what color did Hank buy car?",  // check if the context matches with the condition
+            "acceptability_rating" : "NA",
+            "bg_response" : exp.bg_response,
+          });
+        }
+      });
     
       slides.last_reminder = slide({
         name : "last_reminder",
@@ -208,67 +272,81 @@ function make_slides(f) {
         
       });
 
+
     slides.block1 = slide({
         name : "block1",
         present : exp.stims_block,
         start : function() {
-            $(".err").hide(); // hide the error message   
+            $(".slider_err").hide(); // hide the error message   
+            $(".forced_choice_err").hide();
         },
         
         present_handle : function(stim) {
             $('.bar').css('width', ( (100*(exp.phase)/exp.nQs) + "%"));    	    	    
             this.stim = stim;
             this.stim.trial_start = Date.now();      
-            $(".err").hide();   
-            $(".bg_err").hide() 
+            $(".slider_err").hide();   
+            $(".forced_choice_err").hide();
             
             var context = this.stim.context_full;
             var target = this.stim.target_full;
             $(".context").html(context);
+            exp.context = context
             $(".target").html(target);
+            $(".slider_table").hide(); // hide the slider
+            $('input[name=critical]').hide();
+            // $('input[name=right_button]').hide();
+            $(".left_button").hide();
+            $(".right_button").hide();
 
-            exp.acceptability_sliderPost = null;
-            exp.bg_response = undefined;
+            $('input[name="critical"]:checked').removeAttr("checked"); // remove the previous response
+            exp.acceptability_sliderPost = null; // remove the previous rating
+            exp.bg_response = undefined; // remove the previous selection
             
             if (this.stim.task == "acceptability") {
                 this.init_sliders();
-                var question = "Is Hanako's question natural?";
-
-                var leftLabel =  "very unnatural";
-                $(".leftLabel").html(leftLabel);
-                var rightLabel = "very natural";
-                $(".rightLabel").html(rightLabel);
-
+                exp.acceptability_sliderPost = null; // remove rating -> or else it will use the default (0.5)
+                exp.question = "How natural/acceptable does Scott's question sound?";
                 $(".slider_table").show();
-
-                exp.bg_response = "NA";
             } else if (this.stim.task == "backgroundedness") {
-                var question = "What was Scott talking about?";
+                $(".left_button").show();
+                $(".right_button").show();
+                exp.question = "What was Hanako talking about?";
+                $('input[name=critical]').show();
+                $('input[name="critical"]:checked').removeAttr("checked"); // remove response again
                 exp.bg_response = undefined;
-                $(".slider_table").hide(); // hide the slider
-                $('input[name="practice"]:checked').removeAttr("checked");
-                // the order of the bottons also need to be randomized
+                // $('input[name=right_button]').show();
+      
+                // the order of the buttons also need to be randomized
                 // CHANGE THE LABELS IN THE HTML FILE AS WELL
-                var left_botton = this.stim.option_bg;
-                $(".left_botton").html(left_botton);
-                var right_botton = this.stim.option_fg;
-                $(".right_botton").html(right_botton);
+                var options = _.shuffle([this.stim.option_bg, this.stim.option_fg])
+                console.log(options)
+                var left_button = options[0];
+                $(".left_button").html(left_button);
+                var right_button = options[1];
+                $(".right_button").html(right_button);
 
-                exp.acceptability_sliderPost = "NA";
+                // exp.acceptability_sliderPost = "NA";
             }
-
             $(".continue_button").show(); // show the belief button
-            $(".question").show(question);
+            $(".question").html(exp.question);
 
             console.log(this.stim); 
   
         },
         
         button : function() {
+          if (this.stim.task == "acceptability") {
+            exp.bg_response = "NA";
+          } else {
+            exp.bg_response = $('input[name="critical"]:checked').val();
+          }
             console.log("acceptability rating: "+exp.acceptability_sliderPost);
-            if (this.stim.task=="acceptability" & exp.acceptability_sliderPost != null) {
-                $(".err").show();
-            } else if (this.stim.task=="backgrounededness" & exp.response != undefined) {
+            console.log("bg_response "+exp.bg_response);
+            console.log("task", this.stim.task);
+            if (this.stim.task=="acceptability" && exp.acceptability_sliderPost == null) {
+                $(".slider_err").show();
+            } else if (this.stim.task=="backgroundedness" && exp.bg_response == undefined) {
                 $(".forced_choice_err").show();
             } else {
                 this.log_responses();
@@ -291,7 +369,7 @@ function make_slides(f) {
                 "condition" : this.stim.condition,
                 "verb": this.stim.verb,
                 "task": this.stim.task,
-                "context": context,  // check if the context matches with the condition
+                "context": exp.context,  // check if the context matches with the condition
                 "acceptability_rating" : exp.acceptability_sliderPost,
                 "bg_response" : exp.bg_response,
                 "rt" : Date.now() - this.stim.trial_start
@@ -346,359 +424,353 @@ function init() {
             "item": "1",
             "verb": "whisper",
             "condition": "critical",
-            "verb_focus": "Scott said: John didn't WHISPER that Mary met with the lawyer.",
-            "emb_focus": "Scott said: John didn't whisper that Mary met with the LAWYER.",
-            "target_full": "Hanako said: Then who did John whisper that Mary met with?",
-            "option_bg": "Who Mary met with according to John.",
+            "verb_focus": "Hanako said: John didn't <strong>WHISPER</strong> that Mary met with the lawyer.",
+            "emb_focus": "Hanako said: John didn't whisper that Mary met with the <strong>LAWYER</strong>.",
+            "target_full": "Scott said: Then who did John whisper that Mary met with?",
+            "option_bg": "Who Mary met with, according to John.",
             "option_fg": "The way John said that Mary met with the lawyer."
           },
           {
             "item": "2",
             "verb": "stammer",
             "condition": "critical",
-            "verb_focus": "Scott said: Emma didn't STAMMER that Kevin lost the keys.",
-            "emb_focus": "Scott said: Emma didn't stammer that Kevin lost the KEYS.",
-            "target_full": "Hanako said: Then what did Emma stammer that Kevin lost?",
-            "option_bg": "What Kevin lost according to Emma.",
+            "verb_focus": "Hanako said: Emma didn't <strong>STAMMER</strong> that Kevin lost the keys.",
+            "emb_focus": "Hanako said: Emma didn't stammer that <strong>Kevin</strong> lost the KEYS.",
+            "target_full": "Scott said: Then what did Emma stammer that Kevin lost?",
+            "option_bg": "What Kevin lost, according to Emma.",
             "option_fg": "The way Emma said that Kevin lost the keys."
           },
           {
             "item": "3",
             "verb": "mumble",
             "condition": "critical",
-            "verb_focus": "Scott said: Howard didn't MUMBLE that Alex bought a birthday cake.",
-            "emb_focus": "Scott said: Howard didn't mumble that Alex bought a BIRTHDAY CAKE.",
-            "target_full": "Hanako said: Then what did Howard mumble that Alex bought?",
-            "option_bg": "What Alex bought according to Howard.",
+            "verb_focus": "Hanako said: Howard didn't <strong>MUMBLE</strong> that Alex bought a birthday cake.",
+            "emb_focus": "Hanako said: Howard didn't mumble that Alex bought a <strong>BIRTHDAY CAKE</strong>.",
+            "target_full": "Scott said: Then what did Howard mumble that Alex bought?",
+            "option_bg": "What Alex bought, according to Howard.",
             "option_fg": "The way Howard said that Alex bought a birthday cake."
           },
           {
             "item": "4",
             "verb": "mutter",
             "condition": "critical",
-            "verb_focus": "Scott said: Laura didn't MUTTERED that Brandon broke his laptop.",
-            "emb_focus": "Scott said: Laura didn't mutter that Brandon broke his LAPTOP.",
-            "target_full": "Hanako said: Then what did Laura mutter that Brandon broke?",
-            "option_bg": "What Brandon broke according to Laura.",
+            "verb_focus": "Hanako said: Laura didn't <strong>MUTTERED</strong> that Brandon broke his laptop.",
+            "emb_focus": "Hanako said: Laura didn't mutter that Brandon broke his <strong>LAPTOP</strong>.",
+            "target_full": "Scott said: Then what did Laura mutter that Brandon broke?",
+            "option_bg": "What Brandon broke, according to Laura.",
             "option_fg": "The way Laura said that Brandon broke his laptop."
           },
           {
             "item": "5",
             "verb": "shout",
             "condition": "critical",
-            "verb_focus": "Scott said: Bill didn't SHOUT that Dan knew the professor.",
-            "emb_focus": "Scott said: Bill didn't shout that Dan knew the PROFESSOR.",
-            "target_full": "Hanako said: Then who did Bill shout that Dan knew?",
-            "option_bg": "Who Dan knew according to Bill.",
+            "verb_focus": "Hanako said: Bill didn't <strong>SHOUT</strong> that Dan knew the professor.",
+            "emb_focus": "Hanako said: Bill didn't shout that Dan knew the <strong>PROFESSOR</strong>.",
+            "target_full": "Scott said: Then who did Bill shout that Dan knew?",
+            "option_bg": "Who Dan knew, according to Bill.",
             "option_fg": "The way Bill said that Dan knew the professor."
           },
           {
             "item": "6",
             "verb": "scream",
             "condition": "critical",
-            "verb_focus": "Scott said: Amy didn't SCREAM that Charlie saw the robber.",
-            "emb_focus": "Scott said: Amy didn't scream that Charlie saw the ROBBER.",
-            "target_full": "Hanako said: Then who did Amy scream that Charlie saw?",
-            "option_bg": "Who Charlie saw according to Amy.",
+            "verb_focus": "Hanako said: Amy didn't <strong>SCREAM</strong> that Charlie saw the robber.",
+            "emb_focus": "Hanako said: Amy didn't scream that Charlie saw the <strong>ROBBER</strong>.",
+            "target_full": "Scott said: Then who did Amy scream that Charlie saw?",
+            "option_bg": "Who Charlie saw, according to Amy.",
             "option_fg": "The way Amy said that Charlie saw the robber."
           },
           {
             "item": "7",
             "verb": "yell",
             "condition": "critical",
-            "verb_focus": "Scott said: Jake didn't YELL that Yumi found the wallet.",
-            "emb_focus": "Scott said: Jake didn't yell that Yumi found the WALLET.",
-            "target_full": "Hanako said: Then what did Jake yell that Yumi found?",
-            "option_bg": "What Yumi found according to Jake.",
+            "verb_focus": "Hanako said: Jake didn't <strong>YELL</strong> that Yumi found the wallet.",
+            "emb_focus": "Hanako said: Jake didn't yell that Yumi found the <strong>WALLET</strong>.",
+            "target_full": "Scott said: Then what did Jake yell that Yumi found?",
+            "option_bg": "What Yumi found, according to Jake.",
             "option_fg": "The way Jake said that Yumi found the wallet."
           },
           {
             "item": "8",
             "verb": "groan",
             "condition": "critical",
-            "verb_focus": "Scott said: Ashley didn't GROAN that Hasan talked to the detectives.",
-            "emb_focus": "Scott said: Ashley didn't groan that Hasan talked to the DETECTIVES.",
-            "target_full": "Hanako said: Then who did Ashley groan that Hasan talked to?",
-            "option_bg": "Who Hasan talked to according to Ashley.",
+            "verb_focus": "Hanako said: Ashley didn't <strong>GROAN</strong> that Hasan talked to the detectives.",
+            "emb_focus": "Hanako said: Ashley didn't groan that Hasan talked to the <strong>DETECTIVES</strong>.",
+            "target_full": "Scott said: Then who did Ashley groan that Hasan talked to?",
+            "option_bg": "Who Hasan talked to, according to Ashley.",
             "option_fg": "The way Ashley said that Hasan talked to the detectives."
           },
           {
             "item": "9",
             "verb": "whine",
             "condition": "critical",
-            "verb_focus": "Scott said: Yash didn't WHINE that Ming forgot her phone.",
-            "emb_focus": "Scott said: Yash didn't whine that Ming forgot her PHONE.",
-            "target_full": "Hanako said: Then what did Yash whine that Ming forgot?",
-            "option_bg": "What Ming forgot according to Yash.",
+            "verb_focus": "Hanako said: Yash didn't <strong>WHINE</strong> that Ming forgot her phone.",
+            "emb_focus": "Hanako said: Yash didn't whine that Ming forgot her <strong>PHONE</strong>.",
+            "target_full": "Scott said: Then what did Yash whine that Ming forgot?",
+            "option_bg": "What Ming forgot, according to Yash.",
             "option_fg": "The way Yash said that Ming forgot her phone."
           },
           {
             "item": "10",
             "verb": "murmur",
             "condition": "critical",
-            "verb_focus": "Scott said: Fatima didn't MURMUR that Omar had dinner with his manager.",
-            "emb_focus": "Scott said: Fatima didn't murmur that Omar had dinner with his MANAGER.",
-            "target_full": "Hanako said: Then who did Fatima murmur that Omar had dinner with?",
-            "option_bg": "Who Omar had dinner with according to Fatima.",
+            "verb_focus": "Hanako said: Fatima didn't <strong>MURMUR</strong> that Omar had dinner with his manager.",
+            "emb_focus": "Hanako said: Fatima didn't murmur that Omar had dinner with his <strong>MANAGER</strong>.",
+            "target_full": "Scott said: Then who did Fatima murmur that Omar had dinner with?",
+            "option_bg": "Who Omar had dinner with, according to Fatima.",
             "option_fg": "The way Fatima said that Omar had dinner with his manager."
           },
           {
             "item": "11",
             "verb": "shriek",
             "condition": "critical",
-            "verb_focus": "Scott said: Igor didn't SHRIEK that Penny won the lottery.",
-            "emb_focus": "Scott said: Igor didn't shriek that Penny won the LOTTERY.",
-            "target_full": "Hanako said: Then what did Igor shriek that Penny won?",
-            "option_bg": "What Penny won according to Igor.",
+            "verb_focus": "Hanako said: Igor didn't <strong>SHRIEK</strong> that Penny won the lottery.",
+            "emb_focus": "Hanako said: Igor didn't shriek that Penny won the <strong>LOTTERY</strong>.",
+            "target_full": "Scott said: Then what did Igor shriek that Penny won?",
+            "option_bg": "What Penny won, according to Igor.",
             "option_fg": "The way Igor said that Penny won the lottery."
           },
           {
             "item": "12",
             "verb": "moan",
             "condition": "critical",
-            "verb_focus": "Scott said: Chandler didn't MOAN that Tia brought her parents.",
-            "emb_focus": "Scott said: Chandler didn't moan that Tia brought her PARENTS.",
-            "target_full": "Hanako said: Then who did Chandler moan that Tia brought?",
-            "option_bg": "Who Tia brought according to Chandler.",
+            "verb_focus": "Hanako said: Chandler didn't <strong>MOAN</strong> that Tia brought her parents.",
+            "emb_focus": "Hanako said: Chandler didn't moan that Tia brought her <strong>PARENTS</strong>.",
+            "target_full": "Scott said: Then who did Chandler moan that Tia brought?",
+            "option_bg": "Who Tia brought, according to Chandler.",
             "option_fg": "The way Chandler said that Tia brought her parents."
           }
         ]);
 
     
-    // fillers
-    var fillers = _.shuffle([
-        {
-            "item": "101",
-            "verb": "say",
-            "condition": "filler_good_1",
-            "context_full": "Scott said: Hannah didn't say that George emailed the STUDENTS.",
-            "target_full": "Hanako said: Then who did Hannah say that George emailed?",
-            "option_bg": "Who George emailed according to Hannah.",
-            "option_fg": "Who emailed the students according to Hannah."
-          },
-          {
-            "item": "102",
-            "verb": "think",
-            "condition": "filler_good_1",
-            "context_full": "Scott said: Ollie didn't think that Doug would invite the MAYOR.",
-            "target_full": "Hanako said: Then who did Ollie think that Doug would invite?",
-            "option_bg": "Who Doug would invite according to Ollie.",
-            "option_fg": "Who invited the mayor acoording to Ollie."
-          },
-          {
-            "item": "103",
-            "verb": "suspect",
-            "condition": "filler_good_1",
-            "context_full": "Scott said: Nancy didn't suspect that Julian ate the LAST CUPCAKE.",
-            "target_full": "Hanako said: Then what did Nancy suspect that Julian ate?",
-            "option_bg": "What Julian ate according to Nancy.",
-            "option_fg": "Who ate the last cupcake according to Nancy."
-          },
-          {
-            "item": "104",
-            "verb": "suggest",
-            "condition": "filler_good_1",
-            "context_full": "Scott said: Grace didn't sugguest that Karen wrote a BOOK.",
-            "target_full": "Hanako said: Then what did Grace suggst that Karen wrote?",
-            "option_bg": "What Karen wrote according to Grace.",
-            "option_fg": "Who wrote a book according to Grace."
-          },
-          {
-            "item": "105",
-            "verb": "believe",
-            "condition": "filler_good_1",
-            "context_full": "Scott said: Danny didn't believe that Jennifer got a CAT.",
-            "target_full": "Hanako said: Then what did Danny believe that Jennifer got?",
-            "option_bg": "What Jennifer got according to Danny.",
-            "option_fg": "Who got a cat according to Danny."
-          },
-          {
-            "item": "106",
-            "verb": "expect",
-            "condition": "filler_good_1",
-            "context_full": "Scott said: Charlie didn't expect that Maddie would call her ROOMMATE.",
-            "target_full": "Hanako said: Then who did Charlie expect that Maddie would call?",
-            "option_bg": "Who Maddie would call according to Charlie.",
-            "option_fg": "Who would call Maddie's roommates according to Charlie."
-          },
-          {
-            "item": "107",
-            "verb": "imply",
-            "condition": "filler_good_2",
-            "context_full": "Scott said: RONALD didn't imply that Jacy rented the truck.",
-            "target_full": "Hanako said: Then who implied that Jacy rented the truck?",
-            "option_bg": "Who implied that Jacy rented the truck.",
-            "option_fg": "What Jacy rented according to Ronald."
-          },
-          {
-            "item": "108",
-            "verb": "hope",
-            "condition": "filler_good_2",
-            "context_full": "Scott said: MATTHEW didn't hope that Dana brought a gift.",
-            "target_full": "Hanako said: Then who hoped that Dana brought a gift?",
-            "option_bg": "Who hoped that Dana brought a gift.",
-            "option_fg": "What Dana brought according to Matthew."
-          },
-          {
-            "item": "109",
-            "verb": "insist",
-            "condition": "filler_good_2",
-            "context_full": "Scott said: KATE didn't insist that Zack broke the plates.",
-            "target_full": "Hanako said: Then who insisted that Zack broke the plates?",
-            "option_bg": "Who insisted that Zack broke the plates.",
-            "option_fg": "What Zack broke according to Kate."
-          },
-          {
-            "item": "110",
-            "verb": "guess",
-            "condition": "filler_good_2",
-            "context_full": "Scott said: JULIAN didn't guess that Charlie received a message.",
-            "target_full": "Hanako said: Then who guessed that Charlie received a message?",
-            "option_bg": "Who guessed that Charlie received a message.",
-            "option_fg": "What Charlie received according to Julian."
-          },
-          {
-            "item": "111",
-            "verb": "reveal",
-            "condition": "filler_good_2",
-            "context_full": "Scott said: JESS didn't reveal that Todd went out with Betty.",
-            "target_full": "Hanako said: Then who revealed that Todd went out with Betty?",
-            "option_bg": "Who revealed that Todd went out with Betty.",
-            "option_fg": "Who Todd went out with according to Jess."
-          },
-          {
-            "item": "112",
-            "verb": "expect",
-            "condition": "filler_good_2",
-            "context_full": "Scott said: SALLY didn't expect that Tony would visit George.",
-            "target_full": "Hanako said: Then who expected that Tony would visit George?",
-            "option_bg": "Who expected that Tony would visit George.",
-            "option_fg": "Who Tony would visit according to Sally."
-          },
-          {
-            "item": "113",
-            "verb": "say",
-            "condition": "filler_bad_1",
-            "context_full": "Scott said: Emily didn't say that PAUL drafted the letter.",
-            "target_full": "Hanako said: Then who did Emily say that drafted the letter?",
-            "option_bg": "Who drafted the letter according to Emily.",
-            "option_fg": "Who said that Paul drafted the letter."
-          },
-          {
-            "item": "114",
-            "verb": "think",
-            "condition": "filler_bad_1",
-            "context_full": "Scott said: Helen didn't think that MARC cut the bread. ",
-            "target_full": "Hanako said: Then who did Helen think that cut the bread?",
-            "option_bg": "Who cut the bread according to Helen.",
-            "option_fg": "Who thought that Marc cut the bread."
-          },
-          {
-            "item": "115",
-            "verb": "suspect",
-            "condition": "filler_bad_1",
-            "context_full": "Scott said: Tim didn't suspect that JASON drank the beer. ",
-            "target_full": "Hanako said: Then who did Tim suspect that drank the beer?",
-            "option_bg": "Who drank the beer according to Tim.",
-            "option_fg": "Who suspected that Jason drank the beer."
-          },
-          {
-            "item": "116",
-            "verb": "suggest",
-            "condition": "filler_bad_1",
-            "context_full": "Scott said: Tony didn't suggest that LISA was in the office.",
-            "target_full": "Hanako said: Then who did Tony suggest that was in the office?",
-            "option_bg": "Who was in the office according to Tony.",
-            "option_fg": "Who suggested that Lisa was in the office."
-          },
-          {
-            "item": "117",
-            "verb": "believe",
-            "condition": "filler_bad_1",
-            "context_full": "Scott said: Larry didn't believe that NICK cooked dinner.",
-            "target_full": "Hanako said: Then who did Larry believe that cooked dinner?",
-            "option_bg": "Who cooked dinner according to Larry.",
-            "option_fg": "Who believed that Nick cooked dinner."
-          },
-          {
-            "item": "118",
-            "verb": "expect",
-            "condition": "filler_bad_1",
-            "context_full": "Scott said: Ben didn't expect that LAURA would order pizza.",
-            "target_full": "Hanako said: Then who did Ben expect that would order pizza?",
-            "option_bg": "Who would order pizza according to Ben.",
-            "option_fg": "Who expected that Laura would order pizza."
-          },
-          {
-            "item": "119",
-            "verb": "imply",
-            "condition": "filler_bad_2",
-            "context_full": "Scott said: Rui didn't imply that the brother of CAROL signed the contract.",
-            "target_full": "Hanako said: Then who did Rui imply that the brother of signed the contract?",
-            "option_bg": "Whose brother signed the contract according to Rui.",
-            "option_fg": "What the brother of Carol signed according to Rui."
-          },
-          {
-            "item": "120",
-            "verb": "hope",
-            "condition": "filler_bad_2",
-            "context_full": "Scott said: Frankie didn't hope that the agent of the GUITARIST would show up. ",
-            "target_full": "Hanako said: Then who did Frankie hope that the agent of would show up?",
-            "option_bg": "Whose agent Frankie hoped would show up.",
-            "option_fg": "What the agent of the guitarist did according to Frankie."
-          },
-          {
-            "item": "121",
-            "verb": "insist",
-            "condition": "filler_bad_2",
-            "context_full": "Scott said: Ted didn't insist that the uncle of EVA should stay for dinner. ",
-            "target_full": "Hanako said: Then who did Ted insist that the uncle of should stay for dinner?",
-            "option_bg": "Whose uncle should stay for dinner according to Ted.",
-            "option_fg": "What the uncle of Eva should do according to Ted."
-          },
-          {
-            "item": "122",
-            "verb": "guess",
-            "condition": "filler_bad_2",
-            "context_full": "Scott said: Jessie didn't guess that the assistant to the DIRECTOR would give the presentation.",
-            "target_full": "Hanako said: Then who did Jessie guess that the assistant to would give the presentation?",
-            "option_bg": "Whose assistant would give the presentation according to Jessie.",
-            "option_fg": "What the assistant to the director would do according to Jessie."
-          },
-          {
-            "item": "123",
-            "verb": "reveal",
-            "condition": "filler_bad_2",
-            "context_full": "Scott said: Donald didn't reveal that the parents of KRISHNA were moving to Texas. ",
-            "target_full": "Hanako said: Then who did Donald reveal that the parents of were moving to Texas?",
-            "option_bg": "Whose parents were moving to Texas according to Donald.",
-            "option_fg": "Where Krishna's parents were moving to according to Donald."
-          },
-          {
-            "item": "124",
-            "verb": "expect",
-            "condition": "filler_bad_2",
-            "context_full": "Scott said: Jamal didn't expect that the roommates of NINA would come to the party.",
-            "target_full": "Hanako said: Then who did Jamal expect that the roommates of would come to the party?",
-            "option_bg": "Whose roommates would come to the party according to Jamal.",
-            "option_fg": "What  Nina's roommates would do according to Jamal. "
-          }
+    // fillers, a list (randomized) for each condition
+    var filler_good_1 = _.shuffle([
+      {
+        "item": "101",
+        "verb": "say",
+        "condition": "filler_good_1",
+        "context_full": "Hanako said: Hannah didn't say that George emailed the <strong>STUDENTS</strong>.",
+        "target_full": "Scott said: Then who did Hannah say that George emailed?",
+        "option_bg": "Who George emailed, according to Hannah.",
+        "option_fg": "Who emailed the students, according to Hannah."
+      },
+      {
+        "item": "102",
+        "verb": "think",
+        "condition": "filler_good_1",
+        "context_full": "Hanako said: Ollie didn't think that Doug would invite the <strong>MAYOR</strong>.",
+        "target_full": "Scott said: Then who did Ollie think that Doug would invite?",
+        "option_bg": "Who Doug would invite, according to Ollie.",
+        "option_fg": "Who invited the mayor, according to Ollie."
+      },
+      {
+        "item": "103",
+        "verb": "suspect",
+        "condition": "filler_good_1",
+        "context_full": "Hanako said: Nancy didn't suspect that Julian ate the <strong>LAST CUPCAKE</strong>.",
+        "target_full": "Scott said: Then what did Nancy suspect that Julian ate?",
+        "option_bg": "What Julian ate, according to Nancy.",
+        "option_fg": "Who ate the last cupcake, according to Nancy."
+      },
+      {
+        "item": "104",
+        "verb": "suggest",
+        "condition": "filler_good_1",
+        "context_full": "Hanako said: Grace didn't sugguest that Karen wrote a <strong>BOOK</strong>.",
+        "target_full": "Scott said: Then what did Grace suggst that Karen wrote?",
+        "option_bg": "What Karen wrote, according to Grace.",
+        "option_fg": "Who wrote a book, according to Grace."
+      },
+      {
+        "item": "105",
+        "verb": "believe",
+        "condition": "filler_good_1",
+        "context_full": "Hanako said: Danny didn't believe that Jennifer got a <strong>CAT</strong>.",
+        "target_full": "Scott said: Then what did Danny believe that Jennifer got?",
+        "option_bg": "What Jennifer got, according to Danny.",
+        "option_fg": "Who got a cat, according to Danny."
+      },
+      {
+        "item": "106",
+        "verb": "expect",
+        "condition": "filler_good_1",
+        "context_full": "Hanako said: Charlie didn't expect that Maddie would call her <strong>ROOMMATE</strong>.",
+        "target_full": "Scott said: Then who did Charlie expect that Maddie would call?",
+        "option_bg": "Who Maddie would call, according to Charlie.",
+        "option_fg": "Who would call Maddie's roommates, according to Charlie."
+      }
+    ]);
+    
+    var filler_good_2 = _.shuffle([
+      {
+        "item": "107",
+        "verb": "imply",
+        "condition": "filler_good_2",
+        "context_full": "Hanako said: <strong>RONALD</strong> didn't imply that Jacy rented the truck.",
+        "target_full": "Scott said: Then who implied that Jacy rented the truck?",
+        "option_bg": "Who implied that Jacy rented the truck.",
+        "option_fg": "What Jacy rented, according to Ronald."
+      },
+      {
+        "item": "108",
+        "verb": "hope",
+        "condition": "filler_good_2",
+        "context_full": "Hanako said: <strong>MATTHEW</strong> didn't hope that Dana brought a gift.",
+        "target_full": "Scott said: Then who hoped that Dana brought a gift?",
+        "option_bg": "Who hoped that Dana brought a gift.",
+        "option_fg": "What Dana brought, according to Matthew."
+      },
+      {
+        "item": "109",
+        "verb": "insist",
+        "condition": "filler_good_2",
+        "context_full": "Hanako said: <strong>KATE</strong> didn't insist that Zack broke the plates.",
+        "target_full": "Scott said: Then who insisted that Zack broke the plates?",
+        "option_bg": "Who insisted that Zack broke the plates.",
+        "option_fg": "What Zack broke, according to Kate."
+      },
+      {
+        "item": "110",
+        "verb": "guess",
+        "condition": "filler_good_2",
+        "context_full": "Hanako said: <strong>JULIAN</strong> didn't guess that Charlie received a message.",
+        "target_full": "Scott said: Then who guessed that Charlie received a message?",
+        "option_bg": "Who guessed that Charlie received a message.",
+        "option_fg": "What Charlie received, according to Julian."
+      },
+      {
+        "item": "111",
+        "verb": "reveal",
+        "condition": "filler_good_2",
+        "context_full": "Hanako said: <strong>JESS</strong> didn't reveal that Todd went out with Betty.",
+        "target_full": "Scott said: Then who revealed that Todd went out with Betty?",
+        "option_bg": "Who revealed that Todd went out with Betty.",
+        "option_fg": "Who Todd went out with, according to Jess."
+      },
+      {
+        "item": "112",
+        "verb": "expect",
+        "condition": "filler_good_2",
+        "context_full": "Hanako said: <strong>SALLY</strong> didn't expect that Tony would visit George.",
+        "target_full": "Scott said: Then who expected that Tony would visit George?",
+        "option_bg": "Who expected that Tony would visit George.",
+        "option_fg": "Who Tony would visit, according to Sally."
+      }
+    ]);
+
+    var filler_bad_1 = _.shuffle([
+      {
+        "item": "113",
+        "verb": "say",
+        "condition": "filler_bad_1",
+        "context_full": "Hanako said: Emily didn't say that <strong>PAUL</strong> drafted the letter.",
+        "target_full": "Scott said: Then who did Emily say that drafted the letter?",
+        "option_bg": "Who drafted the letter, according to Emily.",
+        "option_fg": "Who said that Paul drafted the letter."
+      },
+      {
+        "item": "114",
+        "verb": "think",
+        "condition": "filler_bad_1",
+        "context_full": "Hanako said: Helen didn't think that <strong>MARC</strong> cut the bread. ",
+        "target_full": "Scott said: Then who did Helen think that cut the bread?",
+        "option_bg": "Who cut the bread, according to Helen.",
+        "option_fg": "Who thought that Marc cut the bread."
+      },
+      {
+        "item": "115",
+        "verb": "suspect",
+        "condition": "filler_bad_1",
+        "context_full": "Hanako said: Tim didn't suspect that <strong>JASON</strong> drank the beer. ",
+        "target_full": "Scott said: Then who did Tim suspect that drank the beer?",
+        "option_bg": "Who drank the beer, according to Tim.",
+        "option_fg": "Who suspected that Jason drank the beer."
+      },
+      {
+        "item": "116",
+        "verb": "suggest",
+        "condition": "filler_bad_1",
+        "context_full": "Hanako said: Tony didn't suggest that <strong>LISA</strong> was in the office.",
+        "target_full": "Scott said: Then who did Tony suggest that was in the office?",
+        "option_bg": "Who was in the office, according to Tony.",
+        "option_fg": "Who suggested that Lisa was in the office."
+      },
+      {
+        "item": "117",
+        "verb": "believe",
+        "condition": "filler_bad_1",
+        "context_full": "Hanako said: Larry didn't believe that <strong>NICK</strong> cooked dinner.",
+        "target_full": "Scott said: Then who did Larry believe that cooked dinner?",
+        "option_bg": "Who cooked dinner, according to Larry.",
+        "option_fg": "Who believed that Nick cooked dinner."
+      },
+      {
+        "item": "118",
+        "verb": "expect",
+        "condition": "filler_bad_1",
+        "context_full": "Hanako said: Ben didn't expect that <strong>LAURA</strong> would order pizza.",
+        "target_full": "Scott said: Then who did Ben expect that would order pizza?",
+        "option_bg": "Who would order pizza, according to Ben.",
+        "option_fg": "Who expected that Laura would order pizza."
+      }
+    ]);
+    
+    var filler_bad_2 = _.shuffle([
+      {
+        "item": "119",
+        "verb": "imply",
+        "condition": "filler_bad_2",
+        "context_full": "Hanako said: Rui didn't imply that the brother of <strong>CAROL</strong> signed the contract.",
+        "target_full": "Scott said: Then who did Rui imply that the brother of signed the contract?",
+        "option_bg": "Whose brother signed the contract, according to Rui.",
+        "option_fg": "What the brother of Carol signed, according to Rui."
+      },
+      {
+        "item": "120",
+        "verb": "hope",
+        "condition": "filler_bad_2",
+        "context_full": "Hanako said: Frankie didn't hope that the agent of the <strong>GUITARIST</strong> would show up. ",
+        "target_full": "Scott said: Then who did Frankie hope that the agent of would show up?",
+        "option_bg": "Whose agent would show up, according to Frankie.",
+        "option_fg": "What the agent of the guitarist did, according to Frankie."
+      },
+      {
+        "item": "121",
+        "verb": "insist",
+        "condition": "filler_bad_2",
+        "context_full": "Hanako said: Ted didn't insist that the uncle of <strong>EVA</strong> should stay for dinner. ",
+        "target_full": "Scott said: Then who did Ted insist that the uncle of should stay for dinner?",
+        "option_bg": "Whose uncle should stay for dinner, according to Ted.",
+        "option_fg": "What the uncle of Eva should do, according to Ted."
+      },
+      {
+        "item": "122",
+        "verb": "guess",
+        "condition": "filler_bad_2",
+        "context_full": "Hanako said: Jessie didn't guess that the assistant to the <strong>DIRECTOR</strong> would give the presentation.",
+        "target_full": "Scott said: Then who did Jessie guess that the assistant to would give the presentation?",
+        "option_bg": "Whose assistant would give the presentation, according to Jessie.",
+        "option_fg": "What the assistant to the director would do, according to Jessie."
+      },
+      {
+        "item": "123",
+        "verb": "reveal",
+        "condition": "filler_bad_2",
+        "context_full": "Hanako said: Donald didn't reveal that the parents of <strong>KRISHNA</strong> were moving to Texas. ",
+        "target_full": "Scott said: Then who did Donald reveal that the parents of were moving to Texas?",
+        "option_bg": "Whose parents were moving to Texas, according to Donald.",
+        "option_fg": "Where Krishna's parents were moving to, according to Donald."
+      },
+      {
+        "item": "124",
+        "verb": "expect",
+        "condition": "filler_bad_2",
+        "context_full": "Hanako said: Jamal didn't expect that the roommates of <strong>NINA</strong> would come to the party.",
+        "target_full": "Scott said: Then who did Jamal expect that the roommates of would come to the party?",
+        "option_bg": "Whose roommates would come to the party, according to Jamal.",
+        "option_fg": "What  Nina's roommates would do, according to Jamal. "
+      }
     ])
-
-
-    // function makeStim(i) {
-    //     var item = critical_verbs[i];
-    //     // the same as return item, except "item" is relabelled as "item_id"
-    //     return{
-    //         "item_id" : item.item,
-    //         "verb" : item.verb,
-    //         "target_full" : item.target_full,
-    //         "verb_focus" : item.verb_focus,
-    //         "embed_focus" : item.emb_focus,
-    //         "option_bg" : item.option_bg,
-    //         "option_fg" : item.option_fg
-    //     } 
-    // }
 
     // split critical items into half verb half embedded focus
     embed_focus = [];
@@ -715,24 +787,6 @@ function init() {
         stim.condition = "embed_focus";
         stim.context_full = stim["embed_focus"];
         embed_focus.push(stim)
-    }
-    
-    filler_good_1 = []
-    filler_good_2 = []
-    filler_bad_1 = []
-    filler_bad_2 = []
-    for (var i=0; i<fillers.length; i++) {
-        var filler_item = fillers[i];
-        var condition = filler_item.condition;
-        if (condition == "filler_good_1") {
-            filler_good_1.push(filler_item);
-        } else if (condition == "filler_good_2") {
-            filler_good_2.push(filler_item);
-        } else if (condition == "filler_bad_1") {
-            filler_bad_1.push(filler_item);
-        } else if (condition == "filler_bad_2") {
-            filler_bad_2.push(filler_item);
-        }
     }
 
     num_blocks = 6
@@ -781,7 +835,9 @@ function init() {
         screenUW: exp.width
     };
     //blocks of the experiment:
-    exp.structure=["i0", "practice_slider_good_1","post_practice_1", "practice_choice_good_2", "practice_slider_bad_2", "block1", 'questionaire', 'finished'];
+    exp.structure=["i0", "practice_slider_good_1","post_practice_1", 
+    "practice_choice_good_2", "practice_slider_bad_2", "post_practice_2", "practice_choice_bad_1", 
+    "last_reminder", "block1", 'questionaire', 'finished'];
     // console.log(exp.structure);
 
     exp.data_trials = [];
