@@ -68,6 +68,7 @@ function make_slides(f) {
           exp.data_trials.push({
             "trial_num" : 0,
             "item_id" : "201",
+            "block_id" : "practice",
             "condition" : "practice_good_1",
             "verb": "NA",
             "task": "acceptability",
@@ -130,6 +131,7 @@ function make_slides(f) {
           exp.data_trials.push({
             "trial_num" : 0,
             "item_id" : "202",
+            "block_id" : "practice",
             "condition" : "practice_choice_good_2",
             "verb": "NA",
             "task": "backgroundedness",
@@ -193,6 +195,7 @@ function make_slides(f) {
           exp.data_trials.push({
             "trial_num" : 0,
             "item_id" : "204",
+            "block_id" : "practice",
             "condition" : "practice_slider_bad_2",
             "verb": "NA",
             "task": "acceptability",
@@ -254,6 +257,7 @@ function make_slides(f) {
           exp.data_trials.push({
             "trial_num" : 0,
             "item_id" : "203",
+            "block_id" : "practice",
             "condition" : "practice_choice_bad_1",
             "verb": "NA",
             "task": "backgroundedness",
@@ -291,7 +295,7 @@ function make_slides(f) {
             var context = this.stim.context_full;
             var target = this.stim.target_full;
             $(".context").html(context);
-            exp.context = context
+            exp.context = context;
             $(".target").html(target);
             $(".slider_table").hide(); // hide the slider
             $('input[name=critical]').hide();
@@ -338,8 +342,10 @@ function make_slides(f) {
         button : function() {
           if (this.stim.task == "acceptability") {
             exp.bg_response = "NA";
+            exp.acceptability_sliderPost = exp.acceptability_sliderPost;
           } else {
             exp.bg_response = $('input[name="critical"]:checked').val();
+            exp.acceptability_sliderPost = "NA";
           }
             console.log("acceptability rating: "+exp.acceptability_sliderPost);
             console.log("bg_response "+exp.bg_response);
@@ -366,6 +372,7 @@ function make_slides(f) {
                 // "slide_number_in_experiment" : exp.phase, // trial number
                 "trial_num" : order,
                 "item_id" : this.stim.item,
+                "block_id" : this.stim.block_id,
                 "condition" : this.stim.condition,
                 "verb": this.stim.verb,
                 "task": this.stim.task,
@@ -811,14 +818,26 @@ function init() {
         total_blocks.push(block);
     }
     // randomize the order of blocks
-	total_blocks = _.shuffle(total_blocks); 
+	  total_blocks = _.shuffle(total_blocks); 
     console.log(total_blocks);
-    total_blocks = total_blocks.flat();
 
-    for (var k=0; k<num_per_block * num_blocks; k++) {
-        var stim = total_blocks[k];
+    // add block id (after shuffling) and add to exp.stims_block
+    for (var b=0; b<num_blocks; b++) {
+      var block =  total_blocks[b];
+      for (var item=0; item<num_per_block; item++) {
+        var stim = block[item];
+        stim.block_id = b;
         exp.stims_block.push(jQuery.extend(true, {}, stim));
+      }
     }
+
+    // alternatively, flat and then add them to exp.stims_block
+    // total_blocks = total_blocks.flat();
+
+    // for (var k=0; k<num_per_block * num_blocks; k++) {
+    //     var stim = total_blocks[k];
+    //     exp.stims_block.push(jQuery.extend(true, {}, stim));
+    // }
 
     console.log(exp.stims_block) 
 
@@ -847,7 +866,7 @@ function init() {
     //   exp.nQs = utils.get_exp_length(); //this does not work if there are stacks of stims (but does work for an experiment with this structure)
                         //relies on structure and slides being defined
                         
-    exp.nQs = 1 + 4 + 1 + 36 + 1; 
+    exp.nQs = 1 + 6 + 1 + 36 + 1; 
     $(".nQs").html(exp.nQs);
 
     $('.slide').hide(); //hide everything
