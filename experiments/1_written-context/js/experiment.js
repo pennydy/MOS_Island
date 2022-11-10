@@ -809,10 +809,10 @@ function init() {
         "item": "119",
         "verb": "imply",
         "condition": "filler_bad_2",
-        "context_full": "Hanako said: Rui didn't imply that the brother of <strong>CAROL</strong> signed the contract.",
+        "context_full": "Hanako said: Rui didn't imply that <strong>CAROL</strong>'s brother signed the contract.",
         "target_full": "Scott said: Then who did Rui imply that the brother of signed the contract?",
         "option_bg": "Whose brother signed the contract, according to Rui.",
-        "option_fg": "What the brother of Carol signed, according to Rui."
+        "option_fg": "What Carol's brother signed, according to Rui."
       },
       {
         "item": "120",
@@ -827,10 +827,10 @@ function init() {
         "item": "121",
         "verb": "insist",
         "condition": "filler_bad_2",
-        "context_full": "Hanako said: Ted didn't insist that the uncle of <strong>EVA</strong> should stay for dinner. ",
+        "context_full": "Hanako said: Ted didn't insist that <strong>EVA</strong>'s uncle should stay for dinner. ",
         "target_full": "Scott said: Then who did Ted insist that the uncle of should stay for dinner?",
         "option_bg": "Whose uncle should stay for dinner, according to Ted.",
-        "option_fg": "What the uncle of Eva should do, according to Ted."
+        "option_fg": "What Eva's uncle should do, according to Ted."
       },
       {
         "item": "122",
@@ -845,7 +845,7 @@ function init() {
         "item": "123",
         "verb": "reveal",
         "condition": "filler_bad_2",
-        "context_full": "Hanako said: Donald didn't reveal that the parents of <strong>KRISHNA</strong> were moving to Texas.",
+        "context_full": "Hanako said: Donald didn't reveal that <strong>KRISHNA</strong>'s parents were moving to Texas.",
         "target_full": "Scott said: Then who did Donald reveal that the parents of were moving to Texas?",
         "option_bg": "Whose parents were moving to Texas, according to Donald.",
         "option_fg": "Where Krishna's parents were moving to, according to Donald."
