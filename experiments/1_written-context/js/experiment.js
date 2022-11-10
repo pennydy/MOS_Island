@@ -478,6 +478,7 @@ function make_slides(f) {
             enjoyment : $("#enjoyment").val(),
             asses : $('input[name="assess"]:checked').val(),
             age : $("#age").val(),
+            fairprice : $("#fairprice").val(),
             gender : $("#gender").val(),
             education : $("#education").val(),
             comments : $("#comments").val(),
