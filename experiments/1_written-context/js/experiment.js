@@ -114,10 +114,11 @@ function make_slides(f) {
           // exp.first_response_wrong = 0;
           exp.bg_response = undefined;
           exp.bg_choice = undefined;
+          exp.selected_content = undefined; 
           $('input[name="practice"]:checked').removeAttr("checked");
-          var top_button = "Where Vera drove to."
+          var top_button = "Where Vera drove to.";
           $(".top_button").html(top_button);
-          var bottom_button = "How Vera travelled to Michigan."
+          var bottom_button = "How Vera travelled to Michigan.";
           $(".bottom_button").html(bottom_button);
           // exp.incorrect_attempts = 0;
         },
@@ -130,8 +131,10 @@ function make_slides(f) {
             // we hard-coded that the bottom is the correct answer
             if (exp.bg_response == "bottom") {
               exp.bg_choice = "correct";
+              exp.selected_content = "How Vera travelled to Michigan.";
             } else {
               exp.bg_choice = "incorrect";
+              exp.selected_content = "Where Vera drove to.";
             }
             this.log_responses();
             _stream.apply(this);
@@ -149,7 +152,7 @@ function make_slides(f) {
             "context": exp.context,  // check if the context matches with the condition
             "acceptability_rating" : "NA",
             "bg_response" : exp.bg_choice,
-            "original_bg_choice" : exp.bg_response
+            "original_bg_choice" : exp.selected_content
           });
     
         }
@@ -262,10 +265,11 @@ function make_slides(f) {
             // exp.first_response_wrong = 0;
             exp.bg_response = undefined;
             exp.bg_choice = undefined;
+            exp.selected_content = undefined; 
             $('input[name="practice"]:checked').removeAttr("checked");
-            var top_button = "Which car Hank bought."
+            var top_button = "Which car Hank bought.";
             $(".top_button").html(top_button);
-            var bottom_button = "Who bought the red car."
+            var bottom_button = "Who bought the red car.";
             $(".bottom_button").html(bottom_button);
             // exp.incorrect_attempts = 0;
         },
@@ -278,8 +282,10 @@ function make_slides(f) {
               // we hard-coded that the top is the correct answer
               if (exp.bg_response == "top") {
                 exp.bg_choice = "correct";
+                exp.selected_content = "Which car Hank bought.";
               } else {
                 exp.bg_choice = "incorrect";
+                exp.selected_content = "Who bought the red car.";
               }
               this.log_responses();
               _stream.apply(this);
@@ -297,7 +303,7 @@ function make_slides(f) {
             "context": exp.context,  // check if the context matches with the condition
             "acceptability_rating" : "NA",
             "bg_response" : exp.bg_choice,
-            "original_bg_choice" : exp.bg_response
+            "original_bg_choice" : exp.selected_content
           });
         }
       });
@@ -348,6 +354,7 @@ function make_slides(f) {
             exp.acceptability_sliderPost = null; // remove the previous rating
             exp.bg_response = undefined; // remove the previous selection
             exp.bg_choice = undefined; // remove the recorded choice
+            exp.selected_content = undefined; // remove the recorded choice
             
             if (this.stim.task == "acceptability") {
                 this.init_sliders();
@@ -362,9 +369,9 @@ function make_slides(f) {
                 $('input[name="critical"]:checked').removeAttr("checked"); // remove response again
                 exp.bg_response = undefined;
                 exp.bg_choice = undefined;
+                exp.selected_content = undefined;
       
                 // the order of the buttons also need to be randomized
-                // CHANGE THE LABELS IN THE HTML FILE AS WELL
                 var options = _.shuffle([this.stim.option_bg, this.stim.option_fg])
                 // console.log("randomized order of choices: " + options)
                 exp.top_button = options[0];
@@ -383,7 +390,7 @@ function make_slides(f) {
         button : function() {
           if (this.stim.task == "acceptability") {
             exp.bg_choice = "NA";
-            exp.bg_response = "NA";
+            exp.selected_content = "NA";
             exp.acceptability_sliderPost = exp.acceptability_sliderPost;
           } else {
             exp.bg_response = $('input[name="critical"]:checked').val();
@@ -403,6 +410,7 @@ function make_slides(f) {
               } else {
                 var selected_content = exp.bottom_button;
               }
+              exp.selected_content = selected_content;
               // fillers: option_bg should be the correct answer
               if (this.stim.condition.startsWith("filler")) {
                 if (selected_content  == this.stim.option_bg) {
@@ -452,7 +460,7 @@ function make_slides(f) {
                 "context": exp.context,  // check if the context matches with the condition
                 "acceptability_rating" : exp.acceptability_sliderPost,
                 "bg_response" : exp.bg_choice,
-                "original_bg_choice" : exp.bg_response,
+                "original_bg_choice" : exp.selected_content,
                 "rt" : Date.now() - this.stim.trial_start
             });
             order += 1;
