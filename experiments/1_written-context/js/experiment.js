@@ -20,8 +20,8 @@ function make_slides(f) {
     });
 
   
-    slides.practice_slider_good_1 = slide({
-        name : "practice_slider_good_1",
+    slides.practice_acceptability_good_1 = slide({
+        name : "practice_acceptability_good_1",
         present : [{"a": 1}],
         start : function() {
             $(".slider_err").hide(); // hide the error message   
@@ -34,13 +34,14 @@ function make_slides(f) {
             this.init_sliders();
             $(".slider_table").show();
             var context = "Hanako said: Fiona didn't buy <strong>PINEAPPLES</strong>.";
+            exp.context = context;
             $(".context").html(context);
             var target = "Scott said: Then what did Fiona buy?";
             $(".target").html(target);
             $(".question").html("How natural/acceptable does Scott's question sound?");
             exp.sliderPost = null; // erase current slider value
             // exp.first_response_wrong = 0;
-            // exp.attempts = 0;
+            exp.incorrect_attempts = 0;
         },
 
         button : function() {
@@ -48,7 +49,8 @@ function make_slides(f) {
                 $(".slider_err").show();
             } else if (exp.sliderPost < 0.5) {
                 // exp.first_response_wrong = 1;
-                // exp.attempts = exp.attempts + 1;
+                exp.incorrect_attempts += 1;
+                $(".slider_err").hide();
                 $(".err_good").show();
             } else {
                 this.log_responses();
@@ -65,31 +67,31 @@ function make_slides(f) {
         },
 
         log_responses : function() {
+          // console.log("attempts: "+exp.incorrect_attempts)
           exp.data_trials.push({
             "trial_num" : 0,
             "item_id" : "201",
             "block_id" : "practice",
-            "condition" : "practice_good_1",
+            "condition" : "practice_acceptability_good_1",
             "verb": "NA",
             "task": "acceptability",
-            "context": "Hanako said: Then what did Fiona buy?",  // check if the context matches with the condition
+            "context": exp.context,  // check if the context matches with the condition
             "acceptability_rating" : exp.sliderPost,
             "bg_response" : "NA",
+            "wrong_attempts" : exp.incorrect_attempts
           });
         }
     });
     
-    
-    slides.post_practice_1 = slide({
-        name : "post_practice_1",
+    slides.post_practice_acceptability_good_1 = slide({
+        name : "post_practice_acceptability_good_1",
         button : function() {
           exp.go(); //use exp.go() if and only if there is no "present" data.
         }
       });
     
-    slides.practice_choice_good_2 = slide({
-        name : "practice_choice_good_2",
-    
+    slides.practice_bg_good_2 = slide({
+        name : "practice_bg_good_2",
         /* trial information for this block
          (the variable 'stim' will change between each of these values,
           and for each of these, present_handle will be run.) */
@@ -100,51 +102,68 @@ function make_slides(f) {
         },
         // this gets run only at the beginning of the block
         present_handle : function(stim) {
-            $(".forced_choice_err").hide();
-            $(".err_good").hide();
-            this.stim = stim;
-            var context = "Hanako said: Vera didn't DRIVE to <strong>Michigan</strong>.";
-            $(".context").html(context);
-            var target = "Scott said: Then how did Vera get to Michigan?"
-            $(".target").html(target);
-            $(".question").html("What was Scott talking about?");
-            // exp.first_response_wrong = 0;
-            exp.bg_response = undefined;
-            $('input[name="practice"]:checked').removeAttr("checked");
-            var left_button = "Where Vera drove to."
-            $(".left_button").html(left_button);
-            var right_button = "How Vera travelled to Michigan."
-            $(".right_button").html(right_button);
-            // exp.attempts = 0;
+          $(".forced_choice_err").hide();
+          $(".err_good").hide();
+          this.stim = stim;
+          var context = "Hanako said: Vera didn't <strong>DRIVE</strong> to Michigan.";
+          $(".context").html(context);
+          exp.context = context;
+          var target = "Scott said: Then how did Vera get to Michigan?"
+          $(".target").html(target);
+          $(".question").html("What was Hanako talking about?");
+          // exp.first_response_wrong = 0;
+          exp.bg_response = undefined;
+          exp.bg_choice = undefined;
+          $('input[name="practice"]:checked').removeAttr("checked");
+          var top_button = "Where Vera drove to."
+          $(".top_button").html(top_button);
+          var bottom_button = "How Vera travelled to Michigan."
+          $(".bottom_button").html(bottom_button);
+          // exp.incorrect_attempts = 0;
         },
         button : function() {
-            exp.bg_response = $('input[name="practice"]:checked').val()
-            console.log(exp.bg_response)
-            if (exp.bg_response == undefined) {
-                $(".forced_choice_err").show();
+          exp.bg_response = $('input[name="practice"]:checked').val()
+
+          if (exp.bg_response == undefined) {
+            $(".forced_choice_err").show();
+          } else {
+            // we hard-coded that the bottom is the correct answer
+            if (exp.bg_response == "bottom") {
+              exp.bg_choice = "correct";
             } else {
-                this.log_responses();
-                _stream.apply(this);
+              exp.bg_choice = "incorrect";
             }
+            this.log_responses();
+            _stream.apply(this);
+          }
         },
         log_responses : function() {
+          // console.log("bg_response: "+ exp.bg_response)
           exp.data_trials.push({
             "trial_num" : 0,
             "item_id" : "202",
             "block_id" : "practice",
-            "condition" : "practice_choice_good_2",
+            "condition" : "practice_bg_good_2",
             "verb": "NA",
             "task": "backgroundedness",
-            "context": "Scott said: Then how did Vera get to Michigan?",  // check if the context matches with the condition
+            "context": exp.context,  // check if the context matches with the condition
             "acceptability_rating" : "NA",
-            "bg_response" : exp.bg_response,
+            "bg_response" : exp.bg_choice,
+            "original_bg_choice" : exp.bg_response
           });
     
         }
       });
+
+      slides.post_practice_bg_good_2 = slide({
+        name : "post_practice_bg_good_2",
+        button : function() {
+          exp.go(); //use exp.go() if and only if there is no "present" data.
+        }
+      });
     
-      slides.practice_slider_bad_2 = slide({
-        name : "practice_slider_bad_2",
+      slides.practice_acceptability_bad_2 = slide({
+        name : "practice_acceptability_bad_2",
     
         /* trial information for this block
          (the variable 'stim' will change between each of these values,
@@ -161,13 +180,14 @@ function make_slides(f) {
           $(".err_bad").hide();
           var context = "Hanako said: Prisha doesn't speak <strong>KOREAN</strong>.";
           $(".context").html(context);
+          exp.context = context;
           var target = "Scott said: Then what Prisha does speak the language?"
           $(".target").html(target);
           $(".question").html("How natural/acceptable does Scott's question sound?");
           this.init_sliders();
           exp.sliderPost = null; //erase current slider value
           // exp.first_response_wrong = 0;
-          // exp.attempts = 0;
+          exp.incorrect_attempts = 0;
         },
         button : function() {
           if (exp.sliderPost == null) {
@@ -175,7 +195,8 @@ function make_slides(f) {
           } 
           else if (exp.sliderPost > 0.5) {
             // exp.first_response_wrong = 1;
-            // exp.attempts = exp.attempts + 1;
+            exp.incorrect_attempts += 1;
+            $(".slider_err").hide();
             $(".err_bad").show();
           }
           else {
@@ -192,30 +213,32 @@ function make_slides(f) {
           });
         },
         log_responses : function() {
+          // console.log("attempts: "+exp.incorrect_attempts)
           exp.data_trials.push({
             "trial_num" : 0,
             "item_id" : "204",
             "block_id" : "practice",
-            "condition" : "practice_slider_bad_2",
+            "condition" : "practice_accpetability_bad_2",
             "verb": "NA",
             "task": "acceptability",
-            "context": "Scott said: Then what Prisha does speak the language?",  // check if the context matches with the condition
+            "context": exp.context,  // check if the context matches with the condition
             "acceptability_rating" : exp.sliderPost,
-            "bg_response" : "NA",
+            "bg_response" : "NA", 
+            "wrong_attempts" : exp.incorrect_attempts
           });
     
         }
       });
     
-      slides.post_practice_2 = slide({
-        name : "post_practice_2",
+      slides.post_practice_acceptability_bad_2 = slide({
+        name : "post_practice_acceptability_bad_2",
         button : function() {
           exp.go(); //use exp.go() if and only if there is no "present" data.
         }
       });
 
-      slides.practice_choice_bad_1 = slide({
-        name : "practice_choice_bad_1",
+      slides.practice_bg_bad_1 = slide({
+        name : "practice_bg_bad_1",
     
         /* trial information for this block
          (the variable 'stim' will change between each of these values,
@@ -232,39 +255,57 @@ function make_slides(f) {
             this.stim = stim;
             var context = "Hanako said: Hank didn't buy the <strong>RED</strong> car.";
             $(".context").html(context);
+            exp.context = context;
             var target = "Scott said: Then what color did Hank buy car?"
             $(".target").html(target);
-            $(".question").html("What was Scott talking about?");
+            $(".question").html("What was Hanako talking about?");
             // exp.first_response_wrong = 0;
             exp.bg_response = undefined;
+            exp.bg_choice = undefined;
             $('input[name="practice"]:checked').removeAttr("checked");
-            var left_button = "Which car Hank bought."
-            $(".left_button").html(left_button);
-            var right_button = "Who bought the red car."
-            $(".right_button").html(right_button);
-            // exp.attempts = 0;
+            var top_button = "Which car Hank bought."
+            $(".top_button").html(top_button);
+            var bottom_button = "Who bought the red car."
+            $(".bottom_button").html(bottom_button);
+            // exp.incorrect_attempts = 0;
         },
         button : function() {
-            exp.bg_response = $('input[name="practice"]:checked').val()
+            exp.bg_response = $('input[name="practice"]:checked').val();
+
             if (exp.bg_response == undefined) {
                 $(".forced_choice_err").show();
             } else {
-                this.log_responses();
-                _stream.apply(this);
+              // we hard-coded that the top is the correct answer
+              if (exp.bg_response == "top") {
+                exp.bg_choice = "correct";
+              } else {
+                exp.bg_choice = "incorrect";
+              }
+              this.log_responses();
+              _stream.apply(this);
             }
         },
         log_responses : function() {
+          // console.log("bg_response: " + exp.bg_response)
           exp.data_trials.push({
             "trial_num" : 0,
             "item_id" : "203",
             "block_id" : "practice",
-            "condition" : "practice_choice_bad_1",
+            "condition" : "practice_bg_bad_1",
             "verb": "NA",
             "task": "backgroundedness",
-            "context": "Scott said: Then what color did Hank buy car?",  // check if the context matches with the condition
+            "context": exp.context,  // check if the context matches with the condition
             "acceptability_rating" : "NA",
-            "bg_response" : exp.bg_response,
+            "bg_response" : exp.bg_choice,
+            "original_bg_choice" : exp.bg_response
           });
+        }
+      });
+
+      slides.post_practice_bg_bad_1 = slide({
+        name : "post_practice_bg_bad_1",
+        button : function() {
+          exp.go(); //use exp.go() if and only if there is no "present" data.
         }
       });
     
@@ -296,16 +337,17 @@ function make_slides(f) {
             var target = this.stim.target_full;
             $(".context").html(context);
             exp.context = context;
+            // console.log("context: "+exp.context);
             $(".target").html(target);
             $(".slider_table").hide(); // hide the slider
             $('input[name=critical]').hide();
-            // $('input[name=right_button]').hide();
-            $(".left_button").hide();
-            $(".right_button").hide();
+            $(".top_button").hide();
+            $(".bottom_button").hide();
 
             $('input[name="critical"]:checked').removeAttr("checked"); // remove the previous response
             exp.acceptability_sliderPost = null; // remove the previous rating
             exp.bg_response = undefined; // remove the previous selection
+            exp.bg_choice = undefined; // remove the recorded choice
             
             if (this.stim.task == "acceptability") {
                 this.init_sliders();
@@ -313,24 +355,23 @@ function make_slides(f) {
                 exp.question = "How natural/acceptable does Scott's question sound?";
                 $(".slider_table").show();
             } else if (this.stim.task == "backgroundedness") {
-                $(".left_button").show();
-                $(".right_button").show();
+                $(".top_button").show();
+                $(".bottom_button").show();
                 exp.question = "What was Hanako talking about?";
                 $('input[name=critical]').show();
                 $('input[name="critical"]:checked').removeAttr("checked"); // remove response again
                 exp.bg_response = undefined;
-                // $('input[name=right_button]').show();
+                exp.bg_choice = undefined;
       
                 // the order of the buttons also need to be randomized
                 // CHANGE THE LABELS IN THE HTML FILE AS WELL
                 var options = _.shuffle([this.stim.option_bg, this.stim.option_fg])
-                console.log(options)
-                var left_button = options[0];
-                $(".left_button").html(left_button);
-                var right_button = options[1];
-                $(".right_button").html(right_button);
+                // console.log("randomized order of choices: " + options)
+                exp.top_button = options[0];
+                $(".top_button").html(exp.top_button);
+                exp.bottom_button = options[1];
+                $(".bottom_button").html(exp.bottom_button);
 
-                // exp.acceptability_sliderPost = "NA";
             }
             $(".continue_button").show(); // show the belief button
             $(".question").html(exp.question);
@@ -341,23 +382,55 @@ function make_slides(f) {
         
         button : function() {
           if (this.stim.task == "acceptability") {
+            exp.bg_choice = "NA";
             exp.bg_response = "NA";
             exp.acceptability_sliderPost = exp.acceptability_sliderPost;
           } else {
             exp.bg_response = $('input[name="critical"]:checked').val();
             exp.acceptability_sliderPost = "NA";
           }
-            console.log("acceptability rating: "+exp.acceptability_sliderPost);
-            console.log("bg_response "+exp.bg_response);
-            console.log("task", this.stim.task);
-            if (this.stim.task=="acceptability" && exp.acceptability_sliderPost == null) {
-                $(".slider_err").show();
-            } else if (this.stim.task=="backgroundedness" && exp.bg_response == undefined) {
-                $(".forced_choice_err").show();
-            } else {
-                this.log_responses();
-                _stream.apply(this); //use exp.go() if and only if there is no "present" data.
+
+          if (this.stim.task=="acceptability" && exp.acceptability_sliderPost == null) {
+              $(".slider_err").show();
+          } else if (this.stim.task=="backgroundedness" && exp.bg_response == undefined) {
+              $(".forced_choice_err").show();
+          } else {
+            // do the additional step of getting the result of bg_choice only 
+            // for items in backgroundedness condition
+            if (this.stim.task == "backgroundedness") {
+              if (exp.bg_response == "top") {
+                var selected_content = exp.top_button;
+              } else {
+                var selected_content = exp.bottom_button;
+              }
+              // fillers: option_bg should be the correct answer
+              if (this.stim.condition.startsWith("filler")) {
+                if (selected_content  == this.stim.option_bg) {
+                  exp.bg_choice = "correct";
+                } else {
+                  exp.bg_choice = "incorrect";
+                }
+                // critical items: if verb focus, then we'd expect people to select the foregrounded option
+              } else if (this.stim.condition == "verb_focus") {
+                if (selected_content == this.stim.option_fg) {
+                  exp.bg_choice = "correct";
+                } else {
+                  exp.bg_choice = "incorrect";
+                }
+                // critical items: if embed focus, then we'd expect people to select the backgrounded option
+                // this should capture everything -- use else if here just in case we mislabel anything
+              } else if (this.stim.condition == "embed_focus") {
+                if (selected_content  == this.stim.option_bg) {
+                  exp.bg_choice = "correct";
+                } else {
+                  exp.bg_choice = "incorrect";
+                }
+              }
             }
+            
+            this.log_responses();
+            _stream.apply(this); //use exp.go() if and only if there is no "present" data.
+          }
         },
 
         init_sliders : function() {
@@ -378,7 +451,8 @@ function make_slides(f) {
                 "task": this.stim.task,
                 "context": exp.context,  // check if the context matches with the condition
                 "acceptability_rating" : exp.acceptability_sliderPost,
-                "bg_response" : exp.bg_response,
+                "bg_response" : exp.bg_choice,
+                "original_bg_choice" : exp.bg_response,
                 "rt" : Date.now() - this.stim.trial_start
             });
             order += 1;
@@ -432,7 +506,7 @@ function init() {
             "verb": "whisper",
             "condition": "critical",
             "verb_focus": "Hanako said: John didn't <strong>WHISPER</strong> that Mary met with the lawyer.",
-            "emb_focus": "Hanako said: John didn't whisper that Mary met with the <strong>LAWYER</strong>.",
+            "embed_focus": "Hanako said: John didn't whisper that Mary met with the <strong>LAWYER</strong>.",
             "target_full": "Scott said: Then who did John whisper that Mary met with?",
             "option_bg": "Who Mary met with, according to John.",
             "option_fg": "The way John said that Mary met with the lawyer."
@@ -442,7 +516,7 @@ function init() {
             "verb": "stammer",
             "condition": "critical",
             "verb_focus": "Hanako said: Emma didn't <strong>STAMMER</strong> that Kevin lost the keys.",
-            "emb_focus": "Hanako said: Emma didn't stammer that <strong>Kevin</strong> lost the KEYS.",
+            "embed_focus": "Hanako said: Emma didn't stammer that <strong>Kevin</strong> lost the KEYS.",
             "target_full": "Scott said: Then what did Emma stammer that Kevin lost?",
             "option_bg": "What Kevin lost, according to Emma.",
             "option_fg": "The way Emma said that Kevin lost the keys."
@@ -452,7 +526,7 @@ function init() {
             "verb": "mumble",
             "condition": "critical",
             "verb_focus": "Hanako said: Howard didn't <strong>MUMBLE</strong> that Alex bought a birthday cake.",
-            "emb_focus": "Hanako said: Howard didn't mumble that Alex bought a <strong>BIRTHDAY CAKE</strong>.",
+            "embed_focus": "Hanako said: Howard didn't mumble that Alex bought a <strong>BIRTHDAY CAKE</strong>.",
             "target_full": "Scott said: Then what did Howard mumble that Alex bought?",
             "option_bg": "What Alex bought, according to Howard.",
             "option_fg": "The way Howard said that Alex bought a birthday cake."
@@ -462,7 +536,7 @@ function init() {
             "verb": "mutter",
             "condition": "critical",
             "verb_focus": "Hanako said: Laura didn't <strong>MUTTERED</strong> that Brandon broke his laptop.",
-            "emb_focus": "Hanako said: Laura didn't mutter that Brandon broke his <strong>LAPTOP</strong>.",
+            "embed_focus": "Hanako said: Laura didn't mutter that Brandon broke his <strong>LAPTOP</strong>.",
             "target_full": "Scott said: Then what did Laura mutter that Brandon broke?",
             "option_bg": "What Brandon broke, according to Laura.",
             "option_fg": "The way Laura said that Brandon broke his laptop."
@@ -472,7 +546,7 @@ function init() {
             "verb": "shout",
             "condition": "critical",
             "verb_focus": "Hanako said: Bill didn't <strong>SHOUT</strong> that Dan knew the professor.",
-            "emb_focus": "Hanako said: Bill didn't shout that Dan knew the <strong>PROFESSOR</strong>.",
+            "embed_focus": "Hanako said: Bill didn't shout that Dan knew the <strong>PROFESSOR</strong>.",
             "target_full": "Scott said: Then who did Bill shout that Dan knew?",
             "option_bg": "Who Dan knew, according to Bill.",
             "option_fg": "The way Bill said that Dan knew the professor."
@@ -482,7 +556,7 @@ function init() {
             "verb": "scream",
             "condition": "critical",
             "verb_focus": "Hanako said: Amy didn't <strong>SCREAM</strong> that Charlie saw the robber.",
-            "emb_focus": "Hanako said: Amy didn't scream that Charlie saw the <strong>ROBBER</strong>.",
+            "embed_focus": "Hanako said: Amy didn't scream that Charlie saw the <strong>ROBBER</strong>.",
             "target_full": "Scott said: Then who did Amy scream that Charlie saw?",
             "option_bg": "Who Charlie saw, according to Amy.",
             "option_fg": "The way Amy said that Charlie saw the robber."
@@ -492,7 +566,7 @@ function init() {
             "verb": "yell",
             "condition": "critical",
             "verb_focus": "Hanako said: Jake didn't <strong>YELL</strong> that Yumi found the wallet.",
-            "emb_focus": "Hanako said: Jake didn't yell that Yumi found the <strong>WALLET</strong>.",
+            "embed_focus": "Hanako said: Jake didn't yell that Yumi found the <strong>WALLET</strong>.",
             "target_full": "Scott said: Then what did Jake yell that Yumi found?",
             "option_bg": "What Yumi found, according to Jake.",
             "option_fg": "The way Jake said that Yumi found the wallet."
@@ -502,7 +576,7 @@ function init() {
             "verb": "groan",
             "condition": "critical",
             "verb_focus": "Hanako said: Ashley didn't <strong>GROAN</strong> that Hasan talked to the detectives.",
-            "emb_focus": "Hanako said: Ashley didn't groan that Hasan talked to the <strong>DETECTIVES</strong>.",
+            "embed_focus": "Hanako said: Ashley didn't groan that Hasan talked to the <strong>DETECTIVES</strong>.",
             "target_full": "Scott said: Then who did Ashley groan that Hasan talked to?",
             "option_bg": "Who Hasan talked to, according to Ashley.",
             "option_fg": "The way Ashley said that Hasan talked to the detectives."
@@ -512,7 +586,7 @@ function init() {
             "verb": "whine",
             "condition": "critical",
             "verb_focus": "Hanako said: Yash didn't <strong>WHINE</strong> that Ming forgot her phone.",
-            "emb_focus": "Hanako said: Yash didn't whine that Ming forgot her <strong>PHONE</strong>.",
+            "embed_focus": "Hanako said: Yash didn't whine that Ming forgot her <strong>PHONE</strong>.",
             "target_full": "Scott said: Then what did Yash whine that Ming forgot?",
             "option_bg": "What Ming forgot, according to Yash.",
             "option_fg": "The way Yash said that Ming forgot her phone."
@@ -522,7 +596,7 @@ function init() {
             "verb": "murmur",
             "condition": "critical",
             "verb_focus": "Hanako said: Fatima didn't <strong>MURMUR</strong> that Omar had dinner with his manager.",
-            "emb_focus": "Hanako said: Fatima didn't murmur that Omar had dinner with his <strong>MANAGER</strong>.",
+            "embed_focus": "Hanako said: Fatima didn't murmur that Omar had dinner with his <strong>MANAGER</strong>.",
             "target_full": "Scott said: Then who did Fatima murmur that Omar had dinner with?",
             "option_bg": "Who Omar had dinner with, according to Fatima.",
             "option_fg": "The way Fatima said that Omar had dinner with his manager."
@@ -532,7 +606,7 @@ function init() {
             "verb": "shriek",
             "condition": "critical",
             "verb_focus": "Hanako said: Igor didn't <strong>SHRIEK</strong> that Penny won the lottery.",
-            "emb_focus": "Hanako said: Igor didn't shriek that Penny won the <strong>LOTTERY</strong>.",
+            "embed_focus": "Hanako said: Igor didn't shriek that Penny won the <strong>LOTTERY</strong>.",
             "target_full": "Scott said: Then what did Igor shriek that Penny won?",
             "option_bg": "What Penny won, according to Igor.",
             "option_fg": "The way Igor said that Penny won the lottery."
@@ -542,7 +616,7 @@ function init() {
             "verb": "moan",
             "condition": "critical",
             "verb_focus": "Hanako said: Chandler didn't <strong>MOAN</strong> that Tia brought her parents.",
-            "emb_focus": "Hanako said: Chandler didn't moan that Tia brought her <strong>PARENTS</strong>.",
+            "embed_focus": "Hanako said: Chandler didn't moan that Tia brought her <strong>PARENTS</strong>.",
             "target_full": "Scott said: Then who did Chandler moan that Tia brought?",
             "option_bg": "Who Tia brought, according to Chandler.",
             "option_fg": "The way Chandler said that Tia brought her parents."
@@ -789,8 +863,8 @@ function init() {
         stim.context_full = stim["verb_focus"];
         verb_focus.push(stim)
     }
-    for (var i=critical_verbs.length/2; i<critical_verbs.length; i++) {
-        var stim = critical_verbs[i];
+    for (var j=critical_verbs.length/2; j<critical_verbs.length; j++) {
+        var stim = critical_verbs[j];
         stim.condition = "embed_focus";
         stim.context_full = stim["embed_focus"];
         embed_focus.push(stim)
@@ -806,7 +880,6 @@ function init() {
         var block = [embed_focus.pop(), verb_focus.pop(),filler_good_1.pop(), filler_good_2.pop(), filler_bad_1.pop(), filler_bad_2.pop()];
         // split into half acceptability and half backgroundedness inside each block
         for (var j=0; j<block.length/2; j++) {
-            // console.log(block);
             block[j].task = "acceptability";
         }
         for (var j=block.length/2; j<block.length; j++) {
@@ -854,8 +927,10 @@ function init() {
         screenUW: exp.width
     };
     //blocks of the experiment:
-    exp.structure=["i0", "practice_slider_good_1","post_practice_1", 
-    "practice_choice_good_2", "practice_slider_bad_2", "post_practice_2", "practice_choice_bad_1", 
+    exp.structure=["i0", "practice_acceptability_good_1","post_practice_acceptability_good_1", 
+    "practice_bg_good_2", "post_practice_bg_good_2",
+    "practice_acceptability_bad_2", "post_practice_acceptability_bad_2", 
+    "practice_bg_bad_1", "post_practice_bg_bad_1",
     "last_reminder", "block1", 'questionaire', 'finished'];
     // console.log(exp.structure);
 
@@ -866,7 +941,7 @@ function init() {
     //   exp.nQs = utils.get_exp_length(); //this does not work if there are stacks of stims (but does work for an experiment with this structure)
                         //relies on structure and slides being defined
                         
-    exp.nQs = 1 + 6 + 1 + 36 + 1; 
+    exp.nQs = 1 + 8 + 1 + 36 + 1; 
     $(".nQs").html(exp.nQs);
 
     $('.slide').hide(); //hide everything

@@ -128,25 +128,12 @@ form {
   width: 500px;
 }
 
-/* .radiolabel {
-	float: center;
-	margin-left: 0px;
-}
-
-
-input[type=radio],
-    input.radio {
-      float: left;
-	  margin-left: 200px;
-	  padding:0px;
-    }  */
-
 #legal {
 	width: 90%;
 	height: 90%;
-	width: 600px;
+	/* width: 600px; */
   text-align: center;
-  margin: 0 auto;
+  margin: auto auto;
   margin-top: 1.5em;
   font-size: 1em;
 }
