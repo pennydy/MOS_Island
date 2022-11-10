@@ -524,7 +524,7 @@ function init() {
             "verb": "stammer",
             "condition": "critical",
             "verb_focus": "Hanako said: Emma didn't <strong>STAMMER</strong> that Kevin lost the keys.",
-            "embed_focus": "Hanako said: Emma didn't stammer that <strong>Kevin</strong> lost the KEYS.",
+            "embed_focus": "Hanako said: Emma didn't stammer that Kevin lost the <strong>KEYS</strong>.",
             "target_full": "Scott said: Then what did Emma stammer that Kevin lost?",
             "option_bg": "What Kevin lost, according to Emma.",
             "option_fg": "The way Emma said that Kevin lost the keys."
@@ -543,7 +543,7 @@ function init() {
             "item": "4",
             "verb": "mutter",
             "condition": "critical",
-            "verb_focus": "Hanako said: Laura didn't <strong>MUTTERED</strong> that Brandon broke his laptop.",
+            "verb_focus": "Hanako said: Laura didn't <strong>MUTTER</strong> that Brandon broke his laptop.",
             "embed_focus": "Hanako said: Laura didn't mutter that Brandon broke his <strong>LAPTOP</strong>.",
             "target_full": "Scott said: Then what did Laura mutter that Brandon broke?",
             "option_bg": "What Brandon broke, according to Laura.",
@@ -845,7 +845,7 @@ function init() {
         "item": "123",
         "verb": "reveal",
         "condition": "filler_bad_2",
-        "context_full": "Hanako said: Donald didn't reveal that the parents of <strong>KRISHNA</strong> were moving to Texas. ",
+        "context_full": "Hanako said: Donald didn't reveal that the parents of <strong>KRISHNA</strong> were moving to Texas.",
         "target_full": "Scott said: Then who did Donald reveal that the parents of were moving to Texas?",
         "option_bg": "Whose parents were moving to Texas, according to Donald.",
         "option_fg": "Where Krishna's parents were moving to, according to Donald."
@@ -854,10 +854,10 @@ function init() {
         "item": "124",
         "verb": "expect",
         "condition": "filler_bad_2",
-        "context_full": "Hanako said: Jamal didn't expect that the roommates of <strong>NINA</strong> would come to the party.",
-        "target_full": "Scott said: Then who did Jamal expect that the roommates of would come to the party?",
-        "option_bg": "Whose roommates would come to the party, according to Jamal.",
-        "option_fg": "What  Nina's roommates would do, according to Jamal. "
+        "context_full": "Hanako said: Jamal didn't expect that the book about <strong>ASTRONOMY</strong> was on the shelf.",
+        "target_full": "Scott said: Then what did Jamal expect that the book about was on the shelf?",
+        "option_bg": "Which book was on the shelf, according to Jamal.",
+        "option_fg": "Where the book about astronomy was, according to Jamal."
       }
     ])
 
