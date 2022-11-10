@@ -38,7 +38,7 @@ function make_slides(f) {
             $(".context").html(context);
             var target = "Scott said: Then what did Fiona buy?";
             $(".target").html(target);
-            $(".question").html("How natural/acceptable does Scott's question sound?");
+            $(".question").html("How natural/acceptable does <u>Scott</u>'s question sound?");
             exp.sliderPost = null; // erase current slider value
             // exp.first_response_wrong = 0;
             exp.incorrect_attempts = 0;
@@ -110,7 +110,7 @@ function make_slides(f) {
           exp.context = context;
           var target = "Scott said: Then how did Vera get to Michigan?"
           $(".target").html(target);
-          $(".question").html("What was Hanako talking about?");
+          $(".question").html("What was <u>Hanako</u> talking about?");
           // exp.first_response_wrong = 0;
           exp.bg_response = undefined;
           exp.bg_choice = undefined;
@@ -186,7 +186,7 @@ function make_slides(f) {
           exp.context = context;
           var target = "Scott said: Then what Prisha does speak the language?"
           $(".target").html(target);
-          $(".question").html("How natural/acceptable does Scott's question sound?");
+          $(".question").html("How natural/acceptable does <u>Scott</u>'s question sound?");
           this.init_sliders();
           exp.sliderPost = null; //erase current slider value
           // exp.first_response_wrong = 0;
@@ -261,7 +261,7 @@ function make_slides(f) {
             exp.context = context;
             var target = "Scott said: Then what color did Hank buy car?"
             $(".target").html(target);
-            $(".question").html("What was Hanako talking about?");
+            $(".question").html("What was <u>Hanako</u> talking about?");
             // exp.first_response_wrong = 0;
             exp.bg_response = undefined;
             exp.bg_choice = undefined;
@@ -359,12 +359,12 @@ function make_slides(f) {
             if (this.stim.task == "acceptability") {
                 this.init_sliders();
                 exp.acceptability_sliderPost = null; // remove rating -> or else it will use the default (0.5)
-                exp.question = "How natural/acceptable does Scott's question sound?";
+                exp.question = "How natural/acceptable does <u>Scott</u>'s question sound?";
                 $(".slider_table").show();
             } else if (this.stim.task == "backgroundedness") {
                 $(".top_button").show();
                 $(".bottom_button").show();
-                exp.question = "What was Hanako talking about?";
+                exp.question = "What was <u>Hanako</u> talking about?";
                 $('input[name=critical]').show();
                 $('input[name="critical"]:checked').removeAttr("checked"); // remove response again
                 exp.bg_response = undefined;
