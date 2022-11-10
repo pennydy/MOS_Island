@@ -481,6 +481,7 @@ function make_slides(f) {
             fairprice : $("#fairprice").val(),
             gender : $("#gender").val(),
             education : $("#education").val(),
+            problems : $("#problems").val(),
             comments : $("#comments").val(),
         };
         exp.go(); //use exp.go() if and only if there is no "present" data.
@@ -887,6 +888,8 @@ function init() {
         // each block will have two critical items(one embed_focus, one verb_focus) and four filler items(one in each condition)
         // num_per_block == block.length == 6
         var block = [embed_focus.pop(), verb_focus.pop(),filler_good_1.pop(), filler_good_2.pop(), filler_bad_1.pop(), filler_bad_2.pop()];
+        // randomize the items within each block
+        block = _.shuffle(block);
         // split into half acceptability and half backgroundedness inside each block
         for (var j=0; j<block.length/2; j++) {
             block[j].task = "acceptability";
@@ -894,8 +897,6 @@ function init() {
         for (var j=block.length/2; j<block.length; j++) {
             block[j].task = "backgroundedness";
         }
-        // randomize the items within each block
-        block = _.shuffle(block);
         console.log(block)
         total_blocks.push(block);
     }
