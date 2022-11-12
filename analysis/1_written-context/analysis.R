@@ -1,13 +1,11 @@
 library(dplyr)
 library(ggplot2)
-library(gtable)
 library(lme4)
 library(tidyverse)
 library(simr)
-library(lmerTest)
 library(brms)
-library(bootstrap)
-library(ggpubr)
+theme_set(theme_bw())
+cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
 # # install mixedpower
 # if (!require("devtools")) {
 #   install.packages("devtools", dependencies = TRUE)}
@@ -22,7 +20,8 @@ ci.low <- function(x,na.rm=T) {
 ci.high <- function(x,na.rm=T) {
   quantile(bootstrap(1:length(x),1000,theta,x,na.rm=na.rm)$thetastar,.975,na.rm=na.rm)}
 #######################Load Data ######################################
-mos_data<-read.csv("C:/Users/aldos/Downloads/1_written-context-trials.csv")
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+mos_data<-read.csv("../../data/1_written-context/pilot/1_written-context-pilot-trials.csv")
 #######################Participant Exclusion###########################
 excluded_subjects <- c()
 practice_data=subset(mos_data,block_id == "practice")
@@ -31,6 +30,7 @@ excluded_subjects <- c(excluded_subjects, subset(data, !is.element(workerid, pra
 mos_data=subset(mos_data, is.element(workerid, practice_good_data$workerid))
 length(unique(mos_data$workerid))
 mos_data_acc <- subset(mos_data, acceptability_rating != "NA")
+mos_data_bg <- subset(mos_data, bg_response != "NA")
 mos_data_acc$acceptability_rating <- as.numeric(mos_data_acc$acceptability_rating)
 filler_data = subset(mos_data_acc, condition %in% c("filler_good_1", "filler_good_2" ))
 ungram_data = subset(mos_data_acc, condition %in% c("filler_bad_1", "filler_bad_2" ))
@@ -53,11 +53,51 @@ data = subset(data, workerid %in% eligible_subjects)
 mos_data_nofill <-  subset(mos_data_acc, condition %in% c("embed_focus","verb_focus"))
 mos_data_acc_noprac <- subset(mos_data_nofill, block_id != "practice")
 mos_means = mos_data_acc %>%
+  # exclude out practice trials
+  filter(block_id != "practice") %>% 
+  # combine all good/bad fillers together
+  mutate(condition = case_when(condition == "filler_good_1" | condition == "filler_good_2" ~ "Filler Good",
+                               condition == "filler_bad_1" | condition == "filler_bad_2" ~ "Filler Bad",
+                               condition == "embed_focus" ~ "Embedded Focus",
+                               condition == "verb_focus" ~ "Verb Focus")) %>%
   group_by(condition) %>%
   summarize(Mean = mean(acceptability_rating), CILow = ci.low(acceptability_rating),
             CIHigh = ci.high(acceptability_rating)) %>%
   ungroup() %>%
-  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh)
+  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>% 
+  # reorder the factors
+  mutate(condition = fct_relevel(condition, "Filler Good", "Embedded Focus", "Verb Focus", "Filler Bad"))
+
+mos_data_bg_nofill <-  subset(mos_data_bg, condition %in% c("embed_focus","verb_focus"))
+mos_data_bg_noprac <- subset(mos_data_bg_nofill, block_id != "practice")
+mos_bg_means = mos_data_bg %>% 
+  # filter(condition %in% c("embed_focus", "verb_focus")) %>%
+  # exclude out practice trials
+  filter(block_id != "practice") %>%
+  # combine all good/bad fillers together
+  mutate(condition = case_when(condition == "filler_good_1" | condition == "filler_good_2" ~ "Filler Good",
+                               condition == "filler_bad_1" | condition == "filler_bad_2" ~ "Filler Bad",
+                               condition == "embed_focus" ~ "Embedded Focus",
+                               condition == "verb_focus" ~ "Verb Focus")) %>%
+  # mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
+  #  1 -> verb focus, 0 -> noun focus; the lower the value, the more backgrounded it is
+  mutate(bg = case_when(condition == "Verb Focus" & bg_response == "correct" ~ 1,
+                        condition == "Verb Focus" & bg_response == "incorrect" ~ 0,
+                        condition == "Embedded Focus" & bg_response == "incorrect" ~ 1,
+                        condition == "Embedded Focus" & bg_response == "correct" ~ 0,
+                        bg_response == "correct" ~ 0,
+                        TRUE ~ 1
+                        )) %>% 
+  group_by(condition) %>% 
+  # mutate(bg = ifelse(bg_response == "correct", 1, 0)) %>% 
+  summarize(Mean = mean(bg),
+            CILow = ci.low(bg),
+            CIHigh = ci.high(bg)) %>% 
+  ungroup() %>%
+  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>% 
+  # reorder the factors
+  mutate(condition = fct_relevel(condition, "Filler Good", "Embedded Focus", "Verb Focus", "Filler Bad"))
+
 ggplot(mos_means, aes(x=condition, y=Mean, fill=condition)) +
   geom_bar(stat="identity",aes(color=condition)) +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.5,  show.legend = FALSE) +
@@ -65,8 +105,25 @@ ggplot(mos_means, aes(x=condition, y=Mean, fill=condition)) +
   theme_bw()+
   xlab("Context Focus Condition") +
   ylab("Target Mean Acceptability Rating")+
-  scale_color_manual(values=cbPalette,name=NULL) +
-  guides(color = FALSE)+
-  guides(fill = FALSE)+
+  scale_color_manual(values=cbPalette, name=NULL) +
+  guides(color = "none")+
+  guides(fill = "none")+
   theme(legend.position="bottom")
-#+facet_wrap(~ID)
+  # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Verb focus"))
+# +facet_wrap(~ID)
+
+
+ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
+  geom_bar(stat="identity",aes(color=condition)) +
+  # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.5,  show.legend = FALSE) +
+  # scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL) +
+  scale_fill_manual(values=cbPalette, name = NULL) +
+  theme_bw()+
+  xlab("Context Focus Condition") +
+  ylab("Percentage of Backgroundedness Interpretation\nof the Complement Clause")+
+  # scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL) +
+  scale_color_manual(values=cbPalette, name=NULL) +
+  guides(color = "none")+
+  guides(fill = "none")+
+  theme(legend.position="bottom")
+
