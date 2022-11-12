@@ -71,22 +71,20 @@ mos_means = mos_data_acc %>%
 mos_data_bg_nofill <-  subset(mos_data_bg, condition %in% c("embed_focus","verb_focus"))
 mos_data_bg_noprac <- subset(mos_data_bg_nofill, block_id != "practice")
 mos_bg_means = mos_data_bg %>% 
-  # filter(condition %in% c("embed_focus", "verb_focus")) %>%
+  filter(condition %in% c("embed_focus", "verb_focus")) %>%
   # exclude out practice trials
-  filter(block_id != "practice") %>%
+  # filter(block_id != "practice") %>%
   # combine all good/bad fillers together
-  mutate(condition = case_when(condition == "filler_good_1" | condition == "filler_good_2" ~ "Filler Good",
-                               condition == "filler_bad_1" | condition == "filler_bad_2" ~ "Filler Bad",
-                               condition == "embed_focus" ~ "Embedded Focus",
-                               condition == "verb_focus" ~ "Verb Focus")) %>%
-  # mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
+  # mutate(condition = case_when(condition == "filler_good_1" | condition == "filler_good_2" ~ "Filler Good",
+  #                              condition == "filler_bad_1" | condition == "filler_bad_2" ~ "Filler Bad",
+  #                              condition == "embed_focus" ~ "Embedded Focus",
+  #                              condition == "verb_focus" ~ "Verb Focus")) %>%
+  mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
   #  1 -> verb focus, 0 -> noun focus; the lower the value, the more backgrounded it is
   mutate(bg = case_when(condition == "Verb Focus" & bg_response == "correct" ~ 1,
                         condition == "Verb Focus" & bg_response == "incorrect" ~ 0,
                         condition == "Embedded Focus" & bg_response == "incorrect" ~ 1,
-                        condition == "Embedded Focus" & bg_response == "correct" ~ 0,
-                        bg_response == "correct" ~ 0,
-                        TRUE ~ 1
+                        condition == "Embedded Focus" & bg_response == "correct" ~ 0
                         )) %>% 
   group_by(condition) %>% 
   # mutate(bg = ifelse(bg_response == "correct", 1, 0)) %>% 
@@ -94,36 +92,43 @@ mos_bg_means = mos_data_bg %>%
             CILow = ci.low(bg),
             CIHigh = ci.high(bg)) %>% 
   ungroup() %>%
-  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>% 
+  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh)
   # reorder the factors
-  mutate(condition = fct_relevel(condition, "Filler Good", "Embedded Focus", "Verb Focus", "Filler Bad"))
+  # mutate(condition = fct_relevel(condition, "Filler Good", "Embedded Focus", "Verb Focus", "Filler Bad"))
 
-ggplot(mos_means, aes(x=condition, y=Mean, fill=condition)) +
-  geom_bar(stat="identity",aes(color=condition)) +
-  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.5,  show.legend = FALSE) +
-  scale_fill_manual(values=cbPalette, name = NULL) +
-  theme_bw()+
-  xlab("Context Focus Condition") +
-  ylab("Target Mean Acceptability Rating")+
-  scale_color_manual(values=cbPalette, name=NULL) +
-  guides(color = "none")+
-  guides(fill = "none")+
-  theme(legend.position="bottom")
-  # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Verb focus"))
-# +facet_wrap(~ID)
-
-
-ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
-  geom_bar(stat="identity",aes(color=condition)) +
+mos_acc_graph <- ggplot(mos_means %>% 
+                          filter(condition %in% c("Embedded Focus", "Verb Focus")), aes(x=condition, y=Mean, fill=condition)) +
+  geom_bar(stat="identity", width=0.6, aes(color=condition)) +
   # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.5,  show.legend = FALSE) +
-  # scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL) +
-  scale_fill_manual(values=cbPalette, name = NULL) +
+  scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL) +
   theme_bw()+
-  xlab("Context Focus Condition") +
-  ylab("Percentage of Backgroundedness Interpretation\nof the Complement Clause")+
-  # scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL) +
-  scale_color_manual(values=cbPalette, name=NULL) +
+  xlab("Condition") +
+  ylab("Mean Acceptability Rating")+
+  scale_color_manual(values=c("#56B4E9", "#009E73"), name=NULL) +
   guides(color = "none")+
   guides(fill = "none")+
-  theme(legend.position="bottom")
+  theme(legend.position="bottom",
+          axis.text.x = element_text(size=8)) 
+  # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Verb focus"))
+# +facet_wrap(~ID) 
+mos_acc_graph
+ggsave(mos_acc_graph, file="../graphs/mos_acc.pdf", width=4, height=3) 
 
+
+mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
+  geom_bar(stat="identity", width=0.6, aes(color=condition)) +
+  # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.5,  show.legend = FALSE) +
+  scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL) +
+  # scale_fill_manual(values=cbPalette, name = NULL) +
+  theme_bw()+
+  xlab("Condition") +
+  ylab("Percentage of Backgrounded\nInterpretation of the Embedded Clause")+
+  scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL) +
+  # scale_color_manual(values=cbPalette, name=NULL) +
+  guides(color = "none")+
+  guides(fill = "none")+
+  theme(legend.position="bottom",
+        axis.text.x = element_text(size=8),
+          axis.title=element_text(size=10)) 
+mos_bg_graph
+ggsave(mos_bg_graph, file="../graphs/mos_bg_graph.pdf", width=4, height=3) 

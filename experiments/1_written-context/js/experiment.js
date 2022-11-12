@@ -754,54 +754,54 @@ function init() {
         "item": "113",
         "verb": "say",
         "condition": "filler_bad_1",
-        "context_full": "Hanako said: Emily didn't say that <strong>PAUL</strong> drafted the letter.",
-        "target_full": "Scott said: Then who did Emily say that drafted the letter?",
-        "option_bg": "Who drafted the letter, according to Emily.",
+        "context_full": "Hanako said: Emily didn't say that Kevin and <strong>PAUL</strong> drafted the letter.",
+        "target_full": "Scott said: Then who did Emily say that Kevin and drafted the letter?",
+        "option_bg": "Who else drafted the letter other than Kevin, according to Emily.",
         "option_fg": "Who said that Paul drafted the letter."
       },
       {
         "item": "114",
         "verb": "think",
         "condition": "filler_bad_1",
-        "context_full": "Hanako said: Helen didn't think that <strong>MARC</strong> cut the bread. ",
-        "target_full": "Scott said: Then who did Helen think that cut the bread?",
-        "option_bg": "Who cut the bread, according to Helen.",
+        "context_full": "Hanako said: Helen didn't think that Rob and <strong>MARC</strong> cut the bread. ",
+        "target_full": "Scott said: Then who did Helen think that Rob and cut the bread?",
+        "option_bg": "Who else cut the bread other than Rob, according to Helen.",
         "option_fg": "Who thought that Marc cut the bread."
       },
       {
         "item": "115",
         "verb": "suspect",
         "condition": "filler_bad_1",
-        "context_full": "Hanako said: Tim didn't suspect that <strong>JASON</strong> drank the beer. ",
-        "target_full": "Scott said: Then who did Tim suspect that drank the beer?",
-        "option_bg": "Who drank the beer, according to Tim.",
+        "context_full": "Hanako said: Tim didn't suspect that Liz and <strong>JASON</strong> drank the beer. ",
+        "target_full": "Scott said: Then who did Tim suspect that Liz and drank the beer?",
+        "option_bg": "Who else drank the beer other than Liz, according to Tim.",
         "option_fg": "Who suspected that Jason drank the beer."
       },
       {
         "item": "116",
         "verb": "suggest",
         "condition": "filler_bad_1",
-        "context_full": "Hanako said: Tony didn't suggest that <strong>LISA</strong> was in the office.",
-        "target_full": "Scott said: Then who did Tony suggest that was in the office?",
-        "option_bg": "Who was in the office, according to Tony.",
+        "context_full": "Hanako said: Tony didn't suggest that Frank and <strong>LISA</strong> was in the office.",
+        "target_full": "Scott said: Then who did Tony suggest that Frank and was in the office?",
+        "option_bg": "Who else was in the office other than Frank, according to Tony.",
         "option_fg": "Who suggested that Lisa was in the office."
       },
       {
         "item": "117",
         "verb": "believe",
         "condition": "filler_bad_1",
-        "context_full": "Hanako said: Larry didn't believe that <strong>NICK</strong> cooked dinner.",
-        "target_full": "Scott said: Then who did Larry believe that cooked dinner?",
-        "option_bg": "Who cooked dinner, according to Larry.",
+        "context_full": "Hanako said: Larry didn't believe that Karl and <strong>NICK</strong> cooked dinner.",
+        "target_full": "Scott said: Then who did Larry believe that Karl and cooked dinner?",
+        "option_bg": "Who else cooked dinner other than Karl, according to Larry.",
         "option_fg": "Who believed that Nick cooked dinner."
       },
       {
         "item": "118",
         "verb": "expect",
         "condition": "filler_bad_1",
-        "context_full": "Hanako said: Ben didn't expect that <strong>LAURA</strong> would order pizza.",
-        "target_full": "Scott said: Then who did Ben expect that would order pizza?",
-        "option_bg": "Who would order pizza, according to Ben.",
+        "context_full": "Hanako said: Ben didn't expect that Judith and <strong>LAURA</strong> would order pizza.",
+        "target_full": "Scott said: Then who did Ben expect that Judith and would order pizza?",
+        "option_bg": "Who else would order pizza other than Judith, according to Ben.",
         "option_fg": "Who expected that Laura would order pizza."
       }
     ]);
