@@ -658,10 +658,10 @@ function init() {
         "item": "103",
         "verb": "suspect",
         "condition": "filler_good_1",
-        "context_full": "Hanako said: Nancy didn't suspect that Julian ate the <strong>LAST CUPCAKE</strong>.",
+        "context_full": "Hanako said: Nancy didn't suspect that Julian ate the <strong> CUPCAKE</strong>.",
         "target_full": "Scott said: Then what did Nancy suspect that Julian ate?",
         "option_bg": "What Julian ate, according to Nancy.",
-        "option_fg": "Who ate the last cupcake, according to Nancy."
+        "option_fg": "Who ate the cupcake, according to Nancy."
       },
       {
         "item": "104",
