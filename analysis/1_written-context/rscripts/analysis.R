@@ -1,9 +1,11 @@
 library(dplyr)
 library(ggplot2)
 library(lme4)
+library(bootstrap)
 library(tidyverse)
 library(simr)
 library(brms)
+
 theme_set(theme_bw())
 cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7") 
 # # install mixedpower
@@ -21,7 +23,8 @@ ci.high <- function(x,na.rm=T) {
   quantile(bootstrap(1:length(x),1000,theta,x,na.rm=na.rm)$thetastar,.975,na.rm=na.rm)}
 #######################Load Data ######################################
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-mos_data<-read.csv("../../data/1_written-context/pilot/1_written-context-pilot-trials.csv")
+getwd()
+mos_data<-read.csv("../../../data/1_written-context/pilot/1_written-context-main-sandbox-trials.csv")
 #######################Participant Exclusion###########################
 excluded_subjects <- c()
 practice_data=subset(mos_data,block_id == "practice")
@@ -61,8 +64,10 @@ mos_means = mos_data_acc %>%
                                condition == "embed_focus" ~ "Embedded Focus",
                                condition == "verb_focus" ~ "Verb Focus")) %>%
   group_by(condition) %>%
-  summarize(Mean = mean(acceptability_rating), CILow = ci.low(acceptability_rating),
-            CIHigh = ci.high(acceptability_rating)) %>%
+  summarize(Mean = mean(acceptability_rating),
+            CILow = ci.low(acceptability_rating),
+            CIHigh = ci.high(acceptability_rating),
+            count = n()) %>%
   ungroup() %>%
   mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>% 
   # reorder the factors
@@ -90,7 +95,8 @@ mos_bg_means = mos_data_bg %>%
   # mutate(bg = ifelse(bg_response == "correct", 1, 0)) %>% 
   summarize(Mean = mean(bg),
             CILow = ci.low(bg),
-            CIHigh = ci.high(bg)) %>% 
+            CIHigh = ci.high(bg),
+            count = n()) %>% 
   ungroup() %>%
   mutate(YMin=Mean-CILow,YMax=Mean+CIHigh)
   # reorder the factors

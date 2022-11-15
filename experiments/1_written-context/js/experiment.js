@@ -475,6 +475,7 @@ function make_slides(f) {
         //if (e.preventDefault) e.preventDefault(); // I don't know what this means.
         exp.subj_data = {
             language : $("#language").val(),
+            american : $('input[name="ame"]:checked').val(),
             enjoyment : $("#enjoyment").val(),
             asses : $('input[name="assess"]:checked').val(),
             age : $("#age").val(),

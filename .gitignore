@@ -5,3 +5,7 @@ data/1_written-context/all_original
 data/**/*.config
 data/**/*.exps
 
+# Rproj
+analysis/**/*.Rproj
+
+.Rproj.user
