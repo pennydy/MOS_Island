@@ -18,15 +18,15 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 #Functions for 95%CI
 theta <- function(x,xdata,na.rm=T) {mean(xdata[x],na.rm=na.rm)}
 ci.low <- function(x,na.rm=T) {
-  quantile(bootstrap(1:length(x),1000,theta,x,na.rm=na.rm)$thetastar,.025,na.rm=na.rm)}
+  mean(x,na.rm=na.rm) - quantile(bootstrap(1:length(x),1000,theta,x,na.rm=na.rm)$thetastar,.025,na.rm=na.rm)}
 ci.high <- function(x,na.rm=T) {
-  quantile(bootstrap(1:length(x),1000,theta,x,na.rm=na.rm)$thetastar,.975,na.rm=na.rm)}
+  quantile(bootstrap(1:length(x),1000,theta,x,na.rm=na.rm)$thetastar,.975,na.rm=na.rm) - mean(x,na.rm=na.rm)}
 #######################Load Data ######################################
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 getwd()
-mos_data<-read.csv("../../../data/1_written-context/pilot/1_written-context-main-sandbox-trials.csv")
+mos_data<-read.csv("../../../data/1_written-context/main/1_written-context-main-trials.csv")
 #######################Participant Exclusion###########################
-excluded_subjects <- c()
+excluded_subjects <- c(200, 198)
 practice_data=subset(mos_data,block_id == "practice")
 practice_good_data=subset(practice_data, wrong_attempts <= 1)
 excluded_subjects <- c(excluded_subjects, subset(data, !is.element(workerid, practice_good_data$workerid))$workerid)
@@ -51,10 +51,37 @@ for (i in (1:length(all_filler$subject))){
     eligible_subjects <- c(eligible_subjects, row$subject)
   }
 }
-data = subset(data, workerid %in% eligible_subjects)
+mos_data = subset(mos_data, workerid %in% eligible_subjects)
+length(unique(mos_data$workerid))
 ##################################Plots#############################################
 mos_data_nofill <-  subset(mos_data_acc, condition %in% c("embed_focus","verb_focus"))
-mos_data_acc_noprac <- subset(mos_data_nofill, block_id != "practice")
+mos_data_acc_noprac <- subset(mos_data_nofill, 
+                              block_id != "practice")
+
+total_count <- mos_data |>
+  filter(condition %in% c("embed_focus","verb_focus"),
+         task == "acceptability") |>
+  # mutate(bg = case_when(condition == "verb_focus" & bg_response == "correct" ~ 1,
+  #                       condition == "verb_focus" & bg_response == "incorrect" ~ 0,
+  #                       condition == "embed_focus" & bg_response == "incorrect" ~ 1,
+  #                       condition == "embed_focus" & bg_response == "correct" ~ 0
+  # )) %>% 
+  group_by(verb, condition) |>
+  summarise(mean_acc = mean(acceptability_rating),
+            count = n())
+
+mos_data |>
+  filter(verb == "moan",
+         task == "backgroundedness") |>
+  mutate(bg = case_when(condition == "verb_focus" & bg_response == "correct" ~ 1,
+                        condition == "verb_focus" & bg_response == "incorrect" ~ 0,
+                        condition == "embed_focus" & bg_response == "incorrect" ~ 1,
+                        condition == "embed_focus" & bg_response == "correct" ~ 0
+  )) %>%
+  group_by(condition) |>
+  summarise(m = mean(bg),
+            c =n())
+  
 mos_means = mos_data_acc %>%
   # exclude out practice trials
   filter(block_id != "practice") %>% 
