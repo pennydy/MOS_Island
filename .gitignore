@@ -9,3 +9,6 @@ data/**/*.exps
 analysis/**/*.Rproj
 
 .Rproj.user
+
+# writing
+writing/
