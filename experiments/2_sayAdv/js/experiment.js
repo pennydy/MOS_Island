@@ -286,9 +286,8 @@ function init() {
     "Ronald", "Matthew", "Kate", "Julian", "Jess", "Sally", "Emily", "Helen", "Tim", "Tony", "Larry",
     "Ben", "Rui", "Frankie", "Ted", "Jessie", "Donald", "Jamal"])
     
-  var adverbs = _.shuffle(['softly', 'quietly', 'loudly', 'harshly', 'mournfully', 
-    'grudgingly', 'irritably', 'gently', 'hesitantly', 'indistinctly', 'sharply', 'fiercely'
-    ])    
+  var adverbs = _.shuffle(['softly', 'quietly', 'loudly', 'bluntly', 'cheerfully', 'wearily', 
+  'sternly', 'gently', 'wistfully', 'ruefully', 'calmly', 'dryly'])    
     
   var filler_verbs = _.shuffle([
     'speculate', 'think', 'suspect', 'suggest', 'believe', 'expect', 'imply', 'hope', 

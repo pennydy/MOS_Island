@@ -180,7 +180,7 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
  ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=4, height=3)
  
  
- #######SCR analysis############
+ #######SCR plot############
  mos_scr_means = mos_data_acc %>% 
    filter(condition %in% c("embed_focus", "verb_focus")) %>%
    mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
@@ -235,7 +235,7 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
    geom_point() +
    geom_smooth(method = "lm") +
    # geom_text(size=3, color="black", alpha=0.6, hjust=-0.1, vjust=0.2)+
-   geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
+   geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward") +
    geom_line(aes(group=verb),
              color = "black",
              alpha = 0.6,

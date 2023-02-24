@@ -5,6 +5,9 @@ data/1_written-context/all_original
 data/**/*.config
 data/**/*.exps
 
+# plot 
+analysis/1_written-context/graphs/main/legend.pdf
+
 # Rproj
 analysis/**/*.Rproj
 
