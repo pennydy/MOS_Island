@@ -397,8 +397,8 @@ function init() {
       {
         "item": "102",
         "condition": "filler_good",
-        "context": "Doug would invite the mayer.",
-        "target_question": "Then who VERB that Doug would invite the mayer?"
+        "context": "Doug would invite the mayor.",
+        "target_question": "Then who VERB that Doug would invite the mayor?"
       },
       {
         "item": "103",

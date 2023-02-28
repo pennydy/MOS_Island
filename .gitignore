@@ -1,5 +1,9 @@
 .DS_Store
 
+# stimulus set
+experiments/2_sayAdv/stimulus/
+experiments/stimuli.py
+
 # data
 data/1_written-context/all_original
 data/**/*.config

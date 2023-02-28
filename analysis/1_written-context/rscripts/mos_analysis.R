@@ -217,7 +217,7 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
  ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot.pdf", width=6, height=4)
  
  
- #######VFF analysis############
+ #######VFF plot############
  mos_vff_means = mos_data_acc %>% 
    filter(condition %in% c("embed_focus", "verb_focus")) %>%
    mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
