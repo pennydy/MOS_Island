@@ -168,7 +168,6 @@ function make_slides(f) {
         button : function() {
           exp.go(); //use exp.go() if and only if there is no "present" data.
         }
-        
       });
 
 
@@ -235,25 +234,24 @@ function make_slides(f) {
             });
             order += 1;
         }
-
     }); 
-  
- 
+
     slides.questionaire =  slide({
         name : "questionaire",
         submit : function(e){
         //if (e.preventDefault) e.preventDefault(); // I don't know what this means.
         exp.subj_data = {
-            language : $("#language").val(),
-            american : $('input[name="ame"]:checked').val(),
-            enjoyment : $("#enjoyment").val(),
-            asses : $('input[name="assess"]:checked').val(),
-            age : $("#age").val(),
-            fairprice : $("#fairprice").val(),
-            gender : $("#gender").val(),
-            education : $("#education").val(),
-            problems : $("#problems").val(),
-            comments : $("#comments").val(),
+          name : $("#name").val(),
+          language : $("#language").val(),
+          american : $('input[name="ame"]:checked').val(),
+          enjoyment : $("#enjoyment").val(),
+          asses : $('input[name="assess"]:checked').val(),
+          age : $("#age").val(),
+          // fairprice : $("#fairprice").val(),
+          gender : $("#gender").val(),
+          education : $("#education").val(),
+          problems : $("#problems").val(),
+          comments : $("#comments").val(),
         };
         exp.go(); //use exp.go() if and only if there is no "present" data.
         }
