@@ -3,6 +3,7 @@
 # stimulus set
 experiments/2_sayAdv/stimulus/
 experiments/stimuli.py
+experiments/2_sayAdv-main/stimulus/
 
 # data
 data/1_written-context/all_original
