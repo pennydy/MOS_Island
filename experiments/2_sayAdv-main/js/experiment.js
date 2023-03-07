@@ -241,13 +241,12 @@ function make_slides(f) {
         submit : function(e){
         //if (e.preventDefault) e.preventDefault(); // I don't know what this means.
         exp.subj_data = {
-          // name : $("#name").val(),
           language : $("#language").val(),
           american : $('input[name="ame"]:checked').val(),
           enjoyment : $("#enjoyment").val(),
           asses : $('input[name="assess"]:checked').val(),
           age : $("#age").val(),
-          fairprice : $("#name").val(),
+          fairprice : $("#fairprice").val(),
           gender : $("#gender").val(),
           education : $("#education").val(),
           problems : $("#problems").val(),
