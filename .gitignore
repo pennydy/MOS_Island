@@ -4,11 +4,14 @@
 experiments/2_sayAdv/stimulus/
 experiments/stimuli.py
 experiments/2_sayAdv-main/stimulus/
+experiments/2_sayAdv/
 
 # data
 data/1_written-context/all_original
+data/2_sayAdv/all_original
 data/**/*.config
 data/**/*.exps
+data/*.csv
 
 # plot 
 analysis/1_written-context/graphs/main/legend.pdf

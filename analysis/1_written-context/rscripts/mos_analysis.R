@@ -8,7 +8,6 @@ library(tidyverse)
 library(simr)
 library(brms)
 library(bootstrap)
-source('locative_helpers.R')
 
 `%notin%` <- Negate(`%in%`)
 theme_set(theme_bw())
@@ -16,6 +15,7 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 
 #######################Load Data ######################################
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+source('locative_helpers.R')
 mos_data<-read.csv("../../../data/1_written-context/main/1_written-context-main-trials.csv")
 #######################Participant Exclusion###########################
 ##Add log SCR score to verbs###
@@ -45,6 +45,9 @@ mos_data$vff <- scale(mos_data$vff, center = TRUE)
 
 ###Exclude Subjects###
 excluded_subjects <- c(198,200) ##excluded due to non-native speaker status
+
+mos_data <- subset(mos_data, !is.element(mos_data$workerid, excluded_subjects))
+
 practice_data=subset(mos_data,block_id == "practice")
 practice_good_data=subset(practice_data, wrong_attempts <= 1)
 excluded_subjects <- c(excluded_subjects, subset(mos_data, !is.element(workerid, practice_good_data$workerid))$workerid)
@@ -70,6 +73,8 @@ for (i in (1:length(all_filler$subject))){
      }
 }
 length(eligible_subjects)
+
+is.element(excluded_subjects,eligible_subjects)
 mos_data = subset(mos_data, workerid %in% eligible_subjects)
 ##################################Getting data ready for plotting and analysis#############################################
 # Data cleaning      
