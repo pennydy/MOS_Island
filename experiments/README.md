@@ -1,4 +1,4 @@
-# MOS island effects
+# Discourse backgroundedness and MoS Island Effects
 
 ## Experiment 1
 - Location: `1_written-context`

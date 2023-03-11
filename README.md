@@ -1,8 +1,8 @@
-# Manner-of-Speech (MoS) Island
+# Discoourse Backgroundedness and Manner-of-Speech (MoS) Island
 
 ## General information
 Experiment 1 (`1_written-context`): Discourse Backgroundedness and the Manner-of-Speaking Islands
-Experiment 2 (`2_sayAdv`): Manner-of-Speaking Island effect with "say+adv" constructions
+Experiment 2 (`2_sayAdv-main`): Manner-of-Speaking Island effect with "say+adv" constructions
 
 ## Structure of this repository
 ```bash
