@@ -1,10 +1,11 @@
 .DS_Store
 
 # stimulus set
-experiments/2_sayAdv/stimulus/
 experiments/stimuli.py
 experiments/2_sayAdv-main/stimulus/
 experiments/2_sayAdv/
+
+
 
 # data
 data/1_written-context/all_original
