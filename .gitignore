@@ -13,6 +13,9 @@ data/**/*.config
 data/**/*.exps
 data/*.csv
 
+# analysis
+analysis/1_written-context/rscripts/analysis.R
+
 # plot 
 analysis/1_written-context/graphs/main/legend.pdf
 
@@ -22,4 +25,5 @@ analysis/**/*.Rproj
 .Rproj.user
 
 # writing
+writing/MoS\ island\ HSP.pdf
 
