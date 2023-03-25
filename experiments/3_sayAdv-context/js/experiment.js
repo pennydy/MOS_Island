@@ -767,10 +767,10 @@ function init() {
         "item": "116",
         "verb": "suggest",
         "condition": "filler_bad_1",
-        "context_full": "Hanako said: Tony didn't suggest that Frank and <strong>LISA</strong> was in the office.",
-        "target_full": "Scott said: Then who did Tony suggest that Frank and was in the office?",
+        "context_full": "Hanako said: Tony didn't suggest that Frank and <strong>LISA</strong> were in the office.",
+        "target_full": "Scott said: Then who did Tony suggest that Frank and were in the office?",
         "option_bg": "Who else was in the office other than Frank, according to Tony.",
-        "option_fg": "Who suggested that Frank and Lisa was in the office."
+        "option_fg": "Who suggested that Frank and Lisa were in the office."
       },
       {
         "item": "117",
