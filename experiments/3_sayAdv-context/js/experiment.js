@@ -413,10 +413,12 @@ function make_slides(f) {
               exp.selected_content = selected_content;
               console.log(exp.selected_content)
               // record whether the background or the foreground option is selected
+              // for critical: option_bg is about the embedded content; option_fg is about the manner
+              // for fillers: option_bg is the "correct" answer; option_fg is "incorrect" (not for analysis)
               if (selected_content == this.stim.option_bg) {
-                exp.bg_choice = "bg";
+                exp.bg_choice = "embed";
               } else if (selected_content == this.stim.option_fg) {
-                exp.bg_choice = "fg";
+                exp.bg_choice = "verb";
               }
               console.log(exp.bg_choice)
             }
@@ -674,7 +676,7 @@ function init() {
         "context_full": "Hanako said: Charlie didn't expect that Maddie would call her <strong>ROOMMATE</strong>.",
         "target_full": "Scott said: Then who did Charlie expect that Maddie would call?",
         "option_bg": "Who Maddie would call, according to Charlie.",
-        "option_fg": "Who would call Maddie's roommates, according to Charlie."
+        "option_fg": "Who would call Maddie's roommate, according to Charlie."
       }
     ]);
     

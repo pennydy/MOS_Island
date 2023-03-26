@@ -76,8 +76,8 @@ mos_data = subset(mos_data, workerid %in% eligible_subjects)
 mos_data_overall <- mos_data %>% 
      filter(block_id != "practice") %>%
      filter(condition %in% c("embed_focus","verb_focus"))%>%
-     mutate(bg = case_when(bg_response == "bg" ~ 1,
-                           bg_response == "fg" ~ 0)) %>%
+     mutate(bg = case_when(bg_response == "embed" ~ 1,
+                           bg_response == "verb" ~ 0)) %>%
       group_by(item_id, condition) %>%
       summarise(BG = mean(bg, na.rm=TRUE), 
                 AC = mean(acceptability_rating, na.rm=TRUE))
@@ -106,8 +106,8 @@ mos_bg_means = mos_data_bg %>%
                filter(condition %in% c("embed_focus", "verb_focus")) %>%
               mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
                   #  1 -> verb focus, 0 -> noun focus;lower  value,  more backgrounded
-              mutate(bg = case_when(bg_response == "bg" ~ 1,
-                                    bg_response == "fg" ~ 0)) %>%
+              mutate(bg = case_when(bg_response == "embed" ~ 1,
+                                    bg_response == "verb" ~ 0)) %>%
               group_by(condition) %>%
               summarize(Mean = mean(bg),
                             CILow = ci.low(bg),
@@ -280,8 +280,8 @@ summary(acc_model)
 mos_data_bg_nofill<- mos_data_bg_nofill %>%
   mutate(cond = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
   #  1 -> verb focus, 0 -> noun focus; the lower the value, the more backgrounded it is
-  mutate(bg = case_when(bg_response == "bg" ~ 1,
-                        bg_response == "fg" ~ 0
+  mutate(bg = case_when(bg_response == "embed" ~ 1,
+                        bg_response == "verb" ~ 0
   ))
 mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
 mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
