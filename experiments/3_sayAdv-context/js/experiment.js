@@ -655,8 +655,8 @@ function init() {
         "item": "104",
         "verb": "suggest",
         "condition": "filler_good_1",
-        "context_full": "Hanako said: Grace didn't sugguest that Karen wrote a <strong>BOOK</strong>.",
-        "target_full": "Scott said: Then what did Grace suggst that Karen wrote?",
+        "context_full": "Hanako said: Grace didn't suggest that Karen wrote a <strong>BOOK</strong>.",
+        "target_full": "Scott said: Then what did Grace suggest that Karen wrote?",
         "option_bg": "What Karen wrote, according to Grace.",
         "option_fg": "Who wrote a book, according to Grace."
       },

@@ -3,13 +3,14 @@
 # stimulus set
 experiments/stimuli.py
 experiments/2_sayAdv-main/stimulus/
-experiments/2_sayAdv
+experiments/2_sayAdv/
 experiments/3_sayAdv-context/stimulus/
 
 
 # data
-data/1_written-context/all_original
-data/2_sayAdv/all_original
+data/1_written-context/all_original/
+data/2_sayAdv/all_original/
+data/3_sayAdv-context/all_original/
 data/**/*.config
 data/**/*.exps
 data/*.csv
