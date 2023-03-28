@@ -48,9 +48,9 @@ excluded_subjects <- c(excluded_subjects, subset(mos_data, !is.element(workerid,
                 mos_data=subset(mos_data, is.element(workerid, practice_good_data$workerid))
                 length(unique(mos_data$workerid))
 mos_data_acc <- subset(mos_data, acceptability_rating != "NA")
-                mos_data_bg <- subset(mos_data, bg_response != "NA")
-                mos_data_acc$acceptability_rating <- as.numeric(mos_data_acc$acceptability_rating)
-                filler_data = subset(mos_data_acc, condition %in% c("filler_good_1", "filler_good_2" ))
+mos_data_bg <- subset(mos_data, bg_response != "NA")
+mos_data_acc$acceptability_rating <- as.numeric(mos_data_acc$acceptability_rating)
+filler_data = subset(mos_data_acc, condition %in% c("filler_good_1", "filler_good_2" ))
 ungram_data = subset(mos_data_acc, condition %in% c("filler_bad_1", "filler_bad_2" ))
 filler_by_subject = aggregate(filler_data[,"acceptability_rating"],list(filler_data$workerid), mean)
 ungram_by_subject = aggregate(ungram_data[,"acceptability_rating"],list(ungram_data$workerid), mean)
@@ -161,72 +161,72 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
                                 axis.title=element_text(size=10))
   # geom_signif(comparisons = list(c("Embedded Focus", "Verb Focus")), 
   #             annotations="***",y_position = 0.9)
- mos_bg_graph
- ggsave(mos_bg_graph, file="../graphs/pilot/mos_bg.pdf", width=4, height=3)
+mos_bg_graph
+ggsave(mos_bg_graph, file="../graphs/pilot/mos_bg.pdf", width=4, height=3)
  
  
- #######SCR plot############
- mos_scr_means = mos_data_acc %>% 
-   filter(condition %in% c("embed_focus", "verb_focus")) %>%
-   mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
-   filter(verb != "groan")%>%
-   group_by(verb, condition) %>%
-   summarise( ACC = mean(acceptability_rating), 
+#######SCR plot############
+mos_scr_means = mos_data_acc %>% 
+  filter(condition %in% c("embed_focus", "verb_focus")) %>%
+  mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
+  filter(verb != "groan")%>%
+  group_by(verb, condition) %>%
+  summarise( ACC = mean(acceptability_rating), 
               SCR = mean(scr))
  
 
- mos_scr_plot <- ggplot(mos_scr_means,
+mos_scr_plot <- ggplot(mos_scr_means,
                         aes(x = SCR, y = ACC, 
                             color = condition, 
                             fill=condition, 
                             label=verb)) +
-   geom_point() +
-   geom_smooth(method = "lm") +
-   geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
-   geom_line(aes(group=verb),
+  geom_point() +
+  geom_smooth(method = "lm") +
+  geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
+  geom_line(aes(group=verb),
              color = "black",
              alpha = 0.6,
              linetype = "dashed") +
-   # scale_x_continuous(expand=expansion(mult = 0.08)) +
-   xlab("Log-transformed SCR score")+
-   ylab("Mean Acceptability Rating") +
-   scale_color_manual(values=c("#56B4E9", "#009E73"), 
-                      labels=c("Embedded\nFocus", "Verb\nFocus"),
-                      name = "Condition") +
-   scale_fill_manual(values=c("#56B4E9", "#009E73"), 
+  # scale_x_continuous(expand=expansion(mult = 0.08)) +
+  xlab("Log-transformed SCR score")+
+  ylab("Mean Acceptability Rating") +
+  scale_color_manual(values=c("#56B4E9", "#009E73"), 
                      labels=c("Embedded\nFocus", "Verb\nFocus"),
                      name = "Condition") +
-   theme(legend.text=element_text(size=10))
- mos_scr_plot
- ggsave(mos_scr_plot, file="../graphs/pilot/mos_scr_plot.pdf", width=6, height=4)
+  scale_fill_manual(values=c("#56B4E9", "#009E73"), 
+                    labels=c("Embedded\nFocus", "Verb\nFocus"),
+                    name = "Condition") +
+  theme(legend.text=element_text(size=10))
+mos_scr_plot
+ggsave(mos_scr_plot, file="../graphs/pilot/mos_scr_plot.pdf", width=6, height=4)
 
  
- ##############trial_order plot#############
- mos_trial_means = mos_data_acc %>% 
-   filter(condition %in% c("embed_focus", "verb_focus") )%>%
-   group_by(trial_num, condition) %>%
-   summarise( Mean = mean(acceptability_rating))
+##############trial_order plot#############
+mos_trial_means = mos_data_acc %>% 
+  filter(condition %in% c("embed_focus", "verb_focus") ) %>%
+  group_by(trial_num, condition) %>%
+  summarise(Mean = mean(acceptability_rating))
  
  
- mos_trial_plot <- ggplot(mos_trial_means,
-                          aes(x = trial_num, 
-                              y = Mean,
-                              color = condition, 
-                              fill=condition)) +
-   geom_point(alpha=0.6) +
-   scale_fill_manual(values=cbPalette[2:4], name="Condition", labels=c("Embedded Focus", "Verb Focus")) +
-   scale_color_manual(values=cbPalette[2:4], name="Condition", labels=c("Embedded Focus", "Verb Focus")) +
-   geom_smooth(method = "lm") +
-   xlab("Presentation order") +
-   ylab("Mean acceptability")
+mos_trial_plot <- ggplot(mos_trial_means,
+                         aes(x = trial_num, 
+                             y = Mean,
+                             color = condition,
+                             fill=condition)) +
+  geom_point(alpha=0.6) +
+  scale_fill_manual(values=cbPalette[2:4], name="Condition", labels=c("Embedded Focus", "Verb Focus")) +
+  scale_color_manual(values=cbPalette[2:4], name="Condition", labels=c("Embedded Focus", "Verb Focus")) +
+  geom_smooth(method = "lm") +
+  xlab("Presentation order") +
+  ylab("Mean acceptability")
  
- mos_trial_plot
- ggsave(mos_trial_plot, file="../graphs/pilot/trial_plot.pdf", width=4, height=3)
+mos_trial_plot
+ggsave(mos_trial_plot, file="../graphs/pilot/trial_plot.pdf", width=4, height=3)
 
- #########################Stats##################################
+#########################Stats##################################
  
  
- #####acceptability analysis######
+#####acceptability analysis######
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_bad_1","filler_bad_2")] <- "filler_bad"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_good_1","filler_good_2")] <- "filler_good"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "embed_focus"] <- "embed_focus"
