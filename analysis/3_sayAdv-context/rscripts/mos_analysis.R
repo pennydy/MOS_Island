@@ -15,7 +15,7 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 #######################Load Data ######################################
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source('locative_helpers.R')
-mos_data<-read.csv("../../../data/3_sayAdv-context/pilot/3_sayAdv-context-pilot-trials.csv")
+mos_data<-read.csv("../../../data/3_sayAdv-context/main/3_sayAdv-context-trials.csv")
 #######################Participant Exclusion###########################
 ##Add log SCR score to verbs###
 mos_data$scr[mos_data$verb == "softly"] = log(0.001729355815)
@@ -35,12 +35,14 @@ mos_data$scr <- scale(mos_data$scr, center = TRUE)
 # mos_data <- mos_data |>
 #   filter(condition %in% c("say", "say_adv")) |>
 #   mutate(centered_scr = scr - mean(scr))
-
+length(unique(mos_data$workerid))
 ###Exclude Subjects###
-excluded_subjects <- c() ##excluded due to non-native speaker status
+excluded_subjects <- c(1391) ## excluded due to bilingual speaker status
+excluded_subjects <- c(excluded_subjects, 1348) ## excluded due to second attempt
 
 mos_data <- subset(mos_data, !is.element(mos_data$workerid, excluded_subjects))
 length(unique(mos_data$workerid))
+
 
 practice_data=subset(mos_data,block_id == "practice")
 practice_good_data=subset(practice_data, wrong_attempts <= 1)
@@ -125,14 +127,14 @@ mos_acc_graph <- ggplot(mos_means,
                         geom_bar(stat="identity", width=0.6, aes(color=condition)) +
                         geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
                         scale_fill_manual(values=cbPalette, name = NULL) +
-                        theme_bw()+
+                        theme_bw() +
                         xlab("Condition") +
                         scale_color_manual(values=cbPalette, name=NULL) +
                         guides(color = "none")+
                         guides(fill = "none")+
                         theme(legend.position="bottom",
                         axis.text.x = element_text(size=8)) +
-  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) 
+  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
   # geom_signif(comparisons=list(c("Good Filler", "Verb Focus")), annotations="***",y_position = 0.9) +
   # geom_signif(comparisons=list(c("Embedded Focus", "Verb Focus")), annotations="***",y_position = 0.8) +
   # geom_signif(comparisons=list(c("Bad Filler", "Verb Focus")), annotations="***",y_position = 0.7)
@@ -141,7 +143,7 @@ mos_acc_graph <- ggplot(mos_means,
 
  
 mos_acc_graph
-ggsave(mos_acc_graph, file="../graphs/pilot/mos_acc.pdf", width=4, height=3)
+ggsave(mos_acc_graph, file="../graphs/main/mos_acc.pdf", width=4, height=3)
 
 ###########BG question plot#######################
 mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
@@ -162,14 +164,13 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
   # geom_signif(comparisons = list(c("Embedded Focus", "Verb Focus")), 
   #             annotations="***",y_position = 0.9)
 mos_bg_graph
-ggsave(mos_bg_graph, file="../graphs/pilot/mos_bg.pdf", width=4, height=3)
+ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=4, height=3)
  
  
 #######SCR plot############
 mos_scr_means = mos_data_acc %>% 
   filter(condition %in% c("embed_focus", "verb_focus")) %>%
   mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
-  filter(verb != "groan")%>%
   group_by(verb, condition) %>%
   summarise( ACC = mean(acceptability_rating), 
               SCR = mean(scr))
@@ -198,7 +199,7 @@ mos_scr_plot <- ggplot(mos_scr_means,
                     name = "Condition") +
   theme(legend.text=element_text(size=10))
 mos_scr_plot
-ggsave(mos_scr_plot, file="../graphs/pilot/mos_scr_plot.pdf", width=6, height=4)
+ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot.pdf", width=6, height=4)
 
  
 ##############trial_order plot#############
@@ -221,7 +222,7 @@ mos_trial_plot <- ggplot(mos_trial_means,
   ylab("Mean acceptability")
  
 mos_trial_plot
-ggsave(mos_trial_plot, file="../graphs/pilot/trial_plot.pdf", width=4, height=3)
+ggsave(mos_trial_plot, file="../graphs/main/trial_plot.pdf", width=4, height=3)
 
 #########################Stats##################################
  
@@ -235,8 +236,8 @@ mos_data_acc_noprac$prim_cond<- as.factor(mos_data_acc_noprac$prim_cond)
 mos_data_acc_noprac$prim_cond<-relevel(mos_data_acc_noprac$prim_cond, ref = "verb_focus")
 
 acc_model <- lmer(acceptability_rating ~ prim_cond + 
-                    (1|workerid)+
-                    (1|item_id),
+                    (1+prim_cond|workerid)+
+                    (1+prim_cond|item_id),
                   data = mos_data_acc_noprac)
 summary(acc_model)
 
@@ -251,8 +252,8 @@ mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
 mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
 contrasts(mos_data_bg_nofill$condition)=contr.sum(2)
 bg_model <- glmer(bg~condition+
-                    (1|workerid)+
-                    (1|item_id),
+                    (1+condition|workerid)+
+                    (1+condition|item_id),
                   family = "binomial",
                   data=mos_data_bg_nofill)
 summary(bg_model)
@@ -264,19 +265,21 @@ mos_scr_model_data <- mos_data_acc %>%
 mos_scr_model_data$condition <- as.factor(mos_scr_model_data$condition)
 contrasts(mos_scr_model_data$condition) <- contr.sum(2)
 model_scr <- lmer(acceptability_rating ~ condition * scr + 
-                    (1|item_id)+
-                    (1|workerid),
+                    (1+condition|item_id)+ # should not include scr in the by-item random effect 
+                    (1+condition * scr|workerid),
                   data = mos_scr_model_data)
 summary(model_scr)
 
 ####### Satiation analysis#########
 mos_trial_data <- mos_data_acc %>%
-                  filter(condition %in% c("embed_focus", "verb_focus") )%>%
-                  mutate(condition = as.factor(condition)) 
+                  filter(condition %in% c("embed_focus", "verb_focus") ) %>%
+                  mutate(condition = as.factor(condition),
+                         condition = relevel(condition, ref = "verb_focus"))
 
 contrasts(mos_trial_data$condition) <- contr.sum(2)       
 
 model_trial <- lmer(acceptability_rating ~ condition * trial_num + 
-                      (1+ condition |item_id)+
-                      (1+ condition |workerid),data = mos_trial_data)
+                      (1+ condition*trial_num|item_id)+
+                      (1+ condition*trial_num|workerid),
+                    data = mos_trial_data)
 summary(model_trial)
