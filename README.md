@@ -30,6 +30,6 @@ Experiment 2 (`2_sayAdv-main`): Manner-of-Speaking Island effect with "say+adv" 
 └── writing
 ```
 
-- experiments: impementation of the experiments
-- data: raw data files
-- analysis: R files for the graph and main analyses
+- `analysis`: R files for the graph and main analyses
+- `experiments`: impementation of the experiments
+- `data`: raw data files

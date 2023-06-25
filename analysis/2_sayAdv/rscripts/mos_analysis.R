@@ -17,27 +17,35 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source('locative_helpers.R')
 all_data<-read.csv("../../../data/2_sayAdv/main/2_sayAdv-main-trials.csv")
+freq_data <- read.csv("../../../data/exp2_freq.csv")
 #######################Participant Exclusion###########################
-##Add log SCR score to verbs###
-all_data$scr[all_data$verb == "say softly"] = log(0.001729355815)
-all_data$scr[all_data$verb == "say quietly"] = log(0.00321248279)
-all_data$scr[all_data$verb == "say loudly"] = log(0.01222493888)
-all_data$scr[all_data$verb == "say bluntly"] =log(0.09223300971)
-all_data$scr[all_data$verb == "say cheerfully"] =log(0.009230769231)
-all_data$scr[all_data$verb == "say wearily"] =log(0.01315789474)
-all_data$scr[all_data$verb == "say sternly"] =log(0.005235602094)
-all_data$scr[all_data$verb == "say gently"] =log(0.003521126761)
-all_data$scr[all_data$verb == "say wistfully"] =log(0.01973684211)
-all_data$scr[all_data$verb == "say ruefully"] =log(0.007407407407)
-all_data$scr[all_data$verb == "say calmly"]=log(0.009132420091)
-all_data$scr[all_data$verb == "say dryly"]=log(0.005882352941)
+##Add log SCR score and VFF to verbs###
+# all_data$scr[all_data$verb == "say softly"] = log(0.001729355815)
+# all_data$scr[all_data$verb == "say quietly"] = log(0.00321248279)
+# all_data$scr[all_data$verb == "say loudly"] = log(0.01222493888)
+# all_data$scr[all_data$verb == "say bluntly"] =log(0.09223300971)
+# all_data$scr[all_data$verb == "say cheerfully"] =log(0.009230769231)
+# all_data$scr[all_data$verb == "say wearily"] =log(0.01315789474)
+# all_data$scr[all_data$verb == "say sternly"] =log(0.005235602094)
+# all_data$scr[all_data$verb == "say gently"] =log(0.003521126761)
+# all_data$scr[all_data$verb == "say wistfully"] =log(0.01973684211)
+# all_data$scr[all_data$verb == "say ruefully"] =log(0.007407407407)
+# all_data$scr[all_data$verb == "say calmly"]=log(0.009132420091)
+# all_data$scr[all_data$verb == "say dryly"]=log(0.005882352941)
+
+all_data <- left_join(all_data, freq_data, by="verb") %>% 
+  rename(vff = v_sc) %>% 
+  mutate(scr = log(scr),
+         vff = log(vff))
 # Mean center SCR score (or convert it to a z-score, further divide it by sd?)
 all_data$scr <- scale(all_data$scr, center = TRUE)
+all_data$vff <- scale(all_data$vff, center=TRUE)
+
 # all_data <- all_data |>
 #   filter(condition %in% c("say", "say_adv")) |>
 #   mutate(centered_scr = scr - mean(scr))
 
-
+length(unique(all_data$workerid))
 ###Exclude Subjects###
 excluded_subjects <- c(1243, 1179, 1199, 1175, 1237)  # excluded due to non-native and bilingual speaker status
 
@@ -120,6 +128,8 @@ acc_graph <- ggplot(df_summary,
                     aes(x=condition, y=Mean, fill=condition)) +
   geom_bar(stat="identity", width=0.6, aes(color=condition)) +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
+  geom_signif(comparisons=list(c("Say + Adv", "Say")), annotations="***",y_position = 0.86) +
+  geom_signif(comparisons=list(c("Bad Filler", "Say")), annotations="***",y_position = 0.94) +
   scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
   xlab("Condition") +
   scale_color_manual(values=cbPalette, name=NULL, guide="none") +
@@ -127,7 +137,7 @@ acc_graph <- ggplot(df_summary,
         axis.text.x = element_text(size=8)) +
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
 acc_graph
-ggsave(acc_graph, file="../graphs/main/mos_acc.pdf", width=4, height=3)
+ggsave(acc_graph, file="../graphs/main/mos_acc_sig.pdf", width=4, height=3)
 
 adv_graph <- ggplot(df_adverb,
                     aes(x=verb, y=Mean, color=condition)) +
@@ -138,7 +148,7 @@ adv_graph <- ggplot(df_adverb,
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
   # guides()
 adv_graph
-ggsave(adv_graph, file="../graphs/main/adv_graph.pdf", width=8, height=3)
+ggsave(adv_graph, file="../graphs/main/adv_graph.pdf", width=6, height=4)
 
 #######SCR plot############
 scr_means <- all_data |>
@@ -160,13 +170,42 @@ scr_plot <- ggplot(scr_means,
   geom_point() +
   geom_smooth(method = "lm", color="black") +
   geom_text(size=3, color="black", alpha=0.6, hjust=0.8, vjust=1.5) +
-  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
+  # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
+  theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=16)) +
   xlab("Log-transformed SCR score") +
   # ylab("Mean Acceptability Rating")
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
 scr_plot
-reggsave(scr_plot, file="../graphs/main/mos_scr_plot_error_bar.pdf", width=6, height=4)
+ggsave(scr_plot, file="../graphs/main/mos_scr_plot.pdf", width=6, height=4)
 
+
+#######VFF plot############
+vff_means <- all_data |>
+  filter(condition == "say_adv") |>
+  mutate(verb = ifelse(condition=="say_adv", gsub("[a-z]+ ", "\\1", verb), verb)) |>
+  group_by(verb) |>
+  summarise(ACC = mean(acceptability_rating),
+            CILow = ci.low(acceptability_rating),
+            CIHigh = ci.high(acceptability_rating),
+            VFF = mean(vff)) |>
+  ungroup() |>
+  mutate(YMin=ACC-CILow,
+         YMax=ACC+CIHigh)
+
+vff_plot <- ggplot(vff_means,
+                   aes(x = VFF,
+                       y = ACC,
+                       label=verb)) +
+  geom_point() +
+  geom_smooth(method = "lm", color="black") +
+  geom_text(size=3, color="black", alpha=0.6, vjust="inner") +
+  # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
+  xlab("Log-transformed Predicate-frame frequency") +
+  # ylab("Mean Acceptability Rating")
+  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
+vff_plot
+ggsave(vff_plot, file="../graphs/main/mos_vff_plot.pdf", width=6, height=4)
 
 ##############trial_order plot#############
 trial_means = all_data %>% 
@@ -213,6 +252,19 @@ scr_model <- lmer(acceptability_rating ~ scr +
                     (1+scr|workerid),
                   data=scr_model_data)
 summary(scr_model)
+
+
+######VFF analysis#######
+vff_model_data <- all_data %>% 
+  filter(condition == "say_adv") |>
+  mutate(condition = as.factor(condition))
+
+
+vff_model <- lmer(acceptability_rating ~ vff + 
+                    (1+vff|item_id) +
+                    (1+vff|workerid),
+                  data=vff_model_data)
+summary(vff_model)
 
 
 ####### Satiation analysis#########

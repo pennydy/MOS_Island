@@ -43,19 +43,24 @@ mos_data$vff[mos_data$verb == "mumble"] =	-6.395773947
 mos_data$vff[mos_data$verb == "whine"] =	-6.549750892
 mos_data$vff <- scale(mos_data$vff, center = TRUE)
 
+# unique(mos_data_bg_nofill$verb)
+   
 ###Exclude Subjects###
-excluded_subjects <- c(198,200) ##excluded due to non-native speaker status
+length(unique(mos_data$workerid))
 
+# excluded based on non-native speaker status
+excluded_subjects <- c(198,200) 
 mos_data <- subset(mos_data, !is.element(mos_data$workerid, excluded_subjects))
-
+# excluded based on performance in the practice trials
 practice_data=subset(mos_data,block_id == "practice")
 practice_good_data=subset(practice_data, wrong_attempts <= 1)
 excluded_subjects <- c(excluded_subjects, subset(mos_data, !is.element(workerid, practice_good_data$workerid))$workerid)
-                mos_data=subset(mos_data, is.element(workerid, practice_good_data$workerid))
-                length(unique(mos_data$workerid))
+mos_data=subset(mos_data, is.element(workerid, practice_good_data$workerid))
+length(unique(mos_data$workerid))
+# excluded based on performance (ratings for unacceptable fillers > acceptable fillers)
 mos_data_acc <- subset(mos_data, acceptability_rating != "NA")
-                mos_data_bg <- subset(mos_data, bg_response != "NA")
-                mos_data_acc$acceptability_rating <- as.numeric(mos_data_acc$acceptability_rating)
+mos_data_bg <- subset(mos_data, bg_response != "NA")
+mos_data_acc$acceptability_rating <- as.numeric(mos_data_acc$acceptability_rating)
                 filler_data = subset(mos_data_acc, condition %in% c("filler_good_1", "filler_good_2" ))
 ungram_data = subset(mos_data_acc, condition %in% c("filler_bad_1", "filler_bad_2" ))
 filler_by_subject = aggregate(filler_data[,"acceptability_rating"],list(filler_data$workerid), mean)
@@ -179,7 +184,7 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
                           theme(legend.position="bottom",
                                 axis.text.x = element_text(size=10),
                                 axis.title=element_text(size=10)) +
-  geom_signif(comparisons = list(c("Embedded Focus", "Verb Focus")), 
+  geom_signif(comparisons = list(c("Embedded Focus", "Verb Focus")),
               annotations="***",y_position = 0.9)
  mos_bg_graph
  ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=4, height=3)
@@ -198,28 +203,33 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
  mos_scr_plot <- ggplot(mos_scr_means,
                         aes(x = SCR, y = ACC, 
                             color = condition, 
-                            fill=condition, 
+                            fill=condition,
                             label=verb)) +
    geom_point() +
    geom_smooth(method = "lm") +
-   # geom_text(size=3, color="black", alpha=0.6, hjust=-0.1, vjust=0.2)+
    geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
    geom_line(aes(group=verb),
              color = "black",
-             alpha = 0.6,
+             alpha = 0.4,
+             # size=0.4,
              linetype = "dashed") +
    # scale_x_continuous(expand=expansion(mult = 0.08)) +
    xlab("Log-transformed SCR score")+
    ylab("Mean Acceptability Rating") +
    scale_color_manual(values=c("#56B4E9", "#009E73"), 
-                      labels=c("Embedded\nFocus", "Verb\nFocus"),
-                      name = "Condition") +
+                      labels=c("Embedded Focus", "Verb Focus"),
+                      name = "Condition",
+                      guide="none") +
    scale_fill_manual(values=c("#56B4E9", "#009E73"), 
-                     labels=c("Embedded\nFocus", "Verb\nFocus"),
-                     name = "Condition") +
-   theme(legend.text=element_text(size=10))
+                     labels=c("Embedded Focus", "Verb Focus"),
+                     name = "Condition",
+                     guide="none") +
+   theme(legend.text=element_text(size=10),
+         axis.text=element_text(size=14),
+         axis.title=element_text(size=16),
+         legend.position = "top")
  mos_scr_plot
- ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot.pdf", width=6, height=4)
+ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot_noLegend.pdf", width=6, height=4)
  
  
  #######VFF plot############
@@ -243,20 +253,23 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
    geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward") +
    geom_line(aes(group=verb),
              color = "black",
-             alpha = 0.6,
+             alpha = 0.4,
              linetype = "dashed") +
    # scale_x_continuous(expand=expansion(mult = 0.08)) +
    xlab("Log-transformed verb-frame frequency score")+
    ylab("Mean Acceptability Rating") +
    scale_color_manual(values=c("#56B4E9", "#009E73"), 
                       labels=c("Embedded\nFocus", "Verb\nFocus"),
-                      name = "Condition") +
+                      name = "Condition",
+                      guide="none") +
    scale_fill_manual(values=c("#56B4E9", "#009E73"), 
                      labels=c("Embedded\nFocus", "Verb\nFocus"),
-                     name = "Condition") +
-   theme(legend.text=element_text(size=10))
+                     name = "Condition",
+                     guide="none") +
+   theme(legend.text=element_text(size=10),
+         axis.title=element_text(size=14)) 
  mos_vff_plot
- ggsave(mos_vff_plot, file="../graphs/main/mos_vff_plot.pdf", width=6, height=4)
+ ggsave(mos_vff_plot, file="../graphs/main/mos_vff_plot_noLegend.pdf", width=6, height=4)
  
 
  
@@ -276,10 +289,28 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
  mos_trial_plot
  
 
- #########################Stats##################################
+#########################Stats##################################
  
+######BG analysis###########
+mos_data_bg_nofill<- mos_data_bg_nofill %>%
+    mutate(cond = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
+    #  1 -> verb focus, 0 -> noun focus; the lower the value, the more backgrounded it is
+    mutate(bg = case_when(cond == "Verb Focus" & bg_response == "correct" ~ 1,
+                          cond == "Verb Focus" & bg_response == "incorrect" ~ 0,
+                          cond == "Embedded Focus" & bg_response == "incorrect" ~ 1,
+                          cond == "Embedded Focus" & bg_response == "correct" ~ 0
+    ))
+ mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
+ mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
+ contrasts(mos_data_bg_nofill$condition)=contr.sum(2)
+ bg_model <- glmer(bg~condition+
+                      (1+condition|workerid)+
+                      (1+condition|item_id),
+                   family = "binomial",
+                   data=mos_data_bg_nofill)
+summary(bg_model)
  
- #####acceptability analysis######
+#####acceptability analysis######
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_bad_1","filler_bad_2")] <- "filler_bad"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_good_1","filler_good_2")] <- "filler_good"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "embed_focus"] <- "embed_focus"
@@ -292,24 +323,6 @@ acc_model <- lmer(acceptability_rating ~ prim_cond +
                     (1+condition|item_id),
                   data = mos_data_acc_noprac)
 summary(acc_model)
-
-######BG analysis###########
-mos_data_bg_nofill<- mos_data_bg_nofill %>%
-  mutate(cond = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
-  #  1 -> verb focus, 0 -> noun focus; the lower the value, the more backgrounded it is
-  mutate(bg = case_when(cond == "Verb Focus" & bg_response == "correct" ~ 1,
-                        cond == "Verb Focus" & bg_response == "incorrect" ~ 0,
-                        cond == "Embedded Focus" & bg_response == "incorrect" ~ 1,
-                        cond == "Embedded Focus" & bg_response == "correct" ~ 0
-  ))
-mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
-mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
-contrasts(mos_data_bg_nofill$condition)=contr.sum(2)
-bg_model <- glmer(bg~condition+
-                    (1+condition|workerid),
-                  family = "binomial",
-                  data=mos_data_bg_nofill)
-summary(bg_model)
 
 ######SCR analysis#######
 mos_scr_model_data <- mos_data_acc %>% 
