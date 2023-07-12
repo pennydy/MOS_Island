@@ -1,4 +1,4 @@
-# Discoourse Backgroundedness and Manner-of-Speech (MoS) Island
+# Discourse Effects on Manner-of-Speaking (MoS) Islands
 
 ## General information
 Experiment 1 (`1_written-context`): Discourse Backgroundedness and the Manner-of-Speaking Islands
@@ -37,10 +37,10 @@ Experiment 3 (`3_sayAdv-context`): Discourse backgroundedness and MoS island eff
 │   ├── 1_written-context
 │   ├── 2_sayAdv-main
 │   ├── 2_sayAdv-context
-└── writing
+└── writings
 ```
 
 - `analysis`: R files for the graph and main analyses
 - `experiments`: impementation of the experiments
 - `data`: raw data files
-- `writing`: abstracts and posters related to this project
+- `writings`: abstracts and posters related to this project
