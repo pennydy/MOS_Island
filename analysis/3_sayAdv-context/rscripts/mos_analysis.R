@@ -135,16 +135,18 @@ mos_bg_means = mos_data_bg %>%
 ##########Acceptability plot########################
 mos_acc_graph <- ggplot(mos_means, 
                         aes(x=condition, y=Mean, fill=condition)) +
-                        geom_bar(stat="identity", width=0.6, aes(color=condition)) +
-                        geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
-                        scale_fill_manual(values=cbPalette, name = NULL) +
-                        theme_bw() +
-                        xlab("Condition") +
-                        scale_color_manual(values=cbPalette, name=NULL) +
-                        guides(color = "none")+
-                        guides(fill = "none")+
-                        theme(legend.position="bottom",
-                        axis.text.x = element_text(size=8)) +
+  geom_bar(stat="identity", width=0.8, aes(color=condition)) +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
+  scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
+  theme_bw() +
+  xlab("Condition") +
+  scale_color_manual(values=cbPalette, name=NULL, guide="none") +
+  theme(legend.position="bottom",
+        axis.text.x = element_text(size=6)) +
+  scale_x_discrete(labels=c("Good Filler"="Good\nFiller", 
+                            "Embedded Focus"="Embedded\nFocus",
+                            "Adverb Focus"="Adverb\nFocus",
+                            "Bad Filler"="Bad\nFiller")) +
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
   geom_signif(comparisons=list(c("Good Filler", "Adverb Focus")), annotations="***",y_position = 0.9) +
   geom_signif(comparisons=list(c("Embedded Focus", "Adverb Focus")), annotations="***",y_position = 0.8) +
@@ -154,29 +156,27 @@ mos_acc_graph <- ggplot(mos_means,
 
  
 mos_acc_graph
-ggsave(mos_acc_graph, file="../graphs/main/mos_acc_sig.pdf", width=4, height=3)
+ggsave(mos_acc_graph, file="../graphs/main/mos_acc_large.pdf", width=2, height=3)
 
 ###########BG question plot#######################
 mos_bg_graph <- ggplot(mos_bg_means %>% 
                          mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus")), aes(x=condition, y=Mean, fill=condition)) +
-                         geom_bar(stat="identity", width=0.6, aes(color=condition)) +
-                         geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
-                         scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL) +
-             # scale_fill_manual(values=cbPalette, name = NULL) +
-                        theme_bw()+
-                        xlab("Condition") +
-                        scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL) +
-                        # scale_color_manual(values=cbPalette, name=NULL) +
-                        scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Clause", limits=c(0, 1)) + 
-                          guides(color = "none") +
-                          guides(fill = "none") +
-                          theme(legend.position="bottom",
-                                axis.text.x = element_text(size=10),
-                                axis.title=element_text(size=10)) +
+  geom_bar(stat="identity", width=0.8, aes(color=condition)) +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
+  scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL, guide="none") +
+  theme_bw() +
+  xlab("Condition") +
+  scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL, guide="none") +
+  scale_x_discrete(labels=c("Embedded Focus"="Embedded\nFocus",
+                            "Adverb Focus"="Adverb\nFocus")) +
+  scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Clause", limits=c(0, 1)) + 
+  theme(legend.position="bottom",
+        axis.text.x = element_text(size=6),
+        axis.title=element_text(size=10)) +
   geom_signif(comparisons = list(c("Embedded Focus", "Adverb Focus")),
               annotations="***",y_position = 0.93)
 mos_bg_graph
-ggsave(mos_bg_graph, file="../graphs/main/mos_bg_sig.pdf", width=4, height=3)
+ggsave(mos_bg_graph, file="../graphs/main/mos_bg_large.pdf", width=2, height=3)
  
  
 #######SCR plot############
@@ -192,8 +192,8 @@ mos_scr_plot <- ggplot(mos_scr_means %>%
                          mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus")),
                         aes(x = SCR, y = ACC, 
                             color = condition, 
-                            fill=condition))+ 
-                            # label=verb)) +
+                            fill=condition, 
+                            label=verb)) +
   geom_point() +
   geom_smooth(method = "lm") +
   geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
@@ -216,7 +216,7 @@ mos_scr_plot <- ggplot(mos_scr_means %>%
         legend.text=element_text(size=10),
         axis.title=element_text(size=16)) 
 mos_scr_plot
-ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot_noLegend.pdf", width=6, height=4)
+ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot_noLegend_large.pdf", width=6, height=4)
 
  
 

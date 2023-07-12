@@ -9,5 +9,12 @@
 ## Experiment 2
 - Location: `2_sayAdv-main`
 - Constructions: Say + Adv
-- Conditions: NA (no focus manipulation)
+- Conditions: Say and Say + adv. (no focus manipulation)
 - Tasks: acceptability judgement (sliding scale)
+
+
+## Experiment 3
+- Location: `3_sayAdv-context`
+- Constructions: Say + Adv
+- Conditions: Adverb Focus and Embedded Focus
+- Tasks: acceptability judgement (sliding scale) and backgroundedness (2AFC)

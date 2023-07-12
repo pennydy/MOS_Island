@@ -3,6 +3,7 @@
 ## General information
 Experiment 1 (`1_written-context`): Discourse Backgroundedness and the Manner-of-Speaking Islands
 Experiment 2 (`2_sayAdv-main`): Manner-of-Speaking Island effect with "say+adv" constructions
+Experiment 3 (`3_sayAdv-context`): Discourse backgroundedness and MoS island effect in "say + adv" constructions
 
 ## Structure of this repository
 ```bash
@@ -17,6 +18,11 @@ Experiment 2 (`2_sayAdv-main`): Manner-of-Speaking Island effect with "say+adv" 
 │       │   ├── main
 │       │   └── pilot
 │       └── rscripts
+│   └── 3_sayAdv-context
+│       ├── graphs
+│       │   ├── main
+│       │   └── pilot
+│       └── rscripts
 ├── data
 │   ├── 1_written-context
 │   │   ├── main
@@ -24,12 +30,17 @@ Experiment 2 (`2_sayAdv-main`): Manner-of-Speaking Island effect with "say+adv" 
 │   ├── 2_sayAdv
 │   │   ├── main
 │   │   └── pilot
+│   ├── 3_sayAdv-context
+│   │   ├── main
+│   │   └── pilot
 ├── experiments
 │   ├── 1_written-context
 │   ├── 2_sayAdv-main
+│   ├── 2_sayAdv-context
 └── writing
 ```
 
 - `analysis`: R files for the graph and main analyses
 - `experiments`: impementation of the experiments
 - `data`: raw data files
+- `writing`: abstracts and posters related to this project
