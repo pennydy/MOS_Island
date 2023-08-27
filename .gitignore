@@ -20,6 +20,14 @@ analysis/1_written-context/rscripts/analysis.R
 
 # plot 
 analysis/1_written-context/graphs/main/legend.pdf
+analysis/1_written-context/graphs/main/mos_acc_nosig.pdf
+analysis/1_written-context/graphs/main/mos_bg_nosig.pdf
+analysis/2_sayAdv/graphs/main/mos_acc.pdf
+analysis/2_sayAdv/graphs/main/mos_scr_plot_error_bar.pdf
+analysis/2_sayAdv/graphs/main/mos_google_vff_plot.pdf
+analysis/3_sayAdv-context/graphs/main/legend.pdf
+analysis/3_sayAdv-context/graphs/main/mos_bg.pdf
+analysis/3_sayAdv-context/graphs/main/mos_acc.pdf
 
 # Rproj
 analysis/**/*.Rproj

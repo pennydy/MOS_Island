@@ -2,6 +2,7 @@ library(dplyr)
 library(ggplot2)
 library(ggsignif)
 library(lme4)
+library(lmerTest)
 library(emmeans)
 library(tidyverse)
 library(simr)
@@ -33,9 +34,13 @@ freq_data <- read.csv("../../../data/exp2_freq.csv")
 # mos_data$scr[mos_data$verb == "dryly"]=log(0.005882352941)
 
 freq_data <- freq_data %>% 
-  select(adverb, v_sc, scr) %>% 
-  rename(vff = v_sc,
-         verb = adverb) # rename the column 
+  rename(vff = coca_v_sc, # using coca
+         google_vff = google_v_sc) %>%
+  select(-c(google_vff, verb, v)) %>% 
+  # rename(vff = google_v_sc, # using google book
+  #        coca_vff = coca_v_sc) %>%
+  # select(-c(coca_vff, verb, v)) %>% 
+  rename(verb=adverb)
 
 mos_data <- left_join(mos_data, freq_data, by="verb") %>% 
   mutate(scr = log(scr),
@@ -82,6 +87,7 @@ for (i in (1:length(all_filler$subject))){
 }
 length(eligible_subjects)
 
+# sanity check for data exclusion
 is.element(excluded_subjects,eligible_subjects)
 mos_data = subset(mos_data, workerid %in% eligible_subjects)
 ##################################Getting data ready for plotting and analysis#############################################
@@ -202,7 +208,7 @@ mos_scr_plot <- ggplot(mos_scr_means %>%
              alpha = 0.6,
              linetype = "dashed") +
   # scale_x_continuous(expand=expansion(mult = 0.08)) +
-  xlab("Log-transformed SCR score")+
+  xlab("Log-transformed and mean-transformed SCR score")+
   ylab("Mean Acceptability Rating") +
   scale_color_manual(values=c("#56B4E9", "#009E73"), 
                      labels=c("Embedded\nFocus", "Adverb\nFocus"),
@@ -212,13 +218,12 @@ mos_scr_plot <- ggplot(mos_scr_means %>%
                     labels=c("Embedded\nFocus", "Adverb\nFocus"),
                     name = "Condition",
                     guide="none") +
-  theme(axis.text=element_text(size=14),
-        legend.text=element_text(size=10),
-        axis.title=element_text(size=16)) 
+  theme(legend.text=element_text(size=10),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=14)) 
 mos_scr_plot
-ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot_noLegend_large.pdf", width=6, height=4)
+ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot_noLegend.pdf", width=6, height=4)
 
- 
 
 #######VFF plot############
 mos_vff_means = mos_data_acc %>% 
@@ -243,7 +248,7 @@ mos_vff_plot <- ggplot(mos_vff_means %>%
             alpha = 0.6,
             linetype = "dashed") +
   # scale_x_continuous(expand=expansion(mult = 0.08)) +
-  xlab("Log-transformed predicate-frame frequency")+
+  xlab("Log-transformed and mean-transformed predicate-frame frequency")+
   ylab("Mean Acceptability Rating") +
   scale_color_manual(values=c("#56B4E9", "#009E73"), 
                      labels=c("Embedded\nFocus", "Adverb\nFocus"),
@@ -254,6 +259,7 @@ mos_vff_plot <- ggplot(mos_vff_means %>%
                     name = "Condition",
                     guide="none") +
   theme(legend.text=element_text(size=10),
+        axis.text=element_text(size=12),
         axis.title=element_text(size=14))
 mos_vff_plot
 ggsave(mos_vff_plot, file="../graphs/main/mos_vff_plot_noLegend.pdf", width=6, height=4)
@@ -281,8 +287,6 @@ mos_trial_plot
 ggsave(mos_trial_plot, file="../graphs/main/trial_plot.pdf", width=4, height=3)
 
 #########################Stats##################################
- 
- 
 #####acceptability analysis######
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_bad_1","filler_bad_2")] <- "filler_bad"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_good_1","filler_good_2")] <- "filler_good"
@@ -292,8 +296,7 @@ mos_data_acc_noprac$prim_cond<- as.factor(mos_data_acc_noprac$prim_cond)
 mos_data_acc_noprac$prim_cond<-relevel(mos_data_acc_noprac$prim_cond, ref = "verb_focus")
 
 acc_model <- lmer(acceptability_rating ~ prim_cond + 
-                    (1+prim_cond|workerid)+
-                    (1+prim_cond|item_id),
+                    (1+prim_cond|workerid),
                   data = mos_data_acc_noprac)
 summary(acc_model)
 

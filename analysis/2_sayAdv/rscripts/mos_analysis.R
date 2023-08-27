@@ -2,7 +2,7 @@ library(dplyr)
 library(ggplot2)
 library(ggsignif)
 library(lme4)
-# library(lmerTest)
+library(lmerTest)
 library(emmeans)
 library(tidyverse)
 library(simr)
@@ -34,9 +34,16 @@ freq_data <- read.csv("../../../data/exp2_freq.csv")
 # all_data$scr[all_data$verb == "say dryly"]=log(0.005882352941)
 
 all_data <- left_join(all_data, freq_data, by="verb") %>% 
-  rename(vff = v_sc) %>% 
-  mutate(scr = log(scr),
-         vff = log(vff))
+  rename(vff = coca_v_sc,
+         google_vff = google_v_sc) %>% 
+  mutate(scr = log(scr), # using COCA
+         vff = log(vff)) %>% 
+  select(-google_vff)
+  # rename(coca_vff = coca_v_sc,
+  #        vff = google_v_sc) %>% 
+  # mutate(scr = log(scr), # using Google book
+  #        vff = log(vff)) %>% 
+  # select(-coca_vff)
 # Mean center SCR score (or convert it to a z-score, further divide it by sd?)
 all_data$scr <- scale(all_data$scr, center = TRUE)
 all_data$vff <- scale(all_data$vff, center=TRUE)
@@ -172,8 +179,8 @@ scr_plot <- ggplot(scr_means,
   geom_text(size=3, color="black", alpha=0.6, hjust=0.8, vjust=1.5) +
   # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
   theme(axis.text=element_text(size=14),
-        axis.title=element_text(size=16)) +
-  xlab("Log-transformed SCR score") +
+        axis.title=element_text(size=14)) +
+  xlab("Log-transformed and mean-centered SCR score") +
   # ylab("Mean Acceptability Rating")
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
 scr_plot
@@ -201,9 +208,11 @@ vff_plot <- ggplot(vff_means,
   geom_smooth(method = "lm", color="black") +
   geom_text(size=3, color="black", alpha=0.6, vjust="inner") +
   # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
-  xlab("Log-transformed Predicate-frame frequency") +
+  xlab("Log-transformed and mean-centered predicate-frame frequency") +
   # ylab("Mean Acceptability Rating")
-  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
+  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
+  theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=14))
 vff_plot
 ggsave(vff_plot, file="../graphs/main/mos_vff_plot.pdf", width=6, height=4)
 
@@ -234,9 +243,11 @@ data_noprac <- all_data |>
   filter(block_id != "practice") |>
   mutate(prim_cond = relevel(as.factor(condition), ref="say"))
 
+
 acc_model <- lmer(acceptability_rating ~ prim_cond + 
                     (1+prim_cond|workerid) +
-                    (1+prim_cond|item_id),
+                    (1|item_id),
+                    # (1+prim_cond|item_id),
                   data = data_noprac)
 summary(acc_model)
 
