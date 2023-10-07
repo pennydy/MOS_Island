@@ -13,7 +13,7 @@ data/2_sayAdv/all_original/
 data/3_sayAdv-context/all_original/
 data/**/*.config
 data/**/*.exps
-data/*.csv
+# data/*.csv
 
 # analysis
 analysis/1_written-context/rscripts/analysis.R
