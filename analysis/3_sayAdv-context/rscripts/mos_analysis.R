@@ -8,6 +8,7 @@ library(tidyverse)
 library(simr)
 library(brms)
 library(bootstrap)
+library(ggrepel)
 
 `%notin%` <- Negate(`%in%`)
 theme_set(theme_bw())
@@ -45,9 +46,7 @@ freq_data <- freq_data %>%
 mos_data <- left_join(mos_data, freq_data, by="verb") %>% 
   mutate(scr = log(scr),
          vff = log(vff))
-# Mean center SCR score (or convert it to a z-score, further divide it by sd?)
-mos_data$scr <- scale(mos_data$scr, center = TRUE)
-mos_data$vff <- scale(mos_data$vff, center=TRUE)
+
 
 ###Exclude Subjects###
 length(unique(mos_data$workerid))
@@ -147,8 +146,6 @@ mos_acc_graph <- ggplot(mos_means,
   theme_bw() +
   xlab("Condition") +
   scale_color_manual(values=cbPalette, name=NULL, guide="none") +
-  theme(legend.position="bottom",
-        axis.text.x = element_text(size=6)) +
   scale_x_discrete(labels=c("Good Filler"="Good\nFiller", 
                             "Embedded Focus"="Embedded\nFocus",
                             "Adverb Focus"="Adverb\nFocus",
@@ -156,13 +153,14 @@ mos_acc_graph <- ggplot(mos_means,
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
   geom_signif(comparisons=list(c("Good Filler", "Adverb Focus")), annotations="***",y_position = 0.9) +
   geom_signif(comparisons=list(c("Embedded Focus", "Adverb Focus")), annotations="***",y_position = 0.8) +
-  geom_signif(comparisons=list(c("Bad Filler", "Adverb Focus")), annotations="***",y_position = 0.7)
+  geom_signif(comparisons=list(c("Bad Filler", "Adverb Focus")), annotations="***",y_position = 0.7) +
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=14))
                       # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Adverb Focus"))
                       # +facet_wrap(~ID) 
 
- 
 mos_acc_graph
-ggsave(mos_acc_graph, file="../graphs/main/mos_acc_large.pdf", width=2, height=3)
+ggsave(mos_acc_graph, file="../graphs/main/mos_acc_large.pdf", width=4, height=4)
 
 ###########BG question plot#######################
 mos_bg_graph <- ggplot(mos_bg_means %>% 
@@ -175,54 +173,57 @@ mos_bg_graph <- ggplot(mos_bg_means %>%
   scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL, guide="none") +
   scale_x_discrete(labels=c("Embedded Focus"="Embedded\nFocus",
                             "Adverb Focus"="Adverb\nFocus")) +
-  scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Clause", limits=c(0, 1)) + 
+  scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Object", limits=c(0, 1)) + 
   theme(legend.position="bottom",
-        axis.text.x = element_text(size=6),
-        axis.title=element_text(size=10)) +
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=12)) +
   geom_signif(comparisons = list(c("Embedded Focus", "Adverb Focus")),
               annotations="***",y_position = 0.93)
 mos_bg_graph
-ggsave(mos_bg_graph, file="../graphs/main/mos_bg_large.pdf", width=2, height=3)
+ggsave(mos_bg_graph, file="../graphs/main/mos_bg_large.pdf", width=3, height=4)
  
  
 #######SCR plot############
-mos_scr_means = mos_data_acc %>% 
+mos_scr_means <- mos_data_acc %>% 
   filter(condition %in% c("embed_focus", "verb_focus")) %>%
   mutate(condition = ifelse(condition=="verb_focus", "Adverb Focus", "Embedded Focus")) %>% 
   group_by(verb, condition) %>%
   summarise( ACC = mean(acceptability_rating), 
               SCR = mean(scr))
  
-
 mos_scr_plot <- ggplot(mos_scr_means %>% 
-                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus")),
+                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus"),
+                                label = case_when(verb %in% c("calmly", "dryly", "wearily") & condition == "Adverb Focus" ~ verb,
+                                                  verb %in% c("softly", "gently", "quietly", "sternly", "ruefully", "cheerfully", "loudly", "wistfully", "bluntly") & condition =="Embedded Focus" ~ verb,
+                                                  TRUE ~ "")),
                         aes(x = SCR, y = ACC, 
                             color = condition, 
-                            fill=condition, 
-                            label=verb)) +
+                            fill=condition)) +
   geom_point() +
   geom_smooth(method = "lm") +
-  geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
+  # geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
+  geom_label_repel(aes(label=label),color="black",fill="white",max.overlaps=Inf,seed=1235)+
+                   # nudge_x = ifelse(mos_scr_means$condition == "Adverb Focus",0.3,0))+
   geom_line(aes(group=verb),
              color = "black",
              alpha = 0.6,
              linetype = "dashed") +
   # scale_x_continuous(expand=expansion(mult = 0.08)) +
-  xlab("Log-transformed and mean-transformed SCR score")+
+  xlab("Log-transformed SCR score")+
   ylab("Mean Acceptability Rating") +
   scale_color_manual(values=c("#56B4E9", "#009E73"), 
-                     labels=c("Embedded\nFocus", "Adverb\nFocus"),
-                     name = "Condition",
-                     guide="none") +
+                     labels=c("Embedded Focus", "Adverb Focus"),
+                     name = "Condition") +
   scale_fill_manual(values=c("#56B4E9", "#009E73"), 
-                    labels=c("Embedded\nFocus", "Adverb\nFocus"),
-                    name = "Condition",
-                    guide="none") +
-  theme(legend.text=element_text(size=10),
-        axis.text=element_text(size=12),
-        axis.title=element_text(size=14)) 
+                    labels=c("Embedded Focus", "Adverb Focus"),
+                    name = "Condition") +
+  theme(legend.position="top",
+        legend.title=element_text(size=16),
+        legend.text=element_text(size=16),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=18)) 
 mos_scr_plot
-ggsave(mos_scr_plot, file="../graphs/main/mos_scr_plot_noLegend.pdf", width=6, height=4)
+ggsave(mos_scr_plot, file="../graphs/main/scr_single_label.pdf", width=7, height=6)
 
 
 #######VFF plot############
@@ -233,36 +234,39 @@ mos_vff_means = mos_data_acc %>%
   summarise( ACC = mean(acceptability_rating), 
              VFF = mean(vff))
 
-
 mos_vff_plot <- ggplot(mos_vff_means %>% 
-                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus")),
+                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus"),
+                                label = case_when(verb %in% c("dryly", "wearily","wistfully") & condition == "Adverb Focus" ~ verb,
+                                                  verb %in% c("calmly", "softly", "gently", "quietly", "sternly", "ruefully", "cheerfully", "loudly", "bluntly") & condition =="Embedded Focus" ~ verb,
+                                                  TRUE ~ "")),
                        aes(x = VFF, y = ACC, 
                            color = condition, 
                            fill=condition, 
                            label=verb)) +
   geom_point() +
   geom_smooth(method = "lm") +
-  geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
+  # geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
+  geom_label_repel(aes(label=verb),color="black",fill="white")+
   geom_line(aes(group=verb),
             color = "black",
             alpha = 0.6,
             linetype = "dashed") +
   # scale_x_continuous(expand=expansion(mult = 0.08)) +
-  xlab("Log-transformed and mean-transformed predicate-frame frequency")+
+  xlab("Log-transformed predicate-frame frequency")+
   ylab("Mean Acceptability Rating") +
   scale_color_manual(values=c("#56B4E9", "#009E73"), 
-                     labels=c("Embedded\nFocus", "Adverb\nFocus"),
-                     name = "Condition",
-                     guide="none") +
+                     labels=c("Embedded Focus", "Adverb Focus"),
+                     name = "Condition") +
   scale_fill_manual(values=c("#56B4E9", "#009E73"), 
-                    labels=c("Embedded\nFocus", "Adverb\nFocus"),
-                    name = "Condition",
-                    guide="none") +
-  theme(legend.text=element_text(size=10),
-        axis.text=element_text(size=12),
-        axis.title=element_text(size=14))
+                    labels=c("Embedded Focus", "Adverb Focus"),
+                    name = "Condition") +
+  theme(legend.position="top",
+        legend.title=element_text(size=16),
+        legend.text=element_text(size=16),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=18))
 mos_vff_plot
-ggsave(mos_vff_plot, file="../graphs/main/mos_vff_plot_noLegend.pdf", width=6, height=4)
+ggsave(mos_vff_plot, file="../graphs/main/vff.pdf", width=7, height=6)
 
 ##############trial_order plot#############
 mos_trial_means = mos_data_acc %>% 
@@ -318,6 +322,8 @@ bg_model <- glmer(bg~condition+
 summary(bg_model)
 
 ######SCR analysis#######
+# mean-center scr scores: center=TRUE, scale=TRUE (divided by sd)
+mos_data_acc$scr <- scale(mos_data_acc$scr, center=TRUE)
 mos_scr_model_data <- mos_data_acc %>% 
   filter(condition %in% c("embed_focus", "verb_focus"))
 
@@ -330,6 +336,8 @@ model_scr <- lmer(acceptability_rating ~ condition * scr +
 summary(model_scr)
 
 ######VFF analysis#######
+# mean-center vff: center=TRUE, scale=TRUE (divided by sd)
+mos_data_acc$vff <- scale(mos_data_acc$vff, center=TRUE)
 mos_vff_model_data <- mos_data_acc %>% 
   filter(condition %in% c("embed_focus", "verb_focus"))
 

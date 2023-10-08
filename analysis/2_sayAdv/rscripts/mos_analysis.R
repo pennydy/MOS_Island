@@ -8,6 +8,7 @@ library(tidyverse)
 library(simr)
 library(brms)
 library(bootstrap)
+library(ggrepel)
 
 `%notin%` <- Negate(`%in%`)
 theme_set(theme_bw())
@@ -44,9 +45,6 @@ all_data <- left_join(all_data, freq_data, by="verb") %>%
   # mutate(scr = log(scr), # using Google book
   #        vff = log(vff)) %>% 
   # select(-coca_vff)
-# Mean center SCR score (or convert it to a z-score, further divide it by sd?)
-all_data$scr <- scale(all_data$scr, center = TRUE)
-all_data$vff <- scale(all_data$vff, center=TRUE)
 
 # all_data <- all_data |>
 #   filter(condition %in% c("say", "say_adv")) |>
@@ -97,6 +95,7 @@ all_data |>
   summarize(count=n()) |>
   ungroup() |>
   summarize(mean=mean(count))
+
 ##################################Getting data ready for plotting and analysis#############################################
 # Data cleaning      
 df_summary <- all_data %>%
@@ -175,16 +174,17 @@ scr_plot <- ggplot(scr_means,
                        y = ACC,
                       label=verb)) +
   geom_point() +
-  geom_smooth(method = "lm", color="black") +
-  geom_text(size=3, color="black", alpha=0.6, hjust=0.8, vjust=1.5) +
+  geom_smooth(method = "lm",color="black") +
+  # geom_text(size=3, color="black", alpha=0.6, hjust=0.8, vjust=1.5) +
   # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
-  theme(axis.text=element_text(size=14),
-        axis.title=element_text(size=14)) +
-  xlab("Log-transformed and mean-centered SCR score") +
+  geom_label_repel(aes(label=verb),color="black")+
+  theme(axis.text=element_text(size=18),
+        axis.title=element_text(size=18)) +
+  xlab("Log-transformed SCR score") +
   # ylab("Mean Acceptability Rating")
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
 scr_plot
-ggsave(scr_plot, file="../graphs/main/mos_scr_plot.pdf", width=6, height=4)
+ggsave(scr_plot, file="../graphs/main/scr.pdf", width=6, height=4)
 
 
 #######VFF plot############
@@ -206,15 +206,16 @@ vff_plot <- ggplot(vff_means,
                        label=verb)) +
   geom_point() +
   geom_smooth(method = "lm", color="black") +
-  geom_text(size=3, color="black", alpha=0.6, vjust="inner") +
+  # geom_text(size=3, color="black", alpha=0.6, vjust="inner") +
   # geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
-  xlab("Log-transformed and mean-centered predicate-frame frequency") +
+  geom_label_repel(aes(label=verb),color="black")+
+  xlab("Log-transformed predicate-frame frequency") +
   # ylab("Mean Acceptability Rating")
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
-  theme(axis.text=element_text(size=14),
-        axis.title=element_text(size=14))
+  theme(axis.text=element_text(size=18),
+        axis.title=element_text(size=18))
 vff_plot
-ggsave(vff_plot, file="../graphs/main/mos_vff_plot.pdf", width=6, height=4)
+ggsave(vff_plot, file="../graphs/main/vff.pdf", width=6, height=4)
 
 ##############trial_order plot#############
 trial_means = all_data %>% 
@@ -253,6 +254,8 @@ summary(acc_model)
 
 
 ######SCR analysis#######
+# mean-center scr scores: center=TRUE, scale=TRUE (divided by sd)
+all_data$scr <- scale(all_data$scr, center=TRUE)
 scr_model_data <- all_data %>% 
   filter(condition == "say_adv") |>
   mutate(condition = as.factor(condition))
@@ -266,6 +269,8 @@ summary(scr_model)
 
 
 ######VFF analysis#######
+# mean-center vff: center=TRUE, scale=TRUE (divided by sd)
+all_data$vff <- scale(all_data$vff, center=TRUE)
 vff_model_data <- all_data %>% 
   filter(condition == "say_adv") |>
   mutate(condition = as.factor(condition))
