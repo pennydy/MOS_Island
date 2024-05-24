@@ -762,10 +762,10 @@ function init() {
         "item": "105",
         "verb": "spectulate",
         "condition": "filler_good",
-        "context_full": "Scott said: Selena didn't speculate that Justin would buy the house.",
-        "target_full": "Hanako said: Then what did Selena speculate that Justin would buy?",
-        "option_bg": "What Justin would buy, according to Selena.",
-        "option_fg": "Who would buy the house, according to Selena."
+        "context_full": "Scott said: Ada didn't speculate that Justin would buy the house.",
+        "target_full": "Hanako said: Then what did Ada speculate that Justin would buy?",
+        "option_bg": "What Justin would buy, according to Ada.",
+        "option_fg": "Who would buy the house, according to Ada."
       },
       {
         "item": "106",
@@ -950,6 +950,7 @@ function init() {
     for (var i=0; i<num_blocks; i++) {
         // each block will have two critical items (one say, one mos) and four filler items(one good, one bad)
         var block = [critical_mos.pop(), critical_say.pop(),filler_good.pop(),filler_bad.pop()];
+        block = _.shuffle(block);
         // split into half acceptability and half backgroundedness inside each block
         for (var j=0; j<block.length/2; j++) {
             block[j].task = "acceptability";
