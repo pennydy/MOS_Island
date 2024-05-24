@@ -1,0 +1,218 @@
+[
+  {
+    "item": "1",
+    "verb": "softly",
+    "condition": "critical",
+    "verb_focus": "Hanako said: John didn't say SOFTLY that Mary met with the lawyer.",
+    "target_full": "Scott said: Then who did John say softly that Mary met with?",
+    "option_bg": "Who Mary met with, according to John.",
+    "option_fg": "The way John said that Mary met with the lawyer."
+  },
+  {
+    "item": "2",
+    "verb": "quietly",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Emma didn't say QUIETLY that Kevin lost the keys.",
+    "target_full": "Scott said: Then what did Emma say quietly that Kevin lost?",
+    "option_bg": "What Kevin lost, according to Emma.",
+    "option_fg": "The way Emma said that Kevin lost the keys."
+  },
+  {
+    "item": "3",
+    "verb": "loudly",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Howard didn't say LOUDLY that Alex bought a birthday cake.",
+    "target_full": "Scott said: Then what did Howard say loudly that Alex bought?",
+    "option_bg": "What Alex bought according to Howard.",
+    "option_fg": "The way Howard said that Alex bought a birthday cake."
+  },
+  {
+    "item": "4",
+    "verb": "bluntly",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Laura didn't say BLUNTLY that Brandon broke his laptop.",
+    "target_full": "Scott said: Then what did Laura say bluntly that Brandon broke?",
+    "option_bg": "What Brandon broke according to Laura.",
+    "option_fg": "The way Laura said that Brandon broke his laptop."
+  },
+  {
+    "item": "5",
+    "verb": "cheerfully",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Bill didn't say CHEERFULLY that Dan knew the professor.",
+    "target_full": "Scott said: Then who did Bill say cheerfully that Dan knew?",
+    "option_bg": "Who Dan knew according to Bill.",
+    "option_fg": "The way Bill said that Dan knew the professor."
+  },
+  {
+    "item": "6",
+    "verb": "wearily",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Amy didn't say WEARILY that Charlie saw the robber.",
+    "target_full": "Scott said: Then who did Amy say wearily that Charlie saw?",
+    "option_bg": "Who Charlie saw according to Amy.",
+    "option_fg": "The way Amy said that Charlie saw the robber."
+  },
+  {
+    "item": "7",
+    "verb": "sternly",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Jake didn't say STERNLY that Yumi found the wallet.",
+    "target_full": "Scott said: Then what did Jake say sternly that Yumi found?",
+    "option_bg": "What Yumi found according to Jake.",
+    "option_fg": "The way Jake said that Yumi found the wallet."
+  },
+  {
+    "item": "8",
+    "verb": "gently",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Ashley didn't say GENTLY that Hasan talked to the detectives.",
+    "target_full": "Scott said: Then who did Ashley say gently that Hasan talked to?",
+    "option_bg": "Who Hasan talked to according to Ashley.",
+    "option_fg": "The way Ashley said that Hasan talked to the detectives."
+  },
+  {
+    "item": "9",
+    "verb": "wistfully",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Yash didn't say WISTFULLY that Ming forgot her phone. ",
+    "target_full": "Scott said: Then what did Yash say wistfully that Ming forgot?",
+    "option_bg": "What Ming forgot according to Yash.",
+    "option_fg": "The way Yash said that Ming forgot her phone."
+  },
+  {
+    "item": "10",
+    "verb": "ruefully",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Fatima didn't say RUEFULLY that Omar had dinner with his manager.",
+    "target_full": "Scott said: Then who did Fatima say ruefully that Omar had dinner with?",
+    "option_bg": "Who Omar had dinner with according to Fatima.",
+    "option_fg": "The way Fatima said that Omar had dinner with his manager."
+  },
+  {
+    "item": "11",
+    "verb": "calmly",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Igor didn't say CALMLY that Penny won the lottery.",
+    "target_full": "Scott said: Then what did Igor say calmly that Penny won?",
+    "option_bg": "What Penny won according to Igor.",
+    "option_fg": "The way Igor said that Penny won the lottery."
+  },
+  {
+    "item": "12",
+    "verb": "dryly",
+    "condition": "critical",
+    "verb_focus": "Hanako said: Chandler didn't say DRYLY that Tia brought her parents.",
+    "target_full": "Scott said: Then who did Chandler say dryly that Tia brought?",
+    "option_bg": "Who Tia brought according to Chandler.",
+    "option_fg": "The way Chandler said that Tia brought her parents."
+  },
+  {
+    "item": "1",
+    "verb": "softly",
+    "condition": "critical",
+    "embed_focus": "Hanako said: John didn't say softly that Mary met with the LAWYER.",
+    "target_full": "Scott said: Then who did John say softly that Mary met with?",
+    "option_bg": "Who Mary met with according to John.",
+    "option_fg": "The way John said that Mary met with the lawyer."
+  },
+  {
+    "item": "2",
+    "verb": "quietly",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Emma didn't say quietly that Kevin lost the KEYS.",
+    "target_full": "Scott said: Then what did Emma say quietly that Kevin lost?",
+    "option_bg": "What Kevin lost according to Emma.",
+    "option_fg": "The way Emma said that Kevin lost the keys."
+  },
+  {
+    "item": "3",
+    "verb": "loudly",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Howard didn't say loudly that Alex bought a BIRTHDAY CAKE.",
+    "target_full": "Scott said: Then what did Howard say loudly that Alex bought?",
+    "option_bg": "What Alex bought according to Howard.",
+    "option_fg": "The way Howard said that Alex bought a birthday cake."
+  },
+  {
+    "item": "4",
+    "verb": "bluntly",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Laura didn't say bluntly that Brandon broke his LAPTOP.",
+    "target_full": "Scott said: Then what did Laura say bluntly that Brandon broke?",
+    "option_bg": "What Brandon broke according to Laura.",
+    "option_fg": "The way Laura said that Brandon broke his laptop."
+  },
+  {
+    "item": "5",
+    "verb": "cheerfully",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Bill didn't say cheerfully that Dan knew the PROFESSOR.",
+    "target_full": "Scott said: Then who did Bill say cheerfully that Dan knew?",
+    "option_bg": "Who Dan knew according to Bill.",
+    "option_fg": "The way Bill said that Dan knew the professor."
+  },
+  {
+    "item": "6",
+    "verb": "wearily",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Amy didn't say wearily that Charlie saw the ROBBER.",
+    "target_full": "Scott said: Then who did Amy say wearily that Charlie saw?",
+    "option_bg": "Who Charlie saw according to Amy.",
+    "option_fg": "The way Amy said that Charlie saw the robber."
+  },
+  {
+    "item": "7",
+    "verb": "sternly",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Jake didn't say sternly that Yumi found the WALLET.",
+    "target_full": "Scott said: Then what did Jake say sternly that Yumi found?",
+    "option_bg": "What Yumi found according to Jake.",
+    "option_fg": "The way Jake said that Yumi found the wallet."
+  },
+  {
+    "item": "8",
+    "verb": "gently",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Ashley didn't say gently that Hasan talked to the DETECTIVES.",
+    "target_full": "Scott said: Then who did Ashley say gently that Hasan talked to?",
+    "option_bg": "Who Hasan talked to according to Ashley.",
+    "option_fg": "The way Ashley said that Hasan talked to the detectives."
+  },
+  {
+    "item": "9",
+    "verb": "wistfully",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Yash didn't say wistfully that Ming forgot her PHONE. ",
+    "target_full": "Scott said: Then what did Yash say wistfully that Ming forgot?",
+    "option_bg": "What Ming forgot according to Yash.",
+    "option_fg": "The way Yash said that Ming forgot her phone."
+  },
+  {
+    "item": "10",
+    "verb": "ruefully",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Fatima didn't say ruefully that Omar had dinner with his MANAGER.",
+    "target_full": "Scott said: Then who did Fatima say ruefully that Omar had dinner with?",
+    "option_bg": "Who Omar had dinner with according to Fatima.",
+    "option_fg": "The way Fatima said that Omar had dinner with his manager."
+  },
+  {
+    "item": "11",
+    "verb": "calmly",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Igor didn't say calmly that Penny won the LOTTERY.",
+    "target_full": "Scott said: Then what did Igor say calmly that Penny won?",
+    "option_bg": "What Penny won according to Igor.",
+    "option_fg": "The way Igor said that Penny won the lottery."
+  },
+  {
+    "item": "12",
+    "verb": "dryly",
+    "condition": "critical",
+    "embed_focus": "Hanako said: Chandler didn't say dryly that Tia brought her PARENTS.",
+    "target_full": "Scott said: Then who did Chandler say dryly that Tia brought?",
+    "option_bg": "Who Tia brought according to Chandler.",
+    "option_fg": "The way Chandler said that Tia brought her parents."
+  }
+]

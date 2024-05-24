@@ -84,6 +84,94 @@ length(eligible_subjects)
 # sanity check for data exclusion
 is.element(excluded_subjects,eligible_subjects)
 mos_data = subset(mos_data, workerid %in% eligible_subjects)
+### explanatory analysis
+## by-item background correct rate
+mos_data_bg_ratio_participant <- mos_data %>% 
+  filter(block_id != "practice") %>% 
+  filter(!is.na(bg_response)) %>%
+  mutate(bg_rating = ifelse(bg_response == "incorrect", 0, 1)) %>% 
+  group_by(workerid) %>% 
+  summarize(num = n(),
+            correct_rate = sum(bg_rating) / num)
+
+more_incorrect_subjects = c()
+for (i in (1:length(mos_data_bg_ratio_participant$workerid))){
+  row = mos_data_bg_ratio_participant[i,]
+  if (row$correct_rate < 0.55){
+    more_incorrect_subjects <- c(more_incorrect_subjects, row$workerid)
+  }
+}
+
+mos_incorrect_data_subjects = subset(mos_data, workerid %in% more_incorrect_subjects)
+
+mos_incorrect_data_subjects_means <- mos_incorrect_data_subjects %>% 
+  filter(!is.na(acceptability_rating)) %>% 
+  filter(block_id != "practice") %>% 
+  mutate(condition = case_when(condition == "filler_good_1" | condition == "filler_good_2" ~ "Good Filler",
+                               condition == "filler_bad_1" | condition == "filler_bad_2" ~ "Bad Filler",
+                               condition == "embed_focus" ~ "Embedded Focus",
+                               condition == "verb_focus" ~ "Verb Focus")) %>%
+  group_by(condition) %>%
+  summarize(Mean = mean(acceptability_rating), CILow = ci.low(acceptability_rating),
+            CIHigh = ci.high(acceptability_rating)) %>%
+  ungroup() %>%
+  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>%
+  # reorder the factors
+  mutate(condition = fct_relevel(condition, "Good Filler", "Embedded Focus", "Verb Focus", "Bad Filler"))
+
+mos_incorrect_acc_graph <- ggplot(mos_incorrect_data_subjects_means,
+                        aes(x=condition, y=Mean, fill=condition)) +
+  geom_bar(stat="identity", width=0.8, aes(color=condition)) +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
+  scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
+  theme_bw()+
+  xlab("Condition") +
+  scale_color_manual(values=cbPalette, name=NULL, guide="none") +
+  theme(legend.position="bottom",
+        axis.text.x = element_text(size=8)) +
+  scale_x_discrete(labels=c("Good Filler"="Good\nFiller", 
+                            "Embedded Focus"="Embedded\nFocus",
+                            "Verb Focus"="Verb\nFocus",
+                            "Bad Filler"="Bad\nFiller")) +
+  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
+
+mos_incorrect_acc_graph
+ggsave(mos_incorrect_acc_graph, file="../graphs/main/incorrect_acc_graph.pdf", width=7, height=6) 
+
+mos_incorrect_data <- mos_data_acc %>%
+  # merge(mos_data, mos_data_bg_ratio_participant, by="workerid") %>% 
+  # select(c(workerid, acceptability_rating, bg_response, condition, item_id, task, verb, correct_rate))
+  # exclude practice trials
+  filter(block_id != "practice") %>%
+  # combine all good/bad fillers together
+  mutate(condition = case_when(condition == "filler_good_1" | condition == "filler_good_2" ~ "Good Filler",
+                               condition == "filler_bad_1" | condition == "filler_bad_2" ~ "Bad Filler",
+                               condition == "embed_focus" ~ "Embedded Focus",
+                               condition == "verb_focus" ~ "Verb Focus")) %>%
+  merge(mos_data_bg_ratio_participant, by="workerid") %>%
+  group_by(condition, workerid,correct_rate) %>%
+  summarize(Mean = mean(acceptability_rating), CILow = ci.low(acceptability_rating),
+            CIHigh = ci.high(acceptability_rating)) %>%
+  ungroup() %>%
+  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>%
+  # reorder the factors
+  mutate(condition = fct_relevel(condition, "Good Filler", "Embedded Focus", "Verb Focus", "Bad Filler"))
+
+mos_incorrect_participant_graph <- ggplot(mos_incorrect_data,
+                                          aes(x=correct_rate, y=Mean, 
+                                              fill=condition, color=condition)) +
+  geom_point(alpha=0.5) +
+  geom_smooth(method = "lm") +
+  scale_fill_manual(values=cbPalette, name = NULL) +
+  theme_bw()+
+  xlab("Proportion of correct backgrounded interpretation") +
+  ylab("Mean acceptability rating")+
+  scale_color_manual(values=cbPalette, name=NULL) +
+  theme(legend.position="bottom",
+        axis.text.x = element_text(size=8))
+mos_incorrect_participant_graph
+ggsave(mos_incorrect_participant_graph, file="../graphs/main/incorrect_participant_graph.pdf", width=7, height=6)  
+
 ##################################Getting data ready for plotting and analysis#############################################
 # Data cleaning      
 mos_data_overall <- mos_data %>% 

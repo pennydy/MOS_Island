@@ -1,0 +1,153 @@
+﻿item,verb,condition,speaker_1_name,speaker_2_name,context,target,context_full,target_full,bg_question,option_bg,option_fg
+1,softly,verb_focus,Hanako,Scott,John didn't say SOFTLY that Mary met with the lawyer.,Then who did John say softly that Mary met with?,Hanako said: John didn't say SOFTLY that Mary met with the lawyer.,Scott said: Then who did John say softly that Mary met with?,#NAME?,"Who Mary met with, according to John.",The way John said that Mary met with the lawyer.
+2,quietly,verb_focus,Hanako,Scott,Emma didn't say QUIETLY that Kevin lost the keys.,Then what did Emma say quietly that Kevin lost?,Hanako said: Emma didn't say QUIETLY that Kevin lost the keys.,Scott said: Then what did Emma say quietly that Kevin lost?,#NAME?,"What Kevin lost, according to Emma.",The way Emma said that Kevin lost the keys.
+3,loudly,verb_focus,Hanako,Scott,Howard didn't say LOUDLY that Alex bought a birthday cake.,Then what did Howard say loudly that Alex bought?,Hanako said: Howard didn't say LOUDLY that Alex bought a birthday cake.,Scott said: Then what did Howard say loudly that Alex bought?,#NAME?,What Alex bought according to Howard.,The way Howard said that Alex bought a birthday cake.
+4,bluntly,verb_focus,Hanako,Scott,Laura didn't say BLUNTLY that Brandon broke his laptop.,Then what did Laura say bluntly that Brandon broke?,Hanako said: Laura didn't say BLUNTLY that Brandon broke his laptop.,Scott said: Then what did Laura say bluntly that Brandon broke?,#NAME?,What Brandon broke according to Laura.,The way Laura said that Brandon broke his laptop.
+5,cheerfully,verb_focus,Hanako,Scott,Bill didn't say CHEERFULLY that Dan knew the professor.,Then who did Bill say cheerfully that Dan knew?,Hanako said: Bill didn't say CHEERFULLY that Dan knew the professor.,Scott said: Then who did Bill say cheerfully that Dan knew?,#NAME?,Who Dan knew according to Bill.,The way Bill said that Dan knew the professor.
+6,wearily,verb_focus,Hanako,Scott,Amy didn't say WEARILY that Charlie saw the robber.,Then who did Amy say wearily that Charlie saw?,Hanako said: Amy didn't say WEARILY that Charlie saw the robber.,Scott said: Then who did Amy say wearily that Charlie saw?,#NAME?,Who Charlie saw according to Amy.,The way Amy said that Charlie saw the robber.
+7,sternly,verb_focus,Hanako,Scott,Jake didn't say STERNLY that Yumi found the wallet.,Then what did Jake say sternly that Yumi found?,Hanako said: Jake didn't say STERNLY that Yumi found the wallet.,Scott said: Then what did Jake say sternly that Yumi found?,#NAME?,What Yumi found according to Jake.,The way Jake said that Yumi found the wallet.
+8,gently,verb_focus,Hanako,Scott,Ashley didn't say GENTLY that Hasan talked to the detectives.,Then who did Ashley say gently that Hasan talked to?,Hanako said: Ashley didn't say GENTLY that Hasan talked to the detectives.,Scott said: Then who did Ashley say gently that Hasan talked to?,#NAME?,Who Hasan talked to according to Ashley.,The way Ashley said that Hasan talked to the detectives.
+9,wistfully,verb_focus,Hanako,Scott,Yash didn't say WISTFULLY that Ming forgot her phone. ,Then what did Yash say wistfully that Ming forgot?,Hanako said: Yash didn't say WISTFULLY that Ming forgot her phone. ,Scott said: Then what did Yash say wistfully that Ming forgot?,#NAME?,What Ming forgot according to Yash.,The way Yash said that Ming forgot her phone.
+10,ruefully,verb_focus,Hanako,Scott,Fatima didn't say RUEFULLY that Omar had dinner with his manager.,Then who did Fatima say ruefully that Omar had dinner with?,Hanako said: Fatima didn't say RUEFULLY that Omar had dinner with his manager.,Scott said: Then who did Fatima say ruefully that Omar had dinner with?,#NAME?,Who Omar had dinner with according to Fatima.,The way Fatima said that Omar had dinner with his manager.
+11,calmly,verb_focus,Hanako,Scott,Igor didn't say CALMLY that Penny won the lottery.,Then what did Igor say calmly that Penny won?,Hanako said: Igor didn't say CALMLY that Penny won the lottery.,Scott said: Then what did Igor say calmly that Penny won?,#NAME?,What Penny won according to Igor.,The way Igor said that Penny won the lottery.
+12,dryly,verb_focus,Hanako,Scott,Chandler didn't say DRYLY that Tia brought her parents.,Then who did Chandler say dryly that Tia brought?,Hanako said: Chandler didn't say DRYLY that Tia brought her parents.,Scott said: Then who did Chandler say dryly that Tia brought?,#NAME?,Who Tia brought according to Chandler.,The way Chandler said that Tia brought her parents.
+1,softly,emb_focus,Hanako,Scott,John didn't say softly that Mary met with the LAWYER.,Then who did John say softly that Mary met with?,Hanako said: John didn't say softly that Mary met with the LAWYER.,Scott said: Then who did John say softly that Mary met with?,#NAME?,Who Mary met with according to John.,The way John said that Mary met with the lawyer.
+2,quietly,emb_focus,Hanako,Scott,Emma didn't say quietly that Kevin lost the KEYS.,Then what did Emma say quietly that Kevin lost?,Hanako said: Emma didn't say quietly that Kevin lost the KEYS.,Scott said: Then what did Emma say quietly that Kevin lost?,#NAME?,What Kevin lost according to Emma.,The way Emma said that Kevin lost the keys.
+3,loudly,emb_focus,Hanako,Scott,Howard didn't say loudly that Alex bought a BIRTHDAY CAKE.,Then what did Howard say loudly that Alex bought?,Hanako said: Howard didn't say loudly that Alex bought a BIRTHDAY CAKE.,Scott said: Then what did Howard say loudly that Alex bought?,#NAME?,What Alex bought according to Howard.,The way Howard said that Alex bought a birthday cake.
+4,bluntly,emb_focus,Hanako,Scott,Laura didn't say bluntly that Brandon broke his LAPTOP.,Then what did Laura say bluntly that Brandon broke?,Hanako said: Laura didn't say bluntly that Brandon broke his LAPTOP.,Scott said: Then what did Laura say bluntly that Brandon broke?,#NAME?,What Brandon broke according to Laura.,The way Laura said that Brandon broke his laptop.
+5,cheerfully,emb_focus,Hanako,Scott,Bill didn't say cheerfully that Dan knew the PROFESSOR.,Then who did Bill say cheerfully that Dan knew?,Hanako said: Bill didn't say cheerfully that Dan knew the PROFESSOR.,Scott said: Then who did Bill say cheerfully that Dan knew?,#NAME?,Who Dan knew according to Bill.,The way Bill said that Dan knew the professor.
+6,wearily,emb_focus,Hanako,Scott,Amy didn't say wearily that Charlie saw the ROBBER.,Then who did Amy say wearily that Charlie saw?,Hanako said: Amy didn't say wearily that Charlie saw the ROBBER.,Scott said: Then who did Amy say wearily that Charlie saw?,#NAME?,Who Charlie saw according to Amy.,The way Amy said that Charlie saw the robber.
+7,sternly,emb_focus,Hanako,Scott,Jake didn't say sternly that Yumi found the WALLET.,Then what did Jake say sternly that Yumi found?,Hanako said: Jake didn't say sternly that Yumi found the WALLET.,Scott said: Then what did Jake say sternly that Yumi found?,#NAME?,What Yumi found according to Jake.,The way Jake said that Yumi found the wallet.
+8,gently,emb_focus,Hanako,Scott,Ashley didn't say gently that Hasan talked to the DETECTIVES.,Then who did Ashley say gently that Hasan talked to?,Hanako said: Ashley didn't say gently that Hasan talked to the DETECTIVES.,Scott said: Then who did Ashley say gently that Hasan talked to?,#NAME?,Who Hasan talked to according to Ashley.,The way Ashley said that Hasan talked to the detectives.
+9,wistfully,emb_focus,Hanako,Scott,Yash didn't say wistfully that Ming forgot her PHONE. ,Then what did Yash say wistfully that Ming forgot?,Hanako said: Yash didn't say wistfully that Ming forgot her PHONE. ,Scott said: Then what did Yash say wistfully that Ming forgot?,#NAME?,What Ming forgot according to Yash.,The way Yash said that Ming forgot her phone.
+10,ruefully,emb_focus,Hanako,Scott,Fatima didn't say ruefully that Omar had dinner with his MANAGER.,Then who did Fatima say ruefully that Omar had dinner with?,Hanako said: Fatima didn't say ruefully that Omar had dinner with his MANAGER.,Scott said: Then who did Fatima say ruefully that Omar had dinner with?,#NAME?,Who Omar had dinner with according to Fatima.,The way Fatima said that Omar had dinner with his manager.
+11,calmly,emb_focus,Hanako,Scott,Igor didn't say calmly that Penny won the LOTTERY.,Then what did Igor say calmly that Penny won?,Hanako said: Igor didn't say calmly that Penny won the LOTTERY.,Scott said: Then what did Igor say calmly that Penny won?,#NAME?,What Penny won according to Igor.,The way Igor said that Penny won the lottery.
+12,dryly,emb_focus,Hanako,Scott,Chandler didn't say dryly that Tia brought her PARENTS.,Then who did Chandler say dryly that Tia brought?,Hanako said: Chandler didn't say dryly that Tia brought her PARENTS.,Scott said: Then who did Chandler say dryly that Tia brought?,#NAME?,Who Tia brought according to Chandler.,The way Chandler said that Tia brought her parents.
+101,say,filler_good_1,Hanako,Scott,Hannah didn't say that George emailed the STUDENTS.,Then who did Hannah say that George emailed?,Hanako said: Hannah didn't say that George emailed the STUDENTS.,Scott said: Then who did Hannah say that George emailed?,#NAME?,Who George emailed according to Hannah.,Who emailed the students according to Hannah.
+102,think,filler_good_1,Hanako,Scott,Ollie didn't think that Doug would invite the MAYOR.,Then who did Ollie think that Doug would invite?,Hanako said: Ollie didn't think that Doug would invite the MAYOR.,Scott said: Then who did Ollie think that Doug would invite?,#NAME?,Who Doug would invite according to Ollie.,Who invited the mayor according to Ollie.
+103,suspect,filler_good_1,Hanako,Scott,Nancy didn't suspect that Julian ate the CUPCAKE.,Then what did Nancy suspect that Julian ate?,Hanako said: Nancy didn't suspect that Julian ate the CUPCAKE.,Scott said: Then what did Nancy suspect that Julian ate?,#NAME?,What Julian ate according to Nancy.,Who ate the cupcake according to Nancy.
+104,suggest,filler_good_1,Hanako,Scott,Grace didn't sugguest that Karen wrote a BOOK.,Then what did Grace suggst that Karen wrote?,Hanako said: Grace didn't sugguest that Karen wrote a BOOK.,Scott said: Then what did Grace suggst that Karen wrote?,#NAME?,What Karen wrote according to Grace.,Who wrote a book according to Grace.
+105,believe,filler_good_1,Hanako,Scott,Danny didn't believe that Jennifer got a CAT.,Then what did Danny believe that Jennifer got?,Hanako said: Danny didn't believe that Jennifer got a CAT.,Scott said: Then what did Danny believe that Jennifer got?,#NAME?,What Jennifer got according to Danny.,Who got a cat according to Danny.
+106,expect,filler_good_1,Hanako,Scott,Charlie didn't expect that Maddie would call her ROOMMATE.,Then who did Charlie expect that Maddie would call?,Hanako said: Charlie didn't expect that Maddie would call her ROOMMATE.,Scott said: Then who did Charlie expect that Maddie would call?,#NAME?,Who Maddie would call according to Charlie.,Who would call Maddie's roommates according to Charlie.
+107,imply,filler_good_2,Hanako,Scott,RONALD didn't imply that Jacy rented the truck.,Then who implied that Jacy rented the truck?,Hanako said: RONALD didn't imply that Jacy rented the truck.,Scott said: Then who implied that Jacy rented the truck?,#NAME?,Who implied that Jacy rented the truck.,What Jacy rented according to Ronald.
+108,hope,filler_good_2,Hanako,Scott,MATTHEW didn't hope that Dana brought a gift.,Then who hoped that Dana brought a gift?,Hanako said: MATTHEW didn't hope that Dana brought a gift.,Scott said: Then who hoped that Dana brought a gift?,#NAME?,Who hoped that Dana brought a gift.,What Dana brought according to Matthew.
+109,insist,filler_good_2,Hanako,Scott,KATE didn't insist that Zack broke the plates.,Then who insisted that Zack broke the plates?,Hanako said: KATE didn't insist that Zack broke the plates.,Scott said: Then who insisted that Zack broke the plates?,#NAME?,Who insisted that Zack broke the plates.,What Zack broke according to Kate.
+110,guess,filler_good_2,Hanako,Scott,JULIAN didn't guess that Charlie received a message.,Then who guessed that Charlie received a message?,Hanako said: JULIAN didn't guess that Charlie received a message.,Scott said: Then who guessed that Charlie received a message?,#NAME?,Who guessed that Charlie received a message.,What Charlie received according to Julian.
+111,reveal,filler_good_2,Hanako,Scott,JESS didn't reveal that Todd went out with Betty.,Then who revealed that Todd went out with Betty?,Hanako said: JESS didn't reveal that Todd went out with Betty.,Scott said: Then who revealed that Todd went out with Betty?,#NAME?,Who revealed that Todd went out with Betty.,Who Todd went out with according to Jess.
+112,expect,filler_good_2,Hanako,Scott,SALLY didn't expect that Tony would visit George.,Then who expected that Tony would visit George?,Hanako said: SALLY didn't expect that Tony would visit George.,Scott said: Then who expected that Tony would visit George?,#NAME?,Who expected that Tony would visit George.,Who Tony would visit according to Sally.
+113,say,filler_bad_1,Hanako,Scott,Emily didn't say that Kevin and PAUL drafted the letter.,Then who did Emily say that Kevin and drafted the letter?,Hanako said: Emily didn't say that Kevin and PAUL drafted the letter.,Scott said: Then who did Emily say that Kevin and drafted the letter?,#NAME?,Who else drafted the letter other than Kevin according to Emily.,Who said that Paul drafted the letter.
+114,think,filler_bad_1,Hanako,Scott,Helen didn't think that Rob and MARC cut the bread. ,Then who did Helen think that Rob and cut the bread?,Hanako said: Helen didn't think that Rob and MARC cut the bread. ,Scott said: Then who did Helen think that Rob and cut the bread?,#NAME?,Who else cut the bread other than Rob according to Helen.,Who thought that Marc cut the bread.
+115,suspect,filler_bad_1,Hanako,Scott,Tim didn't suspect that Liz and JASON drank the beer. ,Then who did Tim suspect that Liz and drank the beer?,Hanako said: Tim didn't suspect that Liz and JASON drank the beer. ,Scott said: Then who did Tim suspect that Liz and drank the beer?,#NAME?,Who else drank the beer other than Liz according to Tim.,Who suspected that Jason drank the beer.
+116,suggest,filler_bad_1,Hanako,Scott,Tony didn't suggest that Frank and LISA were in the office.,Then who did Tony suggest that Frank and were in the office?,Hanako said: Tony didn't suggest that Frank and LISA were in the office.,Scott said: Then who did Tony suggest that Frank and were in the office?,#NAME?,Who else was in the office other than Frank according to Tony.,Who suggested that Lisa was in the office.
+117,believe,filler_bad_1,Hanako,Scott,Larry didn't believe that Karl and NICK cooked dinner.,Then who did Larry believe that Karl and cooked dinner?,Hanako said: Larry didn't believe that Karl and NICK cooked dinner.,Scott said: Then who did Larry believe that Karl and cooked dinner?,#NAME?,Who else cooked dinner other than Karl according to Larry.,Who believed that Nick cooked dinner.
+118,expect,filler_bad_1,Hanako,Scott,Ben didn't expect that Judith and LAURA would order pizza.,Then who did Ben expect that Judith and would order pizza?,Hanako said: Ben didn't expect that Judith and LAURA would order pizza.,Scott said: Then who did Ben expect that Judith and would order pizza?,#NAME?,Who else would order pizza other than Judith according to Ben.,Who expected that Laura would order pizza.
+119,imply,filler_bad_2,Hanako,Scott,Rui didn't imply that CAROL's brother signed the contract.,Then who did Rui imply that the brother of signed the contract?,Hanako said: Rui didn't imply that CAROL's brother signed the contract.,Scott said: Then who did Rui imply that the brother of signed the contract?,#NAME?,Whose brother signed the contract according to Rui.,What Carol's brother signed according to Rui.
+120,hope,filler_bad_2,Hanako,Scott,Frankie didn't hope that the agent of the GUITARIST would show up. ,Then who did Frankie hope that the agent of would show up?,Hanako said: Frankie didn't hope that the agent of the GUITARIST would show up. ,Scott said: Then who did Frankie hope that the agent of would show up?,#NAME?,"Whose agent hoped would show up, according to Frankie.",What the agent of the guitarist did according to Frankie.
+121,insist,filler_bad_2,Hanako,Scott,Ted didn't insist that EVA's uncle should stay for dinner. ,Then who did Ted insist that the uncle of should stay for dinner?,Hanako said: Ted didn't insist that EVA's uncle should stay for dinner. ,Scott said: Then who did Ted insist that the uncle of should stay for dinner?,#NAME?,Whose uncle should stay for dinner according to Ted.,What Eva's uncle should do according to Ted.
+122,guess,filler_bad_2,Hanako,Scott,Jessie didn't guess that the assistant to the DIRECTOR would give the presentation.,Then who did Jessie guess that the assistant to would give the presentation?,Hanako said: Jessie didn't guess that the assistant to the DIRECTOR would give the presentation.,Scott said: Then who did Jessie guess that the assistant to would give the presentation?,#NAME?,Whose assistant would give the presentation according to Jessie.,What the assistant to the director would do according to Jessie.
+123,reveal,filler_bad_2,Hanako,Scott,Donald didn't reveal that KRISHNA's parents were moving to Texas. ,Then who did Donald reveal that the parents of were moving to Texas?,Hanako said: Donald didn't reveal that KRISHNA's parents were moving to Texas. ,Scott said: Then who did Donald reveal that the parents of were moving to Texas?,#NAME?,Whose parents were moving to Texas according to Donald.,Where Krishna's parents were moving to according to Donald.
+124,expect,filler_bad_2,Hanako,Scott,Jamal didn't expect that the book about ASTRONOMY was on the shelf.,Then what did Jamal expect that the book about was on the shelf?,Hanako said: Jamal didn't expect that the book about ASTRONOMY was on the shelf.,Scott said: Then what did Jamal expect that the book about was on the shelf?,#NAME?,"Which book was on the shelf, according to Jamal.","Where the book about astronomy was, according to Jamal. "
+201,,practice_good,Hanako,Scott,Fiona didn't buy PINEAPPLES. ,Then what did Fiona buy?,Hanako said: Fiona didn't buy PINEAPPLES. ,Scott said: Then what did Fiona buy?,#NAME?,What Fiona bought.,Who bought pineapples.
+202,,practice_good,Hanako,Scott,Vera didn't DRIVE to Michigan. ,Then how did Vera get to Michigan?,Hanako said: Vera didn't DRIVE to Michigan. ,Scott said: Then how did Vera get to Michigan?,#NAME?,How Vera travelled to Michigan.,Where Vera drove to.
+203,,practice_bad,Hanako,Scott,Hank didn't buy the RED car.,Then what color did Hank buy car?,Hanako said: Hank didn't buy the RED car.,Scott said: Then what color did Hank buy car?,#NAME?,Which car Hank bought.,Who bought the red car.
+204,,practice_bad,Hanako,Scott,Prisha doesn't speak KOREAN.,Then what Prisha does speak the language?,Hanako said: Prisha doesn't speak KOREAN.,Scott said: Then what Prisha does speak the language?,#NAME?,What language Prisha speaks.,Who speaks Korean.
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
