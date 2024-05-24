@@ -35,5 +35,4 @@ analysis/**/*.Rproj
 .Rproj.user
 
 # writing
-writing/MoS_island_HSP.pdf
-writing/MoS_Island_Manuscript.pdf
+writings/MoS_Island_Manuscript.pdf
