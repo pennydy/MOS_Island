@@ -3,143 +3,143 @@
     "item": "101",
     "verb": "think",
     "condition": "filler_good",
-    "context_full": "Scott said: Ollie didn't think that Doug would invite the mayor.",
-    "target_full": "Hanako said: Then who did Ollie think that Doug would invite?",
-    "option_bg": "Who Doug would invite according to Ollie.",
+    "context_full": "Hanako said: Ollie didn't think that Doug would invite the mayor.",
+    "target_full": "Scott said: Then who did Ollie think that Doug would invite?",
+    "option_bg": "Who Doug would invite, according to Ollie.",
     "option_fg": "Who invited the mayor acoording to Ollie."
   },
   {
     "item": "102",
     "verb": "suggest",
     "condition": "filler_good",
-    "context_full": "Scott said: Grace didn't sugguest that Karen wrote a book.",
-    "target_full": "Hanako said: Then what did Grace suggst that Karen wrote?",
-    "option_bg": "What Karen wrote according to Grace.",
-    "option_fg": "Who wrote a book according to Grace."
+    "context_full": "Hanako said: Grace didn't suggest that Karen wrote a book.",
+    "target_full": "Scott said: Then what did Grace suggest that Karen wrote?",
+    "option_bg": "What Karen wrote, according to Grace.",
+    "option_fg": "Who wrote a book, according to Grace."
   },
   {
     "item": "103",
     "verb": "believe",
     "condition": "filler_good",
-    "context_full": "Scott said: Jean didn't believe that Grant adopted a kitten.",
-    "target_full": "Hanako said: Then what did Jean believe that Grant adopted ?",
-    "option_bg": "What Grant adopted according to Jean.",
-    "option_fg": "Who adopted the kitten according to Jean."
+    "context_full": "Hanako said: Jean didn't believe that Grant adopted a kitten.",
+    "target_full": "Scott said: Then what did Jean believe that Grant adopted?",
+    "option_bg": "What Grant adopted, according to Jean.",
+    "option_fg": "Who adopted the kitten, according to Jean."
   },
   {
     "item": "104",
     "verb": "expect",
     "condition": "filler_good",
-    "context_full": "Scott said: Roger didn't expect that Andy would take the jacket.",
-    "target_full": "Hanako said: Then what did Roger expect that Andy would take?",
-    "option_bg": "What Andy would take according to Roger.",
-    "option_fg": "Who would take the jacket according to Roger."
+    "context_full": "Hanako said: Roger didn't expect that Andy would take the jacket.",
+    "target_full": "Scott said: Then what did Roger expect that Andy would take?",
+    "option_bg": "What Andy would take, according to Roger.",
+    "option_fg": "Who would take the jacket, according to Roger."
   },
   {
     "item": "105",
     "verb": "spectulate",
     "condition": "filler_good",
-    "context_full": "Scott said: Selena didn't speculate that Justin would buy the house.",
-    "target_full": "Hanako said: Then what did Selena speculate that Justin would buy?",
-    "option_bg": "What Justin would buy according to Selena.",
-    "option_fg": "Who would buy the house according to Selena."
+    "context_full": "Hanako said: Selena didn't speculate that Justin would buy the house.",
+    "target_full": "Scott said: Then what did Selena speculate that Justin would buy?",
+    "option_bg": "What Justin would buy, according to Selena.",
+    "option_fg": "Who would buy the house, according to Selena."
   },
   {
     "item": "106",
     "verb": "imply",
     "condition": "filler_good",
-    "context_full": "Scott said: Ronald didn't imply that Jacy rented the truck.",
-    "target_full": "Hanako said: Then who implied that Jacy rented the truck?",
+    "context_full": "Hanako said: Ronald didn't imply that Jacy rented the truck.",
+    "target_full": "Scott said: Then who implied that Jacy rented the truck?",
     "option_bg": "Who implied that Jacy rented the truck.",
-    "option_fg": "What Jacy rented according to Ronald."
+    "option_fg": "What Jacy rented, according to Ronald."
   },
   {
     "item": "107",
     "verb": "hope",
     "condition": "filler_good",
-    "context_full": "Scott said: Matthew didn't hope that Dana brought a gift.",
-    "target_full": "Hanako said: Then who hoped that Dana brought a gift?",
+    "context_full": "Hanako said: Matthew didn't hope that Dana brought a gift.",
+    "target_full": "Scott said: Then who hoped that Dana brought a gift?",
     "option_bg": "Who hoped that Dana brought a gift.",
-    "option_fg": "What Dana brought according to Matthew."
+    "option_fg": "What Dana brought, according to Matthew."
   },
   {
     "item": "108",
     "verb": "guess",
     "condition": "filler_good",
-    "context_full": "Scott said: Julina didn't guess that Charlie received a message.",
-    "target_full": "Hanako said: Then who guessed that Charlie received a message?",
+    "context_full": "Hanako said: Julina didn't guess that Charlie received a message.",
+    "target_full": "Scott said: Then who guessed that Charlie received a message?",
     "option_bg": "Who guessed that Charlie received a message.",
-    "option_fg": "What Charlie received according to Julian."
+    "option_fg": "What Charlie received, according to Julian."
   },
   {
     "item": "109",
     "verb": "reveal",
     "condition": "filler_good",
-    "context_full": "Scott said: Jess didn't reveal that Todd went out with Betty.",
-    "target_full": "Hanako said: Then who revealed that Todd went out with Betty?",
+    "context_full": "Hanako said: Jess didn't reveal that Todd went out with Betty.",
+    "target_full": "Scott said: Then who revealed that Todd went out with Betty?",
     "option_bg": "Who revealed that Todd went out with Betty.",
-    "option_fg": "Who Todd went out with according to Jess."
+    "option_fg": "Who Todd went out with, according to Jess."
   },
   {
     "item": "110",
     "verb": "suspect",
     "condition": "filler_good",
-    "context_full": "Scott said: Sebrina didn't suspect that James would cancel the trip.",
-    "target_full": "Hanako said: Then who suspect that James would cancel the trip?",
-    "option_bg": "Who suspected that James would cancel the trip?",
-    "option_fg": "Who would cancel the trip according to Sebrina."
+    "context_full": "Hanako said: Sebrina didn't suspect that James would cancel the trip.",
+    "target_full": "Scott said: Then who suspect that James would cancel the trip?",
+    "option_bg": "Who suspected that James would cancel the trip.",
+    "option_fg": "Who would cancel the trip, according to Sebrina."
   },
   {
     "item": "111",
     "verb": "expect",
     "condition": "filler_good",
-    "context_full": "Scott said: Ryan didn't expect that Leon heard the news.",
-    "target_full": "Hanako said: Then who expected that Leon heard the news?",
-    "option_bg": "What Leon heard according to Ryan.",
-    "option_fg": "Who heard the news according to Leon."
+    "context_full": "Hanako said: Ryan didn't expect that Leon heard the news.",
+    "target_full": "Scott said: Then who expected that Leon heard the news?",
+    "option_bg": "What Leon heard, according to Ryan.",
+    "option_fg": "Who heard the news, according to Leon."
   },
   {
     "item": "112",
     "verb": "confirm",
     "condition": "filler_good",
-    "context_full": "Scott said: Juliet didn't confirm that Sebastian would come to the party.",
-    "target_full": "Hanako said: Then who confirmed that Sebastian would come to the party?",
+    "context_full": "Hanako said: Juliet didn't confirm that Sebastian would come to the party.",
+    "target_full": "Scott said: Then who confirmed that Sebastian would come to the party?",
     "option_bg": "Who confirmed that Sebastian would come to the party.",
-    "option_fg": "Who would come to the party according to Juliet."
+    "option_fg": "Who would come to the party, according to Juliet."
   },
   {
     "item": "113",
     "verb": "think",
     "condition": "filler_bad",
-    "context_full": "Scott said: Helen didn't think that Rob and Marc cut the bread. ",
-    "target_full": "Hanako said: Then who did Helen think that Rob and cut the bread?",
-    "option_bg": "Who else cut the bread other than Rob according to Helen.",
+    "context_full": "Hanako said: Helen didn't think that Rob and Marc cut the bread. ",
+    "target_full": "Scott said: Then who did Helen think that Rob and cut the bread?",
+    "option_bg": "Who else cut the bread other than Rob, according to Helen.",
     "option_fg": "Who thought that Marc cut the bread."
   },
   {
     "item": "114",
     "verb": "suspect",
     "condition": "filler_bad",
-    "context_full": "Scott said: Tim didn't suspect that Liz and Jason drank the beer. ",
-    "target_full": "Hanako said: Then who did Tim suspect that Liz and drank the beer?",
-    "option_bg": "Who else drank the beer other than Liz according to Tim.",
+    "context_full": "Hanako said: Tim didn't suspect that Liz and Jason drank the beer. ",
+    "target_full": "Scott said: Then who did Tim suspect that Liz and drank the beer?",
+    "option_bg": "Who else drank the beer other than Liz, according to Tim.",
     "option_fg": "Who suspected that Jason drank the beer."
   },
   {
     "item": "115",
     "verb": "believe",
     "condition": "filler_bad",
-    "context_full": "Scott said: Larry didn't believe that Karl and Nick cooked dinner.",
-    "target_full": "Hanako said: Then who did Larry believe that Karl and cooked dinner?",
-    "option_bg": "Who else cooked dinner other than Karl according to Larry.",
+    "context_full": "Hanakko said: Larry didn't believe that Karl and Nick cooked dinner.",
+    "target_full": "Scott said: Then who did Larry believe that Karl and cooked dinner?",
+    "option_bg": "Who else cooked dinner other than Karl, according to Larry.",
     "option_fg": "Who believed that Nick cooked dinner."
   },
   {
     "item": "116",
     "verb": "expect",
     "condition": "filler_bad",
-    "context_full": "Scott said: Ben didn't expect that Judith and Eleanor would solve the puzzle.",
-    "target_full": "Hanako said: Then who did Ben expect that Judith and would solve the puzzle?",
+    "context_full": "Hanako said: Ben didn't expect that Judith and Eleanor would solve the puzzle.",
+    "target_full": "Scott said: Then who did Ben expect that Judith and would solve the puzzle?",
     "option_bg": "Who else would solve the puzzle other than Judith.",
     "option_fg": "Who expected that Eleanor would solve the puzzle."
   },
@@ -147,17 +147,17 @@
     "item": "117",
     "verb": "suggest",
     "condition": "filler_bad",
-    "context_full": "Scott said: Amelia didn't suggest that Frank and Lisa were in the office.",
-    "target_full": "Hanako said: Then who did Amelia suggest that Frank and were in the office?",
-    "option_bg": "Who else was in the office other than Frank?",
+    "context_full": "Hanako said: Amelia didn't suggest that Frank and Lisa were in the office.",
+    "target_full": "Scott said: Then who did Amelia suggest that Frank and were in the office?",
+    "option_bg": "Who else was in the office other than Frank.",
     "option_fg": "Who suggested that Lisa was in the office."
   },
   {
     "item": "118",
     "verb": "spectulate",
     "condition": "filler_bad",
-    "context_full": "Scott said: Michael didn't speculate that Robert and Eric would leave the team.",
-    "target_full": "Hanako said: Then who did Michael speculate that Robert and would leave the team.",
+    "context_full": "Hanako said: Michael didn't speculate that Robert and Eric would leave the team.",
+    "target_full": "Scott said: Then who did Michael speculate that Robert and would leave the team?",
     "option_bg": "Who else would leave the team other than Robert.",
     "option_fg": "Who spculated that Eric would leave the team."
   },
@@ -165,54 +165,54 @@
     "item": "119",
     "verb": "imply",
     "condition": "filler_bad",
-    "context_full": "Scott said: Rui didn't imply that the brother of Carol signed the contract.",
-    "target_full": "Hanako said: Then who did Rui imply that the brother of signed the contract?",
-    "option_bg": "Whose brother signed the contract according to Rui.",
-    "option_fg": "What the brother of Carol signed according to Rui."
+    "context_full": "Hanako said: Rui didn't imply that Carol's brother signed the contract.",
+    "target_full": "Scott said: Then who did Rui imply that the brother of signed the contract?",
+    "option_bg": "Whose brother signed the contract, according to Rui.",
+    "option_fg": "What Carol's brother signed, according to Rui."
   },
   {
     "item": "120",
     "verb": "hope",
     "condition": "filler_bad",
-    "context_full": "Scott said: Frankie didn't hope that the agent of the guitarist would show up. ",
-    "target_full": "Hanako said: Then who did Frankie hope that the agent of would show up?",
-    "option_bg": "Whose agent Frankie hoped would show up.",
-    "option_fg": "What the agent of the guitarist did according to Frankie."
+    "context_full": "Hanako said: Frankie didn't hope that the agent of the guitarist would show up. ",
+    "target_full": "Scott said: Then who did Frankie hope that the agent of would show up?",
+    "option_bg": "Whose agent would show up, as Frankie hoped.",
+    "option_fg": "What the agent of the guitarist did, according to Frankie."
   },
   {
     "item": "121",
     "verb": "guess",
     "condition": "filler_bad",
-    "context_full": "Scott said: Jessie didn't guess that the assistant to the director would give the presentation.",
-    "target_full": "Hanako said: Then who did Jessie guess that the assistant to would give the presentation?",
-    "option_bg": "Whose assistant Jessie guessed would give the presentation",
-    "option_fg": "What the assistant to the director would do according to Jessie."
+    "context_full": "Hanako said: Jessie didn't guess that the assistant to the director would give the presentation.",
+    "target_full": "Scott said: Then who did Jessie guess that the assistant to would give the presentation?",
+    "option_bg": "Whose assistant would give the presentation, as Jessie guessed.",
+    "option_fg": "What the assistant to the director would do, according to Jessie."
   },
   {
     "item": "122",
     "verb": "reveal",
     "condition": "filler_bad",
-    "context_full": "Scott said: Donald didn't reveal that the parents of Krishna were moving to Texas. ",
-    "target_full": "Hanako said: Then who did Donald reveal that the parents of were moving to Texas?",
-    "option_bg": "Whose parents Donald revealed were moving to Texas",
-    "option_fg": "Where Krishna's parents were moving to according to Donald."
+    "context_full": "Hanako said: Donald didn't reveal that the parents of Krishna were moving to Texas. ",
+    "target_full": "Scott said: Then who did Donald reveal that the parents of were moving to Texas?",
+    "option_bg": "Whose parents were moving to Texas, as Donald revealed.",
+    "option_fg": "Where Krishna's parents were moving to, according to Donald."
   },
   {
     "item": "123",
     "verb": "expect",
     "condition": "filler_bad",
-    "context_full": "Scott said: Jamal didn't expect that the book about astronomy was on the shelf.",
-    "target_full": "Hanako said: Then what did Jamal expect that the book about was on the shelf? ",
-    "option_bg": "Which book Jamal expected to be on the shelf",
-    "option_fg": "Where the book about astronomy was according to Jamal. "
+    "context_full": "Hanako said: Jamal didn't expect that the book about astronomy was on the shelf.",
+    "target_full": "Scott said: Then what did Jamal expect that the book about was on the shelf? ",
+    "option_bg": "Which book Jamal expected to be on the shelf.",
+    "option_fg": "Where the book about astronomy was, according to Jamal. "
   },
   {
     "item": "124",
     "verb": "insist",
     "condition": "filler_bad",
-    "context_full": "Scott said: Ted didn't insist that Eva's uncle should stay for dinner. ",
-    "target_full": "Hanako said: Then who did Ted insist that the uncle of should stay for dinner?",
-    "option_bg": "Whose uncle Tedd insisted should stay for dinner.",
-    "option_fg": "What Eva's uncle should do according to Ted."
+    "context_full": "Hanako said: Ted didn't insist that Eva's uncle should stay for dinner.",
+    "target_full": "Scott said: Then who did Ted insist that the uncle of should stay for dinner?",
+    "option_bg": "Whose uncle should stay for dinner, as Tedd insisted.",
+    "option_fg": "What Eva's uncle should do, according to Ted."
   }
 ]
