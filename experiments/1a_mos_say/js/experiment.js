@@ -638,7 +638,7 @@ function init() {
         "condition": "say",
         "context_full": "Hanako said: Sally didn't say that Tony would visit George.",
         "target_full": "Scott said: Then who did Sally say that Tony would visit?",
-        "option_bg": "Who Tony would, according to Sally.",
+        "option_bg": "Who Tony would visit, according to Sally.",
         "option_fg": "What Sally did with the message \"Tony would visit George.\""
       },
       {
@@ -794,10 +794,10 @@ function init() {
         "item": "108",
         "verb": "guess",
         "condition": "filler_good",
-        "context_full": "Hanako said: Julina didn't guess that Charlie received a message.",
+        "context_full": "Hanako said: Julie didn't guess that Charlie received a message.",
         "target_full": "Scott said: Then who guessed that Charlie received a message?",
         "option_bg": "Who guessed that Charlie received a message.",
-        "option_fg": "What Charlie received, according to Julian."
+        "option_fg": "What Charlie received, according to Julie."
       },
       {
         "item": "109",
