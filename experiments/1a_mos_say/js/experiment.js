@@ -341,6 +341,7 @@ function make_slides(f) {
             
             var context = this.stim.context_full;
             var target = this.stim.target_full;
+            // underline the target sentence
             if (this.stim.task == "acceptability") {
               target = "<u>" + target + "</u>";
             } else if (this.stim.task == "backgroundedness") {

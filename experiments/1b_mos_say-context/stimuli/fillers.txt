@@ -1,0 +1,122 @@
+[
+  {
+    "item": "101",
+    "verb": "think",
+    "condition": "filler_good",
+    "context_full": "Hanako said: Ollie didn't think that Doug would invite the MAYOR.",
+    "target_full": "Scott said: Then who did Ollie think that Doug would invite?",
+    "option_bg": "Who Doug would invite, according to Ollie.",
+    "option_fg": "Who invited the mayor acoording to Ollie.",
+    "task": "acceptability"
+  },
+  {
+    "item": "102",
+    "verb": "suggest",
+    "condition": "filler_good",
+    "context_full": "Hanako said: Grace didn't suggest that Karen wrote a BOOK.",
+    "target_full": "Scott said: Then what did Grace suggest that Karen wrote?",
+    "option_bg": "What Karen wrote, according to Grace.",
+    "option_fg": "Who wrote a book, according to Grace.",
+    "task": "acceptability"
+  },
+  {
+    "item": "103",
+    "verb": "believe",
+    "condition": "filler_good",
+    "context_full": "Hanako said: Jean didn't believe that Grant adopted a KITTEN.",
+    "target_full": "Scott said: Then what did Jean believe that Grant adopted?",
+    "option_bg": "What Grant adopted, according to Jean.",
+    "option_fg": "Who adopted the kitten, according to Jean.",
+    "task": "acceptability"
+  },
+  {
+    "item": "104",
+    "verb": "hope",
+    "condition": "filler_good",
+    "context_full": "Hanako said: MATTHEW didn't hope that Dana brought a gift.",
+    "target_full": "Scott said: Then who hoped that Dana brought a gift?",
+    "option_bg": "Who hoped that Dana brought a gift.",
+    "option_fg": "What Dana brought, according to Matthew.",
+    "task": "acceptability"
+  },
+  {
+    "item": "105",
+    "verb": "guess",
+    "condition": "filler_good",
+    "context_full": "Hanako said: JULIE didn't guess that Charlie received a message.",
+    "target_full": "Scott said: Then who guessed that Charlie received a message?",
+    "option_bg": "Who guessed that Charlie received a message.",
+    "option_fg": "What Charlie received, according to Julie.",
+    "task": "acceptability"
+  },
+  {
+    "item": "106",
+    "verb": "reveal",
+    "condition": "filler_good",
+    "context_full": "Hanako said: JESS didn't reveal that Todd went out with Betty.",
+    "target_full": "Scott said: Then who revealed that Todd went out with Betty?",
+    "option_bg": "Who revealed that Todd went out with Betty.",
+    "option_fg": "Who Todd went out with, according to Jess.",
+    "task": "acceptability"
+  },
+  {
+    "item": "107",
+    "verb": "think",
+    "condition": "filler_bad",
+    "context_full": "Hanako said: Helen didn't think that Rob and MARC cut the bread. ",
+    "target_full": "Scott said: Then who did Helen think that Rob and cut the bread?",
+    "option_bg": "Who else cut the bread other than Rob, according to Helen.",
+    "option_fg": "Who thought that Marc cut the bread.",
+    "task": "acceptability"
+  },
+  {
+    "item": "108",
+    "verb": "suspect",
+    "condition": "filler_bad",
+    "context_full": "Hanako said: Tim didn't suspect that Liz and JASON drank the beer. ",
+    "target_full": "Scott said: Then who did Tim suspect that Liz and drank the beer?",
+    "option_bg": "Who else drank the beer other than Liz, according to Tim.",
+    "option_fg": "Who suspected that Jason drank the beer.",
+    "task": "acceptability"
+  },
+  {
+    "item": "109",
+    "verb": "believe",
+    "condition": "filler_bad",
+    "context_full": "Hanakko said: Larry didn't believe that Karl and NICK cooked dinner.",
+    "target_full": "Scott said: Then who did Larry believe that Karl and cooked dinner?",
+    "option_bg": "Who else cooked dinner other than Karl, according to Larry.",
+    "option_fg": "Who believed that Nick cooked dinner.",
+    "task": "acceptability"
+  },
+  {
+    "item": "110",
+    "verb": "imply",
+    "condition": "filler_bad",
+    "context_full": "Hanako said: Rui didn't imply that CAROL's brother signed the contract.",
+    "target_full": "Scott said: Then who did Rui imply that the brother of signed the contract?",
+    "option_bg": "Whose brother signed the contract, according to Rui.",
+    "option_fg": "What Carol's brother signed, according to Rui.",
+    "task": "acceptability"
+  },
+  {
+    "item": "111",
+    "verb": "hope",
+    "condition": "filler_bad",
+    "context_full": "Hanako said: Frankie didn't hope that the agent of the GUITARIST would show up. ",
+    "target_full": "Scott said: Then who did Frankie hope that the agent of would show up?",
+    "option_bg": "Whose agent would show up, as Frankie hoped.",
+    "option_fg": "What the agent of the guitarist did, according to Frankie.",
+    "task": "acceptability"
+  },
+  {
+    "item": "112",
+    "verb": "guess",
+    "condition": "filler_bad",
+    "context_full": "Hanako said: Jessie didn't guess that the assistant to the DIRECTOR would give the presentation.",
+    "target_full": "Scott said: Then who did Jessie guess that the assistant to would give the presentation?",
+    "option_bg": "Whose assistant would give the presentation, as Jessie guessed.",
+    "option_fg": "What the assistant to the director would do, according to Jessie.",
+    "task": "acceptability"
+  }
+]
