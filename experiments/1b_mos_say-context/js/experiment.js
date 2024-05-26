@@ -539,7 +539,7 @@ function init() {
         "item": "4",
         "verb": "mutter",
         "condition": "critical",
-        "verb_focus": "Hanako said: Laura didn't <b>MUTTERE</b> that Brandon broke his laptop.",
+        "verb_focus": "Hanako said: Laura didn't <b>MUTTER</b> that Brandon broke his laptop.",
         "embed_focus": "Hanako said: Laura didn't mutter that Brandon broke his <b>LAPTOP</b>.",
         "target_full": "Scott said: Then what did Laura mutter that Brandon broke?",
         "option_bg": "What Brandon broke, according to Laura.",
