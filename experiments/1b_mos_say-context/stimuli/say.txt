@@ -26,7 +26,7 @@
     "verb_focus": "Hanako said: Sally didn't SAY that Tony would visit George.",
     "embed_focus": "Hanako said: Sally didn't say that Tony would visit GEORGE.",
     "target_full": "Scott said: Then who did Sally say that Tony would visit?",
-    "option_bg": "Who Tony would, according to Sally.",
+    "option_bg": "Who Tony would visit, according to Sally.",
     "option_fg": "What Sally did with the message \"Tony would visit George.\""
   },
   {

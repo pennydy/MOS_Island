@@ -36,7 +36,7 @@ function make_slides(f) {
             var context = "Hanako said: Fiona didn't buy <b>PINEAPPLES</b>.";
             exp.context = context;
             $(".context").html(context);
-            var target = "<u>Scott said: Then what did Fiona buy?</u>";
+            var target = "Scott said: Then what did Fiona buy?";
             $(".target").html(target);
             $(".question").html("How natural/acceptable does <u>Scott</u>'s question sound?");
             exp.sliderPost = null; // erase current slider value
@@ -105,7 +105,7 @@ function make_slides(f) {
           $(".forced_choice_err").hide();
           $(".err_good").hide();
           this.stim = stim;
-          var context = "<u>Hanako said: Vera didn't <b>DRIVE</b> to Michigan.</u>";
+          var context = "Hanako said: Vera didn't <b>DRIVE</b> to Michigan.";
           $(".context").html(context);
           exp.context = context;
           var target = "Scott said: Then how did Vera get to Michigan?"
@@ -184,7 +184,7 @@ function make_slides(f) {
           var context = "Hanako said: Prisha doesn't speak <b>KOREAN</b>.";
           $(".context").html(context);
           exp.context = context;
-          var target = "<u>Scott said: Then what Prisha does speak the language?</u>"
+          var target = "Scott said: Then what Prisha does speak the language?"
           $(".target").html(target);
           $(".question").html("How natural/acceptable does <u>Scott</u>'s question sound?");
           this.init_sliders();
@@ -256,7 +256,7 @@ function make_slides(f) {
             $(".forced_choice_err").hide();
             $(".err_good").hide();
             this.stim = stim;
-            var context = "<u>Hanako said: Hank didn't buy the <b>RED</b> car</u>.";
+            var context = "Hanako said: Hank didn't buy the <b>RED</b> car.";
             $(".context").html(context);
             exp.context = context;
             var target = "Scott said: Then what color did Hank buy car?"
@@ -341,12 +341,12 @@ function make_slides(f) {
             
             var context = this.stim.context_full;
             var target = this.stim.target_full;
-            // underline the target sentence
-            if (this.stim.task == "acceptability") {
-              target = "<u>" + target + "</u>";
-            } else if (this.stim.task == "backgroundedness") {
-              context = "<u>" + context + "</u>";
-            }
+            // // underline the target sentence
+            // if (this.stim.task == "acceptability") {
+            //   target = "<u>" + target + "</u>";
+            // } else if (this.stim.task == "backgroundedness") {
+            //   context = "<u>" + context + "</u>";
+            // }
             $(".context").html(context);
             exp.context = context;
             // console.log("context: "+exp.context);
@@ -417,29 +417,16 @@ function make_slides(f) {
                 var selected_content = exp.bottom_button;
               }
               exp.selected_content = selected_content;
-              // fillers: option_bg should be the correct answer
-              if (this.stim.condition.startsWith("filler")) {
-                if (selected_content  == this.stim.option_bg) {
-                  exp.bg_choice = "correct";
-                } else {
-                  exp.bg_choice = "incorrect";
-                }
-                // critical items: if verb focus, then we'd expect people to select the foregrounded option
-              } else if (this.stim.condition == "verb_focus") {
-                if (selected_content == this.stim.option_fg) {
-                  exp.bg_choice = "correct";
-                } else {
-                  exp.bg_choice = "incorrect";
-                }
-                // critical items: if embed focus, then we'd expect people to select the backgrounded option
-                // this should capture everything -- use else if here just in case we mislabel anything
-              } else if (this.stim.condition == "embed_focus") {
-                if (selected_content  == this.stim.option_bg) {
-                  exp.bg_choice = "correct";
-                } else {
-                  exp.bg_choice = "incorrect";
-                }
+              console.log(exp.selected_content)
+              // record whether the background or the foreground option is selected
+              // for critical: option_bg is about the embedded content; option_fg is about the manner
+              // for fillers: option_bg is the "correct" answer; option_fg is "incorrect" (not for analysis)
+              if (selected_content == this.stim.option_bg) {
+                exp.bg_choice = "embed";
+              } else if (selected_content == this.stim.option_fg) {
+                exp.bg_choice = "verb";
               }
+              console.log(exp.bg_choice)
             }
             
             this.log_responses();
@@ -525,7 +512,7 @@ function init() {
         "verb_focus": "Hanako said: John didn't <b>WHISPER</b> that Mary met with the lawyer.",
         "embed_focus": "Hanako said: John didn't whisper that Mary met with the <b>LAWYER</b>.",
         "target_full": "Scott said: Then who did John whisper that Mary met with?",
-        "option_bg": "Who Mary met with according to John.",
+        "option_bg": "Who Mary met with, according to John.",
         "option_fg": "The way John said that Mary met with the lawyer."
       },
       {
@@ -535,7 +522,7 @@ function init() {
         "verb_focus": "Hanako said: Emma didn't <b>STAMMER</b> that Kevin lost the keys.",
         "embed_focus": "Hanako said: Emma didn't stammer that Kevin lost the <b>KEYS</b>.",
         "target_full": "Scott said: Then what did Emma stammer that Kevin lost?",
-        "option_bg": "What Kevin lost according to Emma.",
+        "option_bg": "What Kevin lost, according to Emma.",
         "option_fg": "The way Emma said that Kevin lost the keys."
       },
       {
@@ -545,7 +532,7 @@ function init() {
         "verb_focus": "Hanako said: Howard didn't <b>MUMBLE</b> that Alex bought a birthday cake.",
         "embed_focus": "Hanako said: Howard didn't mumble that Alex bought a <b>BIRTHDAY CAKE</b>.",
         "target_full": "Scott said: Then what did Howard mumble that Alex bought?",
-        "option_bg": "What Alex bought according to Howard.",
+        "option_bg": "What Alex bought, according to Howard.",
         "option_fg": "The way Howard said that Alex bought a birthday cake."
       },
       {
@@ -555,7 +542,7 @@ function init() {
         "verb_focus": "Hanako said: Laura didn't <b>MUTTERE</b> that Brandon broke his laptop.",
         "embed_focus": "Hanako said: Laura didn't mutter that Brandon broke his <b>LAPTOP</b>.",
         "target_full": "Scott said: Then what did Laura mutter that Brandon broke?",
-        "option_bg": "What Brandon broke according to Laura.",
+        "option_bg": "What Brandon broke, according to Laura.",
         "option_fg": "The way Laura said that Brandon broke his laptop."
       },
       {
@@ -565,7 +552,7 @@ function init() {
         "verb_focus": "Hanako said: Bill didn't <b>SHOUT</b> that Dan knew the professor.",
         "embed_focus": "Hanako said: Bill didn't shout that Dan knew the <b>PROFESSOR</b>.",
         "target_full": "Scott said: Then who did Bill shout that Dan knew?",
-        "option_bg": "Who Dan knew according to Bill.",
+        "option_bg": "Who Dan knew, according to Bill.",
         "option_fg": "The way Bill said that Dan knew the professor."
       },
       {
@@ -575,7 +562,7 @@ function init() {
         "verb_focus": "Hanako said: Amy didn't <b>SCREAM</b> that Charlie saw the robber.",
         "embed_focus": "Hanako said: Amy didn't scream that Charlie saw the <b>ROBBER</b>.",
         "target_full": "Scott said: Then who did Amy scream that Charlie saw?",
-        "option_bg": "Who Charlie saw according to Amy.",
+        "option_bg": "Who Charlie saw, according to Amy.",
         "option_fg": "The way Amy said that Charlie saw the robber."
       },
       {
@@ -585,7 +572,7 @@ function init() {
         "verb_focus": "Hanako said: Jake didn't <b>YELL</b> that Yumi found the wallet.",
         "embed_focus": "Hanako said: Jake didn't yell that Yumi found the <b>WALLET</b>.",
         "target_full": "Scott said: Then what did Jake yell that Yumi found?",
-        "option_bg": "What Yumi found according to Jake.",
+        "option_bg": "What Yumi found, according to Jake.",
         "option_fg": "The way Jake said that Yumi found the wallet."
       },
       {
@@ -595,7 +582,7 @@ function init() {
         "verb_focus": "Hanako said: Ashley didn't <b>GROAN</b> that Hasan talked to the detectives.",
         "embed_focus": "Hanako said: Ashley didn't groan that Hasan talked to the <b>DETECTIVES</b>.",
         "target_full": "Scott said: Then who did Ashley groan that Hasan talked to?",
-        "option_bg": "Who Hasan talked to according to Ashley.",
+        "option_bg": "Who Hasan talked to, according to Ashley.",
         "option_fg": "The way Ashley said that Hasan talked to the detectives."
       },
       {
@@ -605,7 +592,7 @@ function init() {
         "verb_focus": "Hanako said: Yash didn't <b>WHINE</b> that Ming forgot her phone.",
         "embed_focus": "Hanako said: Yash didn't whine that Ming forgot her <b>PHONE</b>.",
         "target_full": "Scott said: Then what did Yash whine that Ming forgot?",
-        "option_bg": "What Ming forgot according to Yash.",
+        "option_bg": "What Ming forgot, according to Yash.",
         "option_fg": "The way Yash said that Ming forgot her phone."
       },
       {
@@ -615,7 +602,7 @@ function init() {
         "verb_focus": "Hanako said: Fatima didn't <b>MURMUR</b> that Omar had dinner with his manager.",
         "embed_focus": "Hanako said: Fatima didn't murmur that Omar had dinner with his <b>MANAGER</b>.",
         "target_full": "Scott said: Then who did Fatima murmur that Omar had dinner with?",
-        "option_bg": "Who Omar had dinner with according to Fatima.",
+        "option_bg": "Who Omar had dinner with, according to Fatima.",
         "option_fg": "The way Fatima said that Omar had dinner with his manager."
       },
       {
@@ -625,7 +612,7 @@ function init() {
         "verb_focus": "Hanako said: Igor didn't <b>SHRIEK</b> that Penny won the lottery.",
         "embed_focus": "Hanako said: Igor didn't shriek that Penny won the <b>LOTTERY</b>.",
         "target_full": "Scott said: Then what did Igor shriek that Penny won?",
-        "option_bg": "What Penny won according to Igor.",
+        "option_bg": "What Penny won, according to Igor.",
         "option_fg": "The way Igor said that Penny won the lottery."
       },
       {
@@ -635,7 +622,7 @@ function init() {
         "verb_focus": "Hanako said: Chandler didn't <b>MOAN</b> that Tia brought her parents.",
         "embed_focus": "Hanako said: Chandler didn't moan that Tia brought her <b>PARENTS</b>.",
         "target_full": "Scott said: Then who did Chandler moan that Tia brought?",
-        "option_bg": "Who Tia brought according to Chandler.",
+        "option_bg": "Who Tia brought, according to Chandler.",
         "option_fg": "The way Chandler said that Tia brought her parents."
       }
     ]);
@@ -668,7 +655,7 @@ function init() {
         "verb_focus": "Hanako said: Sally didn't <b>SAY</b> that Tony would visit George.",
         "embed_focus": "Hanako said: Sally didn't say that Tony would visit <b>GEORGE</b>.",
         "target_full": "Scott said: Then who did Sally say that Tony would visit?",
-        "option_bg": "Who Tony would, according to Sally.",
+        "option_bg": "Who Tony would visit, according to Sally.",
         "option_fg": "What Sally did with the message \"Tony would visit George.\""
       },
       {
