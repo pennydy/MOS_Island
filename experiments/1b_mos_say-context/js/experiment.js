@@ -513,7 +513,7 @@ function init() {
         "embed_focus": "Hanako said: John didn't whisper that Mary met with the <b>LAWYER</b>.",
         "target_full": "Scott said: Then who did John whisper that Mary met with?",
         "option_bg": "Who Mary met with, according to John.",
-        "option_fg": "The way John said that Mary met with the lawyer."
+        "option_fg": "The way John communicated that Mary met with the lawyer."
       },
       {
         "item": "2",
@@ -523,7 +523,7 @@ function init() {
         "embed_focus": "Hanako said: Emma didn't stammer that Kevin lost the <b>KEYS</b>.",
         "target_full": "Scott said: Then what did Emma stammer that Kevin lost?",
         "option_bg": "What Kevin lost, according to Emma.",
-        "option_fg": "The way Emma said that Kevin lost the keys."
+        "option_fg": "The way Emma communicated that Kevin lost the keys."
       },
       {
         "item": "3",
@@ -533,7 +533,7 @@ function init() {
         "embed_focus": "Hanako said: Howard didn't mumble that Alex bought a <b>BIRTHDAY CAKE</b>.",
         "target_full": "Scott said: Then what did Howard mumble that Alex bought?",
         "option_bg": "What Alex bought, according to Howard.",
-        "option_fg": "The way Howard said that Alex bought a birthday cake."
+        "option_fg": "The way Howard communicated that Alex bought a birthday cake."
       },
       {
         "item": "4",
@@ -543,7 +543,7 @@ function init() {
         "embed_focus": "Hanako said: Laura didn't mutter that Brandon broke his <b>LAPTOP</b>.",
         "target_full": "Scott said: Then what did Laura mutter that Brandon broke?",
         "option_bg": "What Brandon broke, according to Laura.",
-        "option_fg": "The way Laura said that Brandon broke his laptop."
+        "option_fg": "The way Laura communicated that Brandon broke his laptop."
       },
       {
         "item": "5",
@@ -553,7 +553,7 @@ function init() {
         "embed_focus": "Hanako said: Bill didn't shout that Dan knew the <b>PROFESSOR</b>.",
         "target_full": "Scott said: Then who did Bill shout that Dan knew?",
         "option_bg": "Who Dan knew, according to Bill.",
-        "option_fg": "The way Bill said that Dan knew the professor."
+        "option_fg": "The way Bill communicated that Dan knew the professor."
       },
       {
         "item": "6",
@@ -563,7 +563,7 @@ function init() {
         "embed_focus": "Hanako said: Amy didn't scream that Charlie saw the <b>ROBBER</b>.",
         "target_full": "Scott said: Then who did Amy scream that Charlie saw?",
         "option_bg": "Who Charlie saw, according to Amy.",
-        "option_fg": "The way Amy said that Charlie saw the robber."
+        "option_fg": "The way Amy communicated that Charlie saw the robber."
       },
       {
         "item": "7",
@@ -573,7 +573,7 @@ function init() {
         "embed_focus": "Hanako said: Jake didn't yell that Yumi found the <b>WALLET</b>.",
         "target_full": "Scott said: Then what did Jake yell that Yumi found?",
         "option_bg": "What Yumi found, according to Jake.",
-        "option_fg": "The way Jake said that Yumi found the wallet."
+        "option_fg": "The way Jake communicated that Yumi found the wallet."
       },
       {
         "item": "8",
@@ -583,7 +583,7 @@ function init() {
         "embed_focus": "Hanako said: Ashley didn't groan that Hasan talked to the <b>DETECTIVES</b>.",
         "target_full": "Scott said: Then who did Ashley groan that Hasan talked to?",
         "option_bg": "Who Hasan talked to, according to Ashley.",
-        "option_fg": "The way Ashley said that Hasan talked to the detectives."
+        "option_fg": "The way Ashley communicated that Hasan talked to the detectives."
       },
       {
         "item": "9",
@@ -593,7 +593,7 @@ function init() {
         "embed_focus": "Hanako said: Yash didn't whine that Ming forgot her <b>PHONE</b>.",
         "target_full": "Scott said: Then what did Yash whine that Ming forgot?",
         "option_bg": "What Ming forgot, according to Yash.",
-        "option_fg": "The way Yash said that Ming forgot her phone."
+        "option_fg": "The way Yash communicated that Ming forgot her phone."
       },
       {
         "item": "10",
@@ -603,7 +603,7 @@ function init() {
         "embed_focus": "Hanako said: Fatima didn't murmur that Omar had dinner with his <b>MANAGER</b>.",
         "target_full": "Scott said: Then who did Fatima murmur that Omar had dinner with?",
         "option_bg": "Who Omar had dinner with, according to Fatima.",
-        "option_fg": "The way Fatima said that Omar had dinner with his manager."
+        "option_fg": "The way Fatima communicated that Omar had dinner with his manager."
       },
       {
         "item": "11",
@@ -613,7 +613,7 @@ function init() {
         "embed_focus": "Hanako said: Igor didn't shriek that Penny won the <b>LOTTERY</b>.",
         "target_full": "Scott said: Then what did Igor shriek that Penny won?",
         "option_bg": "What Penny won, according to Igor.",
-        "option_fg": "The way Igor said that Penny won the lottery."
+        "option_fg": "The way Igor communicated that Penny won the lottery."
       },
       {
         "item": "12",
@@ -623,7 +623,7 @@ function init() {
         "embed_focus": "Hanako said: Chandler didn't moan that Tia brought her <b>PARENTS</b>.",
         "target_full": "Scott said: Then who did Chandler moan that Tia brought?",
         "option_bg": "Who Tia brought, according to Chandler.",
-        "option_fg": "The way Chandler said that Tia brought her parents."
+        "option_fg": "The way Chandler communicated that Tia brought her parents."
       }
     ]);
 
@@ -636,7 +636,7 @@ function init() {
         "embed_focus": "Hanako said: Hannah didn't say that George emailed the <b>STUDENTS</b>.",
         "target_full": "Scott said: Then who did Hannah say that George emailed?",
         "option_bg": "Who George emailed, according to Hannah.",
-        "option_fg": "What Hannah did with the message \"George emailed the students.\""
+        "option_fg": "The way Hannah communicated that George emailed the students."
       },
       {
         "item": "302",
@@ -646,7 +646,7 @@ function init() {
         "embed_focus": "Hanako said: Emily didn't say that Paul drafted the <b>LETTER</b>.",
         "target_full": "Scott said: Then what did Emily say that Paul drafted?",
         "option_bg": "What Paul drafted, according to Emily.",
-        "option_fg": "What Emily did with the message \"Paul drafted the letter.\""
+        "option_fg": "The way Emily communicated that Paul drafted the letter."
       },
       {
         "item": "303",
@@ -656,7 +656,7 @@ function init() {
         "embed_focus": "Hanako said: Sally didn't say that Tony would visit <b>GEORGE</b>.",
         "target_full": "Scott said: Then who did Sally say that Tony would visit?",
         "option_bg": "Who Tony would visit, according to Sally.",
-        "option_fg": "What Sally did with the message \"Tony would visit George.\""
+        "option_fg": "The way Sally communicated that Tony would visit George."
       },
       {
         "item": "304",
@@ -666,7 +666,7 @@ function init() {
         "embed_focus": "Hanako said: Tim didn't say that Jason drank the <b>BEER</b>.",
         "target_full": "Scott said: Then what did Tim say that Jason drank?",
         "option_bg": "What Jason drank, according to Tim.",
-        "option_fg": "What Tim did with the message \"Jason drank the beer.\""
+        "option_fg": "The way Tim communicated that Jason drank the beer."
       },
       {
         "item": "305",
@@ -676,7 +676,7 @@ function init() {
         "embed_focus": "Hanako said: Charlie didn't say that Maddie would call her <b>ROOMMATE</b>.",
         "target_full": "Scott said: Then who did Charlie say that Maddie would call?",
         "option_bg": "Who Maddie would call, according to Charlie.",
-        "option_fg": "What Charlie did with the message \"Maddie would call her roommate.\""
+        "option_fg": "The way Charlie communicated that Maddie would call her roommate."
       },
       {
         "item": "306",
@@ -686,7 +686,7 @@ function init() {
         "embed_focus": "Hanako said: Kate didn't say that Zack broke the <b>PLATES</b>.",
         "target_full": "Scott said: Then what did Kate say that Zack broke?",
         "option_bg": "What Zack broke, according to Kate.",
-        "option_fg": "What Kate did with the message \"Zack broke the plates.\""
+        "option_fg": "The way Kate communicated that Zack broke the plates."
       },
       {
         "item": "307",
@@ -696,7 +696,7 @@ function init() {
         "embed_focus": "Hanako said: Ben didn't say that Laura ordered <b>PIZZA</b>.",
         "target_full": "Scott said: Then what did Ben say that Laura ordered?",
         "option_bg": "What Laura ordered, according to Ben.",
-        "option_fg": "What Ben did with the message \"Laura ordered pizza.\""
+        "option_fg": "The way Ben communicated that Laura ordered pizza."
       },
       {
         "item": "308",
@@ -706,7 +706,7 @@ function init() {
         "embed_focus": "Hanako said: Danny didn't say that Jennifer got a <b>CAT</b>.",
         "target_full": "Scott said: Then what did Danny say that Jennifer got?",
         "option_bg": "What Jennifer got, according to Danny.",
-        "option_fg": "What Danny did with the message \"Jennifer got a cat.\""
+        "option_fg": "The way Danny communicated that Jennifer got a cat."
       },
       {
         "item": "309",
@@ -716,7 +716,7 @@ function init() {
         "embed_focus": "Hanako said: Nancy didn't say that Julian ate the <b>CUPCAKE</b>.",
         "target_full": "Scott said: Then what did Nancy say that Julian ate?",
         "option_bg": "What Julian ate, according to Nancy.",
-        "option_fg": "What Nancy did with the message \"Julian ate the cupcake.\""
+        "option_fg": "The way Nancy communicated that Julian ate the cupcake."
       },
       {
         "item": "310",
@@ -726,7 +726,7 @@ function init() {
         "embed_focus": "Hanako said: Jessie didn't say that Michelle borrowed the <b>COMPUTER</b>.",
         "target_full": "Scott said: Then what did Jessie say that Michelle borrowed?",
         "option_bg": "What Michelle borrowed, according to Jessie.",
-        "option_fg": "What Jessie did with the message \"Michelle borrowed the computer.\""
+        "option_fg": "The way Jessie communicated that Michelle borrowed the computer."
       },
       {
         "item": "311",
@@ -736,7 +736,7 @@ function init() {
         "embed_focus": "Hanako said: Tom didn't say that Sarah admired her <b>FRIEND</b>.",
         "target_full": "Scott said: Then who did Tom say that Sarah admired?",
         "option_bg": "Who Sarah admired, according to Tom.",
-        "option_fg": "What Tom did with the message \"Sarah admired her friend.\""
+        "option_fg": "The way Tom communicated that Sarah admired her friend."
       },
       {
         "item": "312",
@@ -746,7 +746,7 @@ function init() {
         "embed_focus": "Hanako said: Noah didn't say that Sharon wanted a <b>DOG</b>.",
         "target_full": "Scott said: Then what did Noah say that Sharon wanted?",
         "option_bg": "What Sharon wanted, according to Noah.",
-        "option_fg": "What Noah did with the message \"Sharon wanted a dog.\""
+        "option_fg": "The way Noah communicated that Sharon wanted a dog."
       }
     ])
 

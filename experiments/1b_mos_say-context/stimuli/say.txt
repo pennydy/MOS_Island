@@ -7,7 +7,7 @@
     "embed_focus": "Hanako said: Hannah didn't say that George emailed the STUDENTS.",
     "target_full": "Scott said: Then who did Hannah say that George emailed?",
     "option_bg": "Who George emailed, according to Hannah.",
-    "option_fg": "What Hannah did with the message \"George emailed the students.\""
+    "option_fg": "The way Hannah communicated that George emailed the students."
   },
   {
     "item": "302",
@@ -17,7 +17,7 @@
     "embed_focus": "Hanako said: Emily didn't say that Paul drafted the LETTER.",
     "target_full": "Scott said: Then what did Emily say that Paul drafted?",
     "option_bg": "What Paul drafted, according to Emily.",
-    "option_fg": "What Emily did with the message \"Paul drafted the letter.\""
+    "option_fg": "The way Emily communicated that Paul drafted the letter."
   },
   {
     "item": "303",
@@ -27,7 +27,7 @@
     "embed_focus": "Hanako said: Sally didn't say that Tony would visit GEORGE.",
     "target_full": "Scott said: Then who did Sally say that Tony would visit?",
     "option_bg": "Who Tony would visit, according to Sally.",
-    "option_fg": "What Sally did with the message \"Tony would visit George.\""
+    "option_fg": "The way Sally communicated that Tony would visit George."
   },
   {
     "item": "304",
@@ -37,7 +37,7 @@
     "embed_focus": "Hanako said: Tim didn't say that Jason drank the BEER.",
     "target_full": "Scott said: Then what did Tim say that Jason drank?",
     "option_bg": "What Jason drank, according to Tim.",
-    "option_fg": "What Tim did with the message \"Jason drank the beer.\""
+    "option_fg": "The way Tim communicated that Jason drank the beer."
   },
   {
     "item": "305",
@@ -47,7 +47,7 @@
     "embed_focus": "Hanako said: Charlie didn't say that Maddie would call her ROOMMATE.",
     "target_full": "Scott said: Then who did Charlie say that Maddie would call?",
     "option_bg": "Who Maddie would call, according to Charlie.",
-    "option_fg": "What Charlie did with the message \"Maddie would call her roommate.\""
+    "option_fg": "The way Charlie communicated that Maddie would call her roommate."
   },
   {
     "item": "306",
@@ -57,7 +57,7 @@
     "embed_focus": "Hanako said: Kate didn't say that Zack broke the PLATES.",
     "target_full": "Scott said: Then what did Kate say that Zack broke?",
     "option_bg": "What Zack broke, according to Kate.",
-    "option_fg": "What Kate did with the message \"Zack broke the plates.\""
+    "option_fg": "The way Kate communicated that Zack broke the plates."
   },
   {
     "item": "307",
@@ -67,7 +67,7 @@
     "embed_focus": "Hanako said: Ben didn't say that Laura ordered PIZZA.",
     "target_full": "Scott said: Then what did Ben say that Laura ordered?",
     "option_bg": "What Laura ordered, according to Ben.",
-    "option_fg": "What Ben did with the message \"Laura ordered pizza.\""
+    "option_fg": "The way Ben communicated that Laura ordered pizza."
   },
   {
     "item": "308",
@@ -77,7 +77,7 @@
     "embed_focus": "Hanako said: Danny didn't say that Jennifer got a CAT.",
     "target_full": "Scott said: Then what did Danny say that Jennifer got?",
     "option_bg": "What Jennifer got, according to Danny.",
-    "option_fg": "What Danny did with the message \"Jennifer got a cat.\""
+    "option_fg": "The way Danny communicated that Jennifer got a cat."
   },
   {
     "item": "309",
@@ -87,7 +87,7 @@
     "embed_focus": "Hanako said: Nancy didn't say that Julian ate the CUPCAKE.",
     "target_full": "Scott said: Then what did Nancy say that Julian ate?",
     "option_bg": "What Julian ate, according to Nancy.",
-    "option_fg": "What Nancy did with the message \"Julian ate the cupcake.\""
+    "option_fg": "The way Nancy communicated that Julian ate the cupcake."
   },
   {
     "item": "310",
@@ -97,7 +97,7 @@
     "embed_focus": "Hanako said: Jessie didn't say that Michelle borrowed the COMPUTER.",
     "target_full": "Scott said: Then what did Jessie say that Michelle borrowed?",
     "option_bg": "What Michelle borrowed, according to Jessie.",
-    "option_fg": "What Jessie did with the message \"Michelle borrowed the computer.\""
+    "option_fg": "The way Jessie communicated that Michelle borrowed the computer."
   },
   {
     "item": "311",
@@ -107,7 +107,7 @@
     "embed_focus": "Hanako said: Tom didn't say that Sarah admired her FRIEND.",
     "target_full": "Scott said: Then who did Tom say that Sarah admired?",
     "option_bg": "Who Sarah admired, according to Tom.",
-    "option_fg": "What Tom did with the message \"Sarah admired her friend.\""
+    "option_fg": "The way Tom communicated that Sarah admired her friend."
   },
   {
     "item": "312",
@@ -117,6 +117,6 @@
     "embed_focus": "Hanako said: Noah didn't say that Sharon wanted a DOG.",
     "target_full": "Scott said: Then what did Noah say that Sharon wanted?",
     "option_bg": "What Sharon wanted, according to Noah.",
-    "option_fg": "What Noah did with the message \"Sharon wanted a dog.\""
+    "option_fg": "The way Noah communicated that Sharon wanted a dog."
   }
 ]
