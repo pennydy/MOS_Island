@@ -918,9 +918,7 @@ function init() {
     exp.stims_block = []
     for (var i=0; i<num_blocks; i++) {
         // each block will have four critical items(one embed_focus, one verb_focus for say and mos) 
-        // and four filler items(one in each condition)
-        var block = [mos_embed_focus.pop(), mos_verb_focus.pop(), say_embed_focus.pop(), say_verb_focus.pop(),
-          filler_good.pop(), filler_bad.pop()];
+        var block = [mos_embed_focus.pop(), mos_verb_focus.pop(), say_embed_focus.pop(), say_verb_focus.pop()];
         // randomize the items within each block -> shuffle items to make sure different items will get different tasks
         block = _.shuffle(block);
         // split into half acceptability and half backgroundedness inside each block
@@ -930,6 +928,8 @@ function init() {
         for (var j=block.length/2; j<block.length; j++) {
             block[j].task = "backgroundedness";
         }
+        // add the two fillers later, so that their task will only be acceptability 
+        block.push(filler_good.pop(), filler_bad.pop())
         // shuffle again to ensure the tasks are randomized as well
         block = _.shuffle(block);
         console.log(block)
