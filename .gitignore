@@ -14,6 +14,7 @@ data/3_sayAdv-context/all_original/
 data/**/*.config
 data/**/*.exps
 # data/*.csv
+data/1a_mos_say/
 
 # analysis
 analysis/1_written-context/rscripts/analysis.R

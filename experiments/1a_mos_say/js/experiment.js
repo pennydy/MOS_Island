@@ -735,7 +735,7 @@ function init() {
         "context_full": "Hanako said: Ollie didn't think that Doug would invite the mayor.",
         "target_full": "Scott said: Then who did Ollie think that Doug would invite?",
         "option_bg": "Who Doug would invite, according to Ollie.",
-        "option_fg": "Who invited the mayor acoording to Ollie."
+        "option_fg": "Who invited the mayor, according to Ollie."
       },
       {
         "item": "102",
@@ -1022,7 +1022,7 @@ function init() {
     //   exp.nQs = utils.get_exp_length(); //this does not work if there are stacks of stims (but does work for an experiment with this structure)
                         //relies on structure and slides being defined
                         
-    exp.nQs = 1 + 8 + 1 + 48 + 1; 
+    exp.nQs = 1 + 7 + 1 + 48 + 1; 
     $(".nQs").html(exp.nQs);
 
     $('.slide').hide(); //hide everything

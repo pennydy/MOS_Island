@@ -760,7 +760,7 @@ function init() {
         "context_full": "Hanako said: Ollie didn't think that Doug would invite the <b>MAYOR</b>.",
         "target_full": "Scott said: Then who did Ollie think that Doug would invite?",
         "option_bg": "Who Doug would invite, according to Ollie.",
-        "option_fg": "Who invited the mayor acoording to Ollie.",
+        "option_fg": "Who invited the mayor, according to Ollie.",
         "task": "acceptability"
       },
       {
