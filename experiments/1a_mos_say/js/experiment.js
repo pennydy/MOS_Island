@@ -814,7 +814,7 @@ function init() {
         "verb": "suspect",
         "condition": "filler_good",
         "context_full": "Hanako said: Sebrina didn't suspect that James would cancel the trip.",
-        "target_full": "Scott said: Then who suspect that James would cancel the trip?",
+        "target_full": "Scott said: Then who suspected that James would cancel the trip?",
         "option_bg": "Who suspected that James would cancel the trip.",
         "option_fg": "Who would cancel the trip, according to Sebrina."
       },
