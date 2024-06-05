@@ -17,7 +17,7 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 #######################Load Data ######################################
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source('locative_helpers.R')
-mos_data<-read.csv("../../../data/1a_mos_say/pilot/1a_mos_say-pilot-trials.csv")
+mos_data<-read.csv("../../../data/1a_mos_say/main/1a_mos_say-trials.csv")
 freq_data <- read.csv("../../../data/exp2_freq.csv")
 
 ##Add log SCR score to verbs###
@@ -37,8 +37,7 @@ mos_data <- left_join(mos_data, freq_data, by="verb") %>%
 #######################Participant Exclusion##########################
 ###Exclude Subjects###
 length(unique(mos_data$workerid))
-excluded_subjects <- c(1391) ## excluded due to bilingual speaker status
-excluded_subjects <- c(excluded_subjects, 1348) ## excluded due to second attempt
+excluded_subjects <- c(86) ## non-english native speaker
 
 mos_data <- subset(mos_data, !is.element(mos_data$workerid, excluded_subjects))
 length(unique(mos_data$workerid))
@@ -90,27 +89,50 @@ mos_data_overall <- mos_data %>%
 mos_data_nofill <-  subset(mos_data_acc, condition %in% c("say","mos"))
 mos_data_acc_noprac <- subset(mos_data_acc, block_id != "practice")
 
-# count the number of accept tasks for each verb
-mos_acc_verbs <- mos_data_acc %>% 
-  filter(block_id != "practice") %>% 
-  filter(condition == "mos") %>%  
-  group_by(verb) %>% 
-  summarize(count = n())
+# mos_data_acc_noprac <- mos_data_acc_noprac %>% 
+#   group_by(workerid) %>% 
+#   mutate(mean = mean(acceptability_rating),
+#          sd = sd(acceptability_rating),
+#          z_rating = (mean-acceptability_rating)/sd) %>% 
+#   ungroup()
+
+# accept tasks for each verb
+mos_verbs = c("groan", "moan", "mumble", "murmur", "mutter", "scream", "shout", "shriek", "stammer", "whine", "whisper", "yell")
+filler_verbs = c("believe", "confirm", "expect", "guess", "hope", "imply", "reveal", "spectulate", "suggest", "suspect", "think") # spectulate->speculate, corrected in the actual stimuli
+mos_acc_verbs <- mos_data_acc %>%
+  filter(block_id != "practice") %>%
+  filter(condition == "mos" | condition == "filler_good" | condition == "say") %>%
+  group_by(verb, condition) %>%
+  summarize(Mean = mean(acceptability_rating),
+            CILow = ci.low(acceptability_rating),
+            CIHigh = ci.high(acceptability_rating))  %>% 
+  ungroup() %>%
+  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh)
 
 mos_acc_means = mos_data_acc %>%
   filter(block_id != "practice") %>% # exclude practice trials
-      mutate(condition = case_when(condition == "filler_good" ~ "Good Filler",
-      condition == "filler_bad" ~ "Bad Filler",
-      condition == "say" ~ "Say",
-      condition == "mos" ~ "MoS")) %>%
-      group_by(condition) %>%
-      summarize(Mean = mean(acceptability_rating),
-                CILow = ci.low(acceptability_rating),
-                CIHigh = ci.high(acceptability_rating)) %>%
-      ungroup() %>%
-      mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>%
+  mutate(condition = case_when(condition == "filler_good" ~ "Good Filler",
+                               condition == "filler_bad" ~ "Bad Filler",
+                               condition == "say" ~ "Say",
+                               condition == "mos" ~ "MoS")) %>%
+  # group_by(condition) %>%
+  # summarize(Mean = mean(acceptability_rating),
+  #           CILow = ci.low(acceptability_rating),
+  #           CIHigh = ci.high(acceptability_rating)) %>%
+  # ungroup() %>%
+  group_by(workerid) %>% 
+  mutate(mean = mean(acceptability_rating),
+         sd = sd(acceptability_rating),
+         z_rating = (acceptability_rating - mean)/sd) %>% 
+  ungroup() %>% 
+  group_by(condition) %>%
+  summarize(Mean = mean(z_rating),
+            CILow = ci.low(z_rating),
+            CIHigh = ci.high(z_rating)) %>%
+  ungroup() %>%
+  mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>%
 # reorder the factors
-      mutate(condition = fct_relevel(condition, "Good Filler", "Say", "MoS", "Bad Filler"))
+  mutate(condition = fct_relevel(condition, "Good Filler", "Say", "MoS", "Bad Filler"))
 
 ## backgroundedness
 mos_data_bg_nofill <-  subset(mos_data_bg, condition %in% c("say","mos"))
@@ -149,7 +171,8 @@ mos_acc_graph <- ggplot(mos_acc_means,
                             "Say"="Say",
                             "MoS"="MoS",
                             "Bad Filler"="Bad\nFiller")) +
-  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
+  # scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
+  scale_y_continuous(name="Z-score Acceptability Rating", limits=c(-1.5, 1)) +
   # geom_signif(comparisons=list(c("Good Filler", "Adverb Focus")), annotations="***",y_position = 0.9) +
   # geom_signif(comparisons=list(c("Embedded Focus", "Adverb Focus")), annotations="***",y_position = 0.8) +
   # geom_signif(comparisons=list(c("Bad Filler", "Adverb Focus")), annotations="***",y_position = 0.7) +
@@ -158,7 +181,25 @@ mos_acc_graph <- ggplot(mos_acc_means,
                       # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Adverb Focus"))
                       # +facet_wrap(~ID) 
 mos_acc_graph
-ggsave(mos_acc_graph, file="../graphs/pilot/mos_acc.pdf", width=4, height=4)
+ggsave(mos_acc_graph, file="../graphs/main/mos_acc_z-scored.pdf", width=4, height=4)
+
+### fillers by item
+mos_acc_verb_graph <- ggplot(mos_acc_verbs, 
+                        aes(x=verb, y=Mean, fill=condition)) +
+  geom_bar(stat="identity", width=0.8, aes(color=condition)) +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
+  scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
+  theme_bw() +
+  xlab("Condition") +
+  scale_color_manual(values=cbPalette, name=NULL, guide="none") +
+  scale_x_discrete(labels=c("Good Filler"="Good\nFiller", 
+                            "Say"="Say",
+                            "MoS"="MoS")) +
+  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
+  theme(axis.text=element_text(size=10),
+        axis.text.x = element_text(angle=60,vjust = 0.5, hjust=0.5),
+        axis.title=element_text(size=14))
+mos_acc_verb_graph
 
 ###########BG question plot#######################
 mos_bg_graph <- ggplot(mos_bg_means %>% 
@@ -178,7 +219,7 @@ mos_bg_graph <- ggplot(mos_bg_means %>%
   # geom_signif(comparisons = list(c("Embedded Focus", "Adverb Focus")),
   #             annotations="***",y_position = 0.93)
 mos_bg_graph
-ggsave(mos_bg_graph, file="../graphs/pilot/mos_bg.pdf", width=3, height=4)
+ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=3, height=4)
  
  
 #######SCR plot############
@@ -268,7 +309,7 @@ ggsave(mos_vff_plot, file="../graphs/main/vff.pdf", width=7, height=6)
 
 ##############trial_order plot#############
 mos_trial_means = mos_data_acc %>% 
-  filter(condition %in% c("embed_focus", "verb_focus") ) %>%
+  filter(condition %in% c("mos", "say") ) %>%
   group_by(trial_num, condition) %>%
   summarise(Mean = mean(acceptability_rating))
  
@@ -290,12 +331,12 @@ ggsave(mos_trial_plot, file="../graphs/main/trial_plot.pdf", width=4, height=3)
 
 #########################Stats##################################
 #####acceptability analysis######
-mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_bad_1","filler_bad_2")] <- "filler_bad"
-mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_good_1","filler_good_2")] <- "filler_good"
-mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "embed_focus"] <- "embed_focus"
-mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "verb_focus"] <- "verb_focus"
+mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "filler_bad"] <- "filler_bad"
+mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "filler_good"] <- "filler_good"
+mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "say"] <- "say"
+mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "mos"] <- "mos"
 mos_data_acc_noprac$prim_cond<- as.factor(mos_data_acc_noprac$prim_cond)
-mos_data_acc_noprac$prim_cond<-relevel(mos_data_acc_noprac$prim_cond, ref = "verb_focus")
+mos_data_acc_noprac$prim_cond<-relevel(mos_data_acc_noprac$prim_cond, ref = "say")
 
 acc_model <- lmer(acceptability_rating ~ prim_cond + 
                     (1+prim_cond|workerid),
