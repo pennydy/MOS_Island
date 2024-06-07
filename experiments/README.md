@@ -6,6 +6,18 @@
 - Conditions: Verb Focus and Embedded Focus
 - Tasks: acceptability judgement (sliding scale) and backgroundedness (2AFC)
 
+## Experiment 1a
+- Location: `1a_mos_say`
+- Constructions: Say + MoS verbs
+- Conditions: Verb type (Say and MoS)
+- Tasks: acceptability judgement (sliding scale) and backgroundedness (2AFC)
+
+## Experiment 1b
+- Location: `1b_mos_say-context`
+- Constructions: Say + MoS verbs
+- Conditions: Verb Focus and Embedded Focus
+- Tasks: acceptability judgement (sliding scale) and backgroundedness (2AFC, only for critical items)
+
 ## Experiment 2
 - Location: `2_sayAdv-main`
 - Constructions: Say + Adv

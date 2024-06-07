@@ -74,6 +74,7 @@ length(eligible_subjects)
 # sanity check for data exclusion
 is.element(excluded_subjects,eligible_subjects)
 mos_data = subset(mos_data, workerid %in% eligible_subjects)
+# write.csv(mos_data,"../../../data/1a_mos_say/main/exp1a_after_exclusion.csv", row.names = FALSE)
 ##################################Getting data ready for plotting and analysis#############################################
 # Data cleaning    
 ## acceptability
