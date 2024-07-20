@@ -4575,58 +4575,6 @@
 101,"condition1",0.73,NA,"11","filler_good","Hanako said: Roger didn't expect that Andy would take the jacket.",104,NA,4303,"acceptability",46,"expect",NA,NA
 101,"condition1",0.07,NA,"11","mos","Hanako said: Igor didn't shriek that Penny won the lottery.",11,NA,7592,"acceptability",47,"shriek",NA,NA
 101,"condition1",NA,"embed","11","filler_bad","<u>Hanakko said: Larry didn't believe that Karl and Nick cooked dinner.</u>",115,"Who else cooked dinner other than Karl, according to Larry.",5152,"backgroundedness",48,"believe",NA,NA
-88,"condition1",0.9,NA,"practice","practice_acceptability_good_1","Hanako said: Fiona didn't buy pineapples.",201,"",NA,"acceptability",0,NA,0,NA
-88,"condition1",NA,"correct","practice","practice_bg_good_2","<u>Hanako said: Vera didn't drive to Michigan.</u>",202,"How Vera travelled to Michigan.",NA,"backgroundedness",0,NA,NA,NA
-88,"condition1",0.15,NA,"practice","practice_accpetability_bad_2","Hanako said: Prisha doesn't speak Korean.",204,"",NA,"acceptability",0,NA,0,NA
-88,"condition1",NA,"correct","practice","practice_bg_bad_1","<u>Hanako said: Hank didn't buy the red car.</u>",203,"Which car Hank bought.",NA,"backgroundedness",0,NA,NA,NA
-88,"condition1",NA,"embed","0","filler_good","<u>Hanako said: Grace didn't suggest that Karen wrote a book.</u>",102,"What Karen wrote, according to Grace.",40841,"backgroundedness",1,"suggest",NA,NA
-88,"condition1",0.95,NA,"0","say","Hanako said: Tim didn't say that Jason drank the beer. ",304,NA,6149,"acceptability",2,"say",NA,NA
-88,"condition1",NA,"embed","0","filler_bad","<u>Hanako said: Jessie didn't guess that the assistant to the director would give the presentation.</u>",121,"Whose assistant would give the presentation, as Jessie guessed.",19238,"backgroundedness",3,"guess",NA,NA
-88,"condition1",0.73,NA,"0","mos","Hanako said: Emma didn't stammer that Kevin lost the keys.",2,NA,12012,"acceptability",4,"stammer",NA,NA
-88,"condition1",NA,"embed","1","say","<u>Hanako said: Ben didn't say that Laura ordered pizza.</u>",307,"What Laura ordered, according to Ben.",12718,"backgroundedness",5,"say",NA,NA
-88,"condition1",0.1,NA,"1","filler_bad","Hanako said: Helen didn't think that Rob and Marc cut the bread. ",113,NA,10190,"acceptability",6,"think",NA,NA
-88,"condition1",NA,"embed","1","mos","<u>Hanako said: Chandler didn't moan that Tia brought her parents.</u>",12,"Who Tia brought, according to Chandler.",11630,"backgroundedness",7,"moan",NA,NA
-88,"condition1",0.92,NA,"1","filler_good","Hanako said: Ronald didn't imply that Jacy rented the truck.",106,NA,9148,"acceptability",8,"imply",NA,NA
-88,"condition1",NA,"embed","2","say","<u>Hanako said: Noah didn't say that Sharon wanted a dog.</u>",312,"What Sharon wanted, according to Noah.",35067,"backgroundedness",9,"say",NA,NA
-88,"condition1",NA,"embed","2","filler_good","<u>Hanako said: Matthew didn't hope that Dana brought a gift.</u>",107,"Who hoped that Dana brought a gift.",7365,"backgroundedness",10,"hope",NA,NA
-88,"condition1",0.8,NA,"2","mos","Hanako said: Laura didn't mutter that Brandon broke his laptop.",4,NA,8795,"acceptability",11,"mutter",NA,NA
-88,"condition1",0.19,NA,"2","filler_bad","Hanako said: Ben didn't expect that Judith and Eleanor would solve the puzzle.",116,NA,52532,"acceptability",12,"expect",NA,NA
-88,"condition1",0.2,NA,"3","filler_bad","Hanako said: Michael didn't speculate that Robert and Eric would leave the team.",118,NA,22704,"acceptability",13,"spectulate",NA,NA
-88,"condition1",NA,"embed","3","filler_good","<u>Hanako said: Jean didn't believe that Grant adopted a kitten.</u>",103,"What Grant adopted, according to Jean.",28540,"backgroundedness",14,"believe",NA,NA
-88,"condition1",0.89,NA,"3","say","Hanako said: Hannah didn't say that George emailed the students.",301,NA,12276,"acceptability",15,"say",NA,NA
-88,"condition1",NA,"embed","3","mos","<u>Hanako said: Igor didn't shriek that Penny won the lottery.</u>",11,"What Penny won, according to Igor.",8276,"backgroundedness",16,"shriek",NA,NA
-88,"condition1",0.98,NA,"4","say","Hanako said: Danny didn't say that Jennifer got a cat.",308,NA,6802,"acceptability",17,"say",NA,NA
-88,"condition1",NA,"embed","4","filler_bad","<u>Hanako said: Tim didn't suspect that Liz and Jason drank the beer. </u>",114,"Who else drank the beer other than Liz, according to Tim.",91460,"backgroundedness",18,"suspect",NA,NA
-88,"condition1",NA,"embed","4","mos","<u>Hanako said: Howard didn't mumble that Alex bought a birthday cake.</u>",3,"What Alex bought, according to Howard.",61924,"backgroundedness",19,"mumble",NA,NA
-88,"condition1",0.94,NA,"4","filler_good","Hanako said: Sebrina didn't suspect that James would cancel the trip.",110,NA,18057,"acceptability",20,"suspect",NA,NA
-88,"condition1",0.11,NA,"5","filler_bad","Hanakko said: Larry didn't believe that Karl and Nick cooked dinner.",115,NA,12593,"acceptability",21,"believe",NA,NA
-88,"condition1",0.95,NA,"5","say","Hanako said: Charlie didn't say that Maddie would call her roommate.",305,NA,61115,"acceptability",22,"say",NA,NA
-88,"condition1",NA,"embed","5","mos","<u>Hanako said: Fatima didn't murmur that Omar had dinner with his manager.</u>",10,"Who Omar had dinner with, according to Fatima.",15679,"backgroundedness",23,"murmur",NA,NA
-88,"condition1",NA,"embed","5","filler_good","<u>Hanako said: Jess didn't reveal that Todd went out with Betty.</u>",109,"Who revealed that Todd went out with Betty.",5380,"backgroundedness",24,"reveal",NA,NA
-88,"condition1",0.94,NA,"6","filler_good","Hanako said: Ollie didn't think that Doug would invite the mayor.",101,NA,7128,"acceptability",25,"think",NA,NA
-88,"condition1",NA,"embed","6","filler_bad","<u>Hanako said: Amelia didn't suggest that Frank and Lisa were in the office.</u>",117,"Who else was in the office other than Frank.",42062,"backgroundedness",26,"suggest",NA,NA
-88,"condition1",0.77,NA,"6","mos","Hanako said: Bill didn't shout that Dan knew the professor.",5,NA,37788,"acceptability",27,"shout",NA,NA
-88,"condition1",NA,"embed","6","say","<u>Hanako said: Kate didn't say that Zack broke the plates.</u>",306,"What Zack broke, according to Kate.",8542,"backgroundedness",28,"say",NA,NA
-88,"condition1",0.94,NA,"7","filler_good","Hanako said: Juliet didn't confirm that Sebastian would come to the party.",112,NA,47829,"acceptability",29,"confirm",NA,NA
-88,"condition1",0.97,NA,"7","say","Hanako said: Tom didn't say that Sarah admired her friend. ",311,NA,9860,"acceptability",30,"say",NA,NA
-88,"condition1",NA,"embed","7","filler_bad","<u>Hanako said: Jamal didn't expect that the book about astronomy was on the shelf.</u>",123,"Which book Jamal expected to be on the shelf.",10707,"backgroundedness",31,"expect",NA,NA
-88,"condition1",NA,"embed","7","mos","<u>Hanako said: Jake didn't yell that Yumi found the wallet.</u>",7,"What Yumi found, according to Jake.",5296,"backgroundedness",32,"yell",NA,NA
-88,"condition1",0.89,NA,"8","say","Hanako said: Emily didn't say that Paul drafted the letter.",302,NA,58650,"acceptability",33,"say",NA,NA
-88,"condition1",0.46,NA,"8","mos","Hanako said: John didn't whisper that Mary met with the lawyer.",1,NA,6883,"acceptability",34,"whisper",NA,NA
-88,"condition1",NA,"embed","8","filler_bad","<u>Hanako said: Donald didn't reveal that the parents of Krishna were moving to Texas. </u>",122,"Whose parents were moving to Texas, as Donald revealed.",6805,"backgroundedness",35,"reveal",NA,NA
-88,"condition1",NA,"embed","8","filler_good","<u>Hanako said: Roger didn't expect that Andy would take the jacket.</u>",104,"What Andy would take, according to Roger.",23356,"backgroundedness",36,"expect",NA,NA
-88,"condition1",0.85,NA,"9","filler_good","Hanako said: Ryan didn't expect that Leon heard the news.",111,NA,10860,"acceptability",37,"expect",NA,NA
-88,"condition1",0.87,NA,"9","mos","Hanako said: Amy didn't scream that Charlie saw the robber.",6,NA,12686,"acceptability",38,"scream",NA,NA
-88,"condition1",NA,"embed","9","say","<u>Hanako said: Jessie didn't say that Michelle borrowed the computer.</u>",310,"What Michelle borrowed, according to Jessie.",29558,"backgroundedness",39,"say",NA,NA
-88,"condition1",NA,"embed","9","filler_bad","<u>Hanako said: Ted didn't insist that Eva's uncle should stay for dinner.</u>",124,"Whose uncle should stay for dinner, as Tedd insisted.",9554,"backgroundedness",40,"insist",NA,NA
-88,"condition1",NA,"embed","10","mos","<u>Hanako said: Ashley didn't groan that Hasan talked to the detectives.</u>",8,"Who Hasan talked to, according to Ashley.",8847,"backgroundedness",41,"groan",NA,NA
-88,"condition1",0.93,NA,"10","say","Hanako said: Sally didn't say that Tony would visit George.",303,NA,4618,"acceptability",42,"say",NA,NA
-88,"condition1",NA,"embed","10","filler_good","<u>Hanako said: Selena didn't speculate that Justin would buy the house.</u>",105,"What Justin would buy, according to Selena.",16214,"backgroundedness",43,"spectulate",NA,NA
-88,"condition1",0.35,NA,"10","filler_bad","Hanako said: Rui didn't imply that Carol's brother signed the contract.",119,NA,8640,"acceptability",44,"imply",NA,NA
-88,"condition1",NA,"embed","11","filler_good","<u>Hanako said: Julie didn't guess that Charlie received a message.</u>",108,"Who guessed that Charlie received a message.",8539,"backgroundedness",45,"guess",NA,NA
-88,"condition1",NA,"embed","11","mos","<u>Hanako said: Yash didn't whine that Ming forgot her phone. </u>",9,"What Ming forgot, according to Yash.",5435,"backgroundedness",46,"whine",NA,NA
-88,"condition1",0.91,NA,"11","say","Hanako said: Nancy didn't say that Julian ate the cupcake.",309,NA,5299,"acceptability",47,"say",NA,NA
-88,"condition1",0.25,NA,"11","filler_bad","Hanako said: Frankie didn't hope that the agent of the guitarist would show up. ",120,NA,8328,"acceptability",48,"hope",NA,NA
 109,"condition1",0.91,NA,"practice","practice_acceptability_good_1","Hanako said: Fiona didn't buy pineapples.",201,"",NA,"acceptability",0,NA,0,NA
 109,"condition1",NA,"correct","practice","practice_bg_good_2","<u>Hanako said: Vera didn't drive to Michigan.</u>",202,"How Vera travelled to Michigan.",NA,"backgroundedness",0,NA,NA,NA
 109,"condition1",0.04,NA,"practice","practice_accpetability_bad_2","Hanako said: Prisha doesn't speak Korean.",204,"",NA,"acceptability",0,NA,0,NA

@@ -18,26 +18,43 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source('locative_helpers.R')
 mos_data<-read.csv("../../../data/1a_mos_say/main/1a_mos_say-trials.csv")
-freq_data <- read.csv("../../../data/exp2_freq.csv")
+
+mos_verbs <- c("whisper", "stammer", "mumble", "mutter", "scream", "yell",
+               "groan", "whine", "murmur", "shriek", "moan", "shout")
+
+exp1a_mos_data <- read.csv("../../../data/1a_mos_say/main/1a_mos_say-trials.csv")
+
 
 ##Add log SCR score to verbs###
-freq_data <- freq_data %>% 
-  rename(vff = coca_v_sc, # using coca
-         google_vff = google_v_sc) %>%
-  select(-c(google_vff, verb, v)) %>% 
-  # rename(vff = google_v_sc, # using google book
-  #        coca_vff = coca_v_sc) %>%
-  # select(-c(coca_vff, verb, v)) %>% 
-  rename(verb=adverb)
+mos_data$scr[mos_data$verb == "moan"] = log(0.019933555)
+mos_data$scr[mos_data$verb == "mumble"] = log(0.028169014)
+mos_data$scr[mos_data$verb == "murmur"] = log(0.011627907)
+mos_data$scr[mos_data$verb == "mutter"] =log(0.015695067)
+mos_data$scr[mos_data$verb == "scream"] =log(0.018957346)
+mos_data$scr[mos_data$verb == "shout"] =log(0.009748172)
+mos_data$scr[mos_data$verb == "shriek"] =log(0.01119403)
+mos_data$scr[mos_data$verb == "stammer"] =log(0.009090909)
+mos_data$scr[mos_data$verb == "whine"] =log(0.035433071)
+mos_data$scr[mos_data$verb == "whisper"] =log(0.012575889)
+mos_data$scr[mos_data$verb == "yell"]=log(0.010537992)
+mos_data$scr[mos_data$verb == "groan"]=log(0.00539924)
+# mos_data$scr <- scale(mos_data$scr, center = FALSE)
 
-mos_data <- left_join(mos_data, freq_data, by="verb") %>% 
-  mutate(scr = log(scr),
-         vff = log(vff))
+mos_data$vff[mos_data$verb == "stammer"] = -6.841637508
+mos_data$vff[mos_data$verb == "shout"] = -5.603800653
+mos_data$vff[mos_data$verb == "yell"] =	-5.987162775
+mos_data$vff[mos_data$verb == "murmur"] =	-6.230622674
+mos_data$vff[mos_data$verb == "whisper"] =	-5.53165267
+mos_data$vff[mos_data$verb == "mutter"] =	-6.092051478
+mos_data$vff[mos_data$verb == "scream"] =	-5.793174124
+mos_data$vff[mos_data$verb == "mumble"] =	-6.395773947
+mos_data$vff[mos_data$verb == "whine"] =	-6.549750892
+# mos_data$vff <- scale(mos_data$vff, center = TRUE)
 
 #######################Participant Exclusion##########################
 ###Exclude Subjects###
 length(unique(mos_data$workerid))
-excluded_subjects <- c(86) ## non-english native speaker
+excluded_subjects <- c(86, 88) ## non-english native speaker, or no response for the language status
 
 mos_data <- subset(mos_data, !is.element(mos_data$workerid, excluded_subjects))
 length(unique(mos_data$workerid))
@@ -99,7 +116,7 @@ mos_data_acc_noprac <- subset(mos_data_acc, block_id != "practice")
 
 # accept tasks for each verb
 mos_verbs = c("groan", "moan", "mumble", "murmur", "mutter", "scream", "shout", "shriek", "stammer", "whine", "whisper", "yell")
-filler_verbs = c("believe", "confirm", "expect", "guess", "hope", "imply", "reveal", "spectulate", "suggest", "suspect", "think") # spectulate->speculate, corrected in the actual stimuli
+filler_verbs = c("believe", "confirm", "expect", "guess", "hope", "imply", "reveal", "spectulate", "suggest", "suspect", "think") # spectulate->speculate, corrected in the actual exp
 mos_acc_verbs <- mos_data_acc %>%
   filter(block_id != "practice") %>%
   filter(condition == "mos" | condition == "filler_good" | condition == "say") %>%
@@ -116,20 +133,10 @@ mos_acc_means = mos_data_acc %>%
                                condition == "filler_bad" ~ "Bad Filler",
                                condition == "say" ~ "Say",
                                condition == "mos" ~ "MoS")) %>%
-  # group_by(condition) %>%
-  # summarize(Mean = mean(acceptability_rating),
-  #           CILow = ci.low(acceptability_rating),
-  #           CIHigh = ci.high(acceptability_rating)) %>%
-  # ungroup() %>%
-  group_by(workerid) %>% 
-  mutate(mean = mean(acceptability_rating),
-         sd = sd(acceptability_rating),
-         z_rating = (acceptability_rating - mean)/sd) %>% 
-  ungroup() %>% 
   group_by(condition) %>%
-  summarize(Mean = mean(z_rating),
-            CILow = ci.low(z_rating),
-            CIHigh = ci.high(z_rating)) %>%
+  summarize(Mean = mean(acceptability_rating),
+            CILow = ci.low(acceptability_rating),
+            CIHigh = ci.high(acceptability_rating)) %>%
   ungroup() %>%
   mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>%
 # reorder the factors
@@ -172,17 +179,16 @@ mos_acc_graph <- ggplot(mos_acc_means,
                             "Say"="Say",
                             "MoS"="MoS",
                             "Bad Filler"="Bad\nFiller")) +
-  # scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
-  scale_y_continuous(name="Z-score Acceptability Rating", limits=c(-1.5, 1)) +
-  # geom_signif(comparisons=list(c("Good Filler", "Adverb Focus")), annotations="***",y_position = 0.9) +
-  # geom_signif(comparisons=list(c("Embedded Focus", "Adverb Focus")), annotations="***",y_position = 0.8) +
-  # geom_signif(comparisons=list(c("Bad Filler", "Adverb Focus")), annotations="***",y_position = 0.7) +
+  scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
+  # scale_y_continuous(name="Z-score Acceptability Rating", limits=c(-1.5, 1)) +
+  geom_signif(comparisons=list(c("Bad Filler", "Say")), annotations="***",y_position = 0.95) +
+  geom_signif(comparisons=list(c("Say", "MoS")), annotations="***",y_position = 0.85) +
   theme(axis.text=element_text(size=10),
         axis.title=element_text(size=14))
                       # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Adverb Focus"))
                       # +facet_wrap(~ID) 
 mos_acc_graph
-ggsave(mos_acc_graph, file="../graphs/main/mos_acc_z-scored.pdf", width=4, height=4)
+ggsave(mos_acc_graph, file="../graphs/main/mos_acc.pdf", width=3, height=3)
 
 ### fillers by item
 mos_acc_verb_graph <- ggplot(mos_acc_verbs, 
@@ -216,34 +222,28 @@ mos_bg_graph <- ggplot(mos_bg_means %>%
   scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Object", limits=c(0, 1)) + 
   theme(legend.position="bottom",
         axis.text=element_text(size=12),
-        axis.title=element_text(size=12)) # +
-  # geom_signif(comparisons = list(c("Embedded Focus", "Adverb Focus")),
-  #             annotations="***",y_position = 0.93)
+        axis.title=element_text(size=12))  +
+  geom_signif(comparisons = list(c("say", "mos")),
+              annotations="***",y_position = 0.7)
 mos_bg_graph
-ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=3, height=4)
+ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=2, height=3)
  
  
 #######SCR plot############
 mos_scr_means <- mos_data_acc %>% 
-  filter(condition %in% c("embed_focus", "verb_focus")) %>%
-  mutate(condition = ifelse(condition=="verb_focus", "Adverb Focus", "Embedded Focus")) %>% 
+  filter(condition %in% c("mos")) %>%
   group_by(verb, condition) %>%
-  summarise( ACC = mean(acceptability_rating), 
-              SCR = mean(scr))
- 
-mos_scr_plot <- ggplot(mos_scr_means %>% 
-                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus"),
-                                label = case_when(verb %in% c("calmly", "dryly", "wearily") & condition == "Adverb Focus" ~ verb,
-                                                  verb %in% c("softly", "gently", "quietly", "sternly", "ruefully", "cheerfully", "loudly", "wistfully", "bluntly") & condition =="Embedded Focus" ~ verb,
-                                                  TRUE ~ "")),
-                        aes(x = SCR, y = ACC, 
-                            color = condition, 
-                            fill=condition)) +
+  summarise(ACC = mean(acceptability_rating), 
+            SCR = mean(scr))
+
+mos_scr_plot <- ggplot(mos_scr_means,
+                        aes(x = SCR, y = ACC)) +
   geom_point() +
-  geom_smooth(method = "lm") +
-  # geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
-  geom_label_repel(aes(label=label),color="black",fill="white",max.overlaps=Inf,seed=1235)+
-                   # nudge_x = ifelse(mos_scr_means$condition == "Adverb Focus",0.3,0))+
+  geom_smooth(method = "lm", color="black") +
+  # geom_text(aes(label=verb),size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
+  geom_label_repel(aes(label=verb),color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2)+
   geom_line(aes(group=verb),
              color = "black",
              alpha = 0.6,
@@ -251,62 +251,45 @@ mos_scr_plot <- ggplot(mos_scr_means %>%
   # scale_x_continuous(expand=expansion(mult = 0.08)) +
   xlab("Log-transformed SCR score")+
   ylab("Mean Acceptability Rating") +
-  scale_color_manual(values=c("#56B4E9", "#009E73"), 
-                     labels=c("Embedded Focus", "Adverb Focus"),
-                     name = "Condition") +
-  scale_fill_manual(values=c("#56B4E9", "#009E73"), 
-                    labels=c("Embedded Focus", "Adverb Focus"),
-                    name = "Condition") +
   theme(legend.position="top",
         legend.title=element_text(size=16),
         legend.text=element_text(size=16),
         axis.text=element_text(size=16),
         axis.title=element_text(size=18)) 
 mos_scr_plot
-ggsave(mos_scr_plot, file="../graphs/main/scr_single_label.pdf", width=7, height=6)
+ggsave(mos_scr_plot, file="../graphs/main/scr.pdf", width=6, height=4)
 
 
 #######VFF plot############
 mos_vff_means = mos_data_acc %>% 
-  filter(condition %in% c("embed_focus", "verb_focus")) %>%
-  mutate(condition = ifelse(condition=="verb_focus", "Adverb Focus", "Embedded Focus")) %>% 
+  filter(condition %in% c("mos")) %>%
   group_by(verb, condition) %>%
-  summarise( ACC = mean(acceptability_rating), 
-             VFF = mean(vff))
+  summarise(ACC = mean(acceptability_rating), 
+             VFF = mean(vff)) %>% 
+  filter(!is.na(VFF))
 
-mos_vff_plot <- ggplot(mos_vff_means %>% 
-                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus"),
-                                label = case_when(verb %in% c("dryly", "wearily","wistfully") & condition == "Adverb Focus" ~ verb,
-                                                  verb %in% c("calmly", "softly", "gently", "quietly", "sternly", "ruefully", "cheerfully", "loudly", "bluntly") & condition =="Embedded Focus" ~ verb,
-                                                  TRUE ~ "")),
-                       aes(x = VFF, y = ACC, 
-                           color = condition, 
-                           fill=condition, 
-                           label=verb)) +
+mos_vff_plot <- ggplot(mos_vff_means,
+                       aes(x = VFF, y = ACC)) +
   geom_point() +
-  geom_smooth(method = "lm") +
-  # geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
-  geom_label_repel(aes(label=verb),color="black",fill="white")+
+  geom_smooth(method = "lm",color="black") +
+  # geom_text(aes(label=verb),size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
+  geom_label_repel(aes(label=verb),color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2)+
   geom_line(aes(group=verb),
             color = "black",
             alpha = 0.6,
             linetype = "dashed") +
   # scale_x_continuous(expand=expansion(mult = 0.08)) +
-  xlab("Log-transformed predicate-frame frequency")+
+  xlab("Log-transformed verb-frame frequency")+
   ylab("Mean Acceptability Rating") +
-  scale_color_manual(values=c("#56B4E9", "#009E73"), 
-                     labels=c("Embedded Focus", "Adverb Focus"),
-                     name = "Condition") +
-  scale_fill_manual(values=c("#56B4E9", "#009E73"), 
-                    labels=c("Embedded Focus", "Adverb Focus"),
-                    name = "Condition") +
   theme(legend.position="top",
         legend.title=element_text(size=16),
         legend.text=element_text(size=16),
         axis.text=element_text(size=16),
         axis.title=element_text(size=18))
 mos_vff_plot
-ggsave(mos_vff_plot, file="../graphs/main/vff.pdf", width=7, height=6)
+ggsave(mos_vff_plot, file="../graphs/main/vff.pdf", width=6, height=4)
 
 ##############trial_order plot#############
 mos_trial_means = mos_data_acc %>% 
@@ -331,6 +314,24 @@ mos_trial_plot
 ggsave(mos_trial_plot, file="../graphs/main/trial_plot.pdf", width=4, height=3)
 
 #########################Stats##################################
+######BG analysis###########
+#  1 -> verb focus, 0 -> noun focus; the lower the value, the more backgrounded it is
+mos_data_bg_nofill<- mos_data_bg_nofill %>%
+  mutate(bg = case_when(bg_response == "embed" ~ 0,
+                        bg_response == "verb" ~ 1
+  ))
+mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
+mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
+contrasts(mos_data_bg_nofill$condition)=contr.sum(2)
+
+# failed to converge with the random effect structure: (1+condition|workerid) + (1|item_id)
+bg_model <- glmer(bg~condition+
+                    (1+condition|workerid)+
+                    (1|item_id),
+                  family = "binomial",
+                  data=mos_data_bg_nofill)
+summary(bg_model)
+
 #####acceptability analysis######
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "filler_bad"] <- "filler_bad"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "filler_good"] <- "filler_good"
@@ -339,39 +340,22 @@ mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "mos"] <- "mos"
 mos_data_acc_noprac$prim_cond<- as.factor(mos_data_acc_noprac$prim_cond)
 mos_data_acc_noprac$prim_cond<-relevel(mos_data_acc_noprac$prim_cond, ref = "say")
 
+# failed to converge with the random effect structure (0+prim_cond|workerid) and (1+prim_cond|workerid)
 acc_model <- lmer(acceptability_rating ~ prim_cond + 
+                    # (1|item_id)+
                     (1+prim_cond|workerid),
                   data = mos_data_acc_noprac)
 summary(acc_model)
-
-######BG analysis###########
-mos_data_bg_nofill<- mos_data_bg_nofill %>%
-  # mutate(cond = ifelse(condition=="verb_focus", "Adverb Focus", "Embedded Focus")) %>%
-  #  1 -> Adverb Focus, 0 -> noun focus; the lower the value, the more backgrounded it is
-  mutate(bg = case_when(bg_response == "embed" ~ 0,
-                        bg_response == "verb" ~ 1
-  ))
-mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
-mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
-contrasts(mos_data_bg_nofill$condition)=contr.sum(2)
-bg_model <- glmer(bg~condition+
-                    (1+condition|workerid)+
-                    (1+condition|item_id),
-                  family = "binomial",
-                  data=mos_data_bg_nofill)
-summary(bg_model)
 
 ######SCR analysis#######
 # mean-center scr scores: center=TRUE, scale=TRUE (divided by sd)
 mos_data_acc$scr <- scale(mos_data_acc$scr, center=TRUE)
 mos_scr_model_data <- mos_data_acc %>% 
-  filter(condition %in% c("embed_focus", "verb_focus"))
+  filter(condition == "mos")
 
-mos_scr_model_data$condition <- as.factor(mos_scr_model_data$condition)
-contrasts(mos_scr_model_data$condition) <- contr.sum(2)
-model_scr <- lmer(acceptability_rating ~ condition * scr + 
-                    (1+condition|item_id)+ # should not include scr in the by-item random effect 
-                    (1+condition * scr|workerid),
+model_scr <- lmer(acceptability_rating ~ scr + 
+                    (1|item_id)+ # should not include scr in the by-item random effect 
+                    (1+scr|workerid),
                   data = mos_scr_model_data)
 summary(model_scr)
 
@@ -379,13 +363,12 @@ summary(model_scr)
 # mean-center vff: center=TRUE, scale=TRUE (divided by sd)
 mos_data_acc$vff <- scale(mos_data_acc$vff, center=TRUE)
 mos_vff_model_data <- mos_data_acc %>% 
-  filter(condition %in% c("embed_focus", "verb_focus"))
+  filter(condition=="mos")
 
 mos_vff_model_data$condition <- as.factor(mos_vff_model_data$condition)
-contrasts(mos_vff_model_data$condition) <- contr.sum(2)
-model_vff <- lmer(acceptability_rating ~ condition * vff + 
-                    (1+condition|item_id)+ # should not include scr in the by-item random effect 
-                    (1+condition * vff|workerid),
+model_vff <- lmer(acceptability_rating ~ vff + 
+                    (1|item_id)+ # should not include scr in the by-item random effect 
+                    (1+vff|workerid),
                   data = mos_vff_model_data)
 summary(model_vff)
 

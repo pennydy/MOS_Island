@@ -289,17 +289,31 @@ mos_scr_means = mos_data_acc %>%
    mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
    group_by(verb, condition) %>%
    summarise(ACC = mean(acceptability_rating), 
-             SCR = mean(scr))
+             SCR = mean(scr)) %>% 
+  mutate(label = case_when(verb %in% c("groan",  "stammer", "whisper","shriek",
+                                       "scream", "mumble") & 
+                             condition=="Embedded Focus" ~ verb,
+                           verb %in% c("shout","yell","murmur", "mutter","moan", "whine") & condition=="Verb Focus" ~ verb,
+                           TRUE ~ ""))
 
 mos_scr_plot <- ggplot(mos_scr_means,
                         aes(x = SCR, y = ACC, 
                             color = condition, 
-                            fill=condition,
-                            label=verb)) +
+                            fill=condition)) +
    geom_point() +
    geom_smooth(method = "lm") +
    # geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
-   geom_label_repel(aes(label=verb),color="black",fill="white")+
+   geom_label_repel(data=subset(mos_scr_means, verb%in%c("stammer", "whine","yell")),
+                    aes(label=label),
+                    color="black",fill="white",
+                    box.padding=0.1,
+                    segment.size=0.2, nudge_x=-0.16, direction="y")+
+  geom_label_repel(data=subset(mos_scr_means, verb%in%c("groan", "whisper","shriek",
+                                       "scream", "mumble", "shout","murmur", "mutter","moan")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=0.16, direction="y")+
    geom_line(aes(group=verb),
              color = "black",
              alpha = 0.4,
@@ -320,7 +334,7 @@ mos_scr_plot <- ggplot(mos_scr_means,
          axis.text=element_text(size=16),
          axis.title=element_text(size=18))
 mos_scr_plot
-ggsave(mos_scr_plot, file="../graphs/main/scr.pdf", width=7, height=6)
+ggsave(mos_scr_plot, file="../graphs/main/scr_single_label_alt_1.pdf", width=7, height=6)
  
  
 #######VFF plot############
@@ -330,8 +344,12 @@ mos_vff_means = mos_data_acc %>%
    filter(verb %notin% c("groan", "shriek", "moan")) %>%
    group_by(verb, condition) %>%
    summarise( ACC = mean(acceptability_rating), 
-              VFF = mean(vff))
- 
+              VFF = mean(vff)) %>% 
+  mutate(label = case_when(verb %in% c("groan",  "stammer", "shout","shriek","murmur",
+                                       "mumble","yell") & 
+                             condition=="Embedded Focus" ~ verb,
+                           verb %in% c("scream", "moan","whisper","whine","mutter") & condition=="Verb Focus" ~ verb,
+                           TRUE ~ ""))
  
 mos_vff_plot <- ggplot(mos_vff_means,
                         aes(x = VFF, y = ACC, 
@@ -342,7 +360,17 @@ mos_vff_plot <- ggplot(mos_vff_means,
    geom_smooth(method = "lm") +
    # geom_text(size=3, color="black", alpha=0.6, hjust=-0.1, vjust=0.2)+
    # geom_text(size=4, color="black", alpha=0.6, hjust="inward", vjust="inward") +
-   geom_label_repel(aes(label=verb),color="black",fill="white")+
+  geom_label_repel(data=subset(mos_vff_means, verb%in%c("whisper","whine","shout", "scream","mumble")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=-0.12, direction="y")+
+  geom_label_repel(data=subset(mos_vff_means, verb%in%c("groan", "shriek","stammer",
+                                                        "yell","murmur", "mutter","moan")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=0.12, direction="y")+
    geom_line(aes(group=verb),
              color = "black",
              alpha = 0.4,
@@ -362,7 +390,7 @@ mos_vff_plot <- ggplot(mos_vff_means,
          axis.text=element_text(size=16),
          axis.title=element_text(size=18))
 mos_vff_plot
-ggsave(mos_vff_plot, file="../graphs/main/vff.pdf", width=7, height=5)
+ggsave(mos_vff_plot, file="../graphs/main/vff_single_label.pdf", width=7, height=5)
  
  
 ##############trial_order plot#############

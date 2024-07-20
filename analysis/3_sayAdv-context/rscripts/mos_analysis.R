@@ -189,21 +189,37 @@ mos_scr_means <- mos_data_acc %>%
   mutate(condition = ifelse(condition=="verb_focus", "Adverb Focus", "Embedded Focus")) %>% 
   group_by(verb, condition) %>%
   summarise( ACC = mean(acceptability_rating), 
-              SCR = mean(scr))
+              SCR = mean(scr)) %>% 
+  mutate(label = case_when(verb %in% c("cheerfully","dryly", "wearily", "gently") & 
+                             condition == "Adverb Focus" ~ verb,
+                           verb %in% c("softly", "quietly", "sternly", "ruefully", 
+                                       "calmly", "loudly", "wistfully", "bluntly") & 
+                             condition =="Embedded Focus" ~ verb,
+                           TRUE ~ ""))
  
 mos_scr_plot <- ggplot(mos_scr_means %>% 
-                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus"),
-                                label = case_when(verb %in% c("calmly", "dryly", "wearily") & condition == "Adverb Focus" ~ verb,
-                                                  verb %in% c("softly", "gently", "quietly", "sternly", "ruefully", "cheerfully", "loudly", "wistfully", "bluntly") & condition =="Embedded Focus" ~ verb,
-                                                  TRUE ~ "")),
+                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus")),
                         aes(x = SCR, y = ACC, 
                             color = condition, 
                             fill=condition)) +
   geom_point() +
   geom_smooth(method = "lm") +
-  # geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
-  geom_label_repel(aes(label=label),color="black",fill="white",max.overlaps=Inf,seed=1235)+
-                   # nudge_x = ifelse(mos_scr_means$condition == "Adverb Focus",0.3,0))+
+  # geom_label_repel(aes(label=label),color="black",fill="white",max.overlaps=Inf,seed=1235,
+  #                  nudge_x = ifelse(mos_scr_means$condition == "Adverb Focus",0.3,0))+
+  geom_label_repel(data=subset(mos_scr_means, verb%in%c("bluntly","quietly","gently","dryly",
+                                                        "cheerfully","calmly")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.2,
+                   segment.size=0.1, nudge_x=-0.13, direction="y",
+                   seed=124)+
+  geom_label_repel(data=subset(mos_scr_means, verb%in%c("softly","sternly","wistfully",
+                                                        "ruefully", "wearily", "loudly")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.2,
+                   segment.size=0.1, nudge_x=0.13, direction="y",
+                   seed=124)+
   geom_line(aes(group=verb),
              color = "black",
              alpha = 0.6,
@@ -232,13 +248,13 @@ mos_vff_means = mos_data_acc %>%
   mutate(condition = ifelse(condition=="verb_focus", "Adverb Focus", "Embedded Focus")) %>% 
   group_by(verb, condition) %>%
   summarise( ACC = mean(acceptability_rating), 
-             VFF = mean(vff))
+             VFF = mean(vff)) %>% 
+  mutate(label = case_when(verb %in% c() & condition == "Adverb Focus" ~ verb,
+                           verb %in% c("wearily","dryly","cheerfully", "gently", "calmly", "softly", "quietly", "sternly", "ruefully", "loudly", "bluntly","wistfully") & condition =="Embedded Focus" ~ verb,
+                           TRUE ~ ""))
 
 mos_vff_plot <- ggplot(mos_vff_means %>% 
-                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus"),
-                                label = case_when(verb %in% c("dryly", "wearily","wistfully") & condition == "Adverb Focus" ~ verb,
-                                                  verb %in% c("calmly", "softly", "gently", "quietly", "sternly", "ruefully", "cheerfully", "loudly", "bluntly") & condition =="Embedded Focus" ~ verb,
-                                                  TRUE ~ "")),
+                         mutate(condition = fct_relevel(condition, "Embedded Focus", "Adverb Focus")),
                        aes(x = VFF, y = ACC, 
                            color = condition, 
                            fill=condition, 
@@ -246,7 +262,20 @@ mos_vff_plot <- ggplot(mos_vff_means %>%
   geom_point() +
   geom_smooth(method = "lm") +
   # geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
-  geom_label_repel(aes(label=verb),color="black",fill="white")+
+  geom_label_repel(data=subset(mos_vff_means, verb%in%c("bluntly","wearily","gently","dryly",
+                                                        "cheerfully")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.2,
+                   segment.size=0.1, nudge_x=-0.13, direction="y",
+                   seed=124)+
+  geom_label_repel(data=subset(mos_vff_means, verb%in%c("softly","sternly","wistfully",
+                                                        "ruefully", "quietly", "loudly","calmly")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.2,
+                   segment.size=0.1, nudge_x=0.13, direction="y",
+                   seed=124)+
   geom_line(aes(group=verb),
             color = "black",
             alpha = 0.6,
@@ -266,7 +295,7 @@ mos_vff_plot <- ggplot(mos_vff_means %>%
         axis.text=element_text(size=16),
         axis.title=element_text(size=18))
 mos_vff_plot
-ggsave(mos_vff_plot, file="../graphs/main/vff.pdf", width=7, height=6)
+ggsave(mos_vff_plot, file="../graphs/main/vff_single_legend.pdf", width=7, height=6)
 
 ##############trial_order plot#############
 mos_trial_means = mos_data_acc %>% 

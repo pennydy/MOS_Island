@@ -52,7 +52,7 @@ all_data <- left_join(all_data, freq_data, by="verb") %>%
 
 length(unique(all_data$workerid))
 ###Exclude Subjects###
-excluded_subjects <- c(1243, 1179, 1199, 1175, 1237)  # excluded due to non-native and bilingual speaker status
+excluded_subjects <- c(1243, 1179, 1199, 1175, 1237)  # excluded due to non-native or unreported language status
 
 all_data <- subset(all_data, !is.element(all_data$workerid, excluded_subjects))
 length(unique(all_data$workerid))
