@@ -38,7 +38,6 @@ mos_data$scr[mos_data$verb == "whine"] =log(0.035433071)
 mos_data$scr[mos_data$verb == "whisper"] =log(0.012575889)
 mos_data$scr[mos_data$verb == "yell"]=log(0.010537992)
 mos_data$scr[mos_data$verb == "groan"]=log(0.00539924)
-# mos_data$scr <- scale(mos_data$scr, center = FALSE)
 
 mos_data$vff[mos_data$verb == "stammer"] = -6.841637508
 mos_data$vff[mos_data$verb == "shout"] = -5.603800653
@@ -49,7 +48,7 @@ mos_data$vff[mos_data$verb == "mutter"] =	-6.092051478
 mos_data$vff[mos_data$verb == "scream"] =	-5.793174124
 mos_data$vff[mos_data$verb == "mumble"] =	-6.395773947
 mos_data$vff[mos_data$verb == "whine"] =	-6.549750892
-# mos_data$vff <- scale(mos_data$vff, center = TRUE)
+
 
 #######################Participant Exclusion##########################
 ###Exclude Subjects###
@@ -322,7 +321,9 @@ mos_data_bg_nofill<- mos_data_bg_nofill %>%
   ))
 mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
 mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
+mos_data_bg_nofill$condition <- relevel(mos_data_bg_nofill$condition, ref="mos")
 contrasts(mos_data_bg_nofill$condition)=contr.sum(2)
+levels(mos_data_bg_nofill$condition)
 
 # failed to converge with the random effect structure: (1+condition|workerid) + (1|item_id)
 bg_model <- glmer(bg~condition+

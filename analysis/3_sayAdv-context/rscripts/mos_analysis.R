@@ -327,6 +327,7 @@ mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "embed_focus"] <-
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "verb_focus"] <- "verb_focus"
 mos_data_acc_noprac$prim_cond<- as.factor(mos_data_acc_noprac$prim_cond)
 mos_data_acc_noprac$prim_cond<-relevel(mos_data_acc_noprac$prim_cond, ref = "verb_focus")
+levels(mos_data_acc_noprac$prim_cond)
 
 acc_model <- lmer(acceptability_rating ~ prim_cond + 
                     (1+prim_cond|workerid),
@@ -342,7 +343,9 @@ mos_data_bg_nofill<- mos_data_bg_nofill %>%
   ))
 mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
 mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
+mos_data_bg_nofill$condition <- relevel(mos_data_bg_nofill$condition, ref="embed_focus")
 contrasts(mos_data_bg_nofill$condition)=contr.sum(2)
+levels(mos_data_bg_nofill$condition)
 bg_model <- glmer(bg~condition+
                     (1+condition|workerid)+
                     (1+condition|item_id),
@@ -357,7 +360,9 @@ mos_scr_model_data <- mos_data_acc %>%
   filter(condition %in% c("embed_focus", "verb_focus"))
 
 mos_scr_model_data$condition <- as.factor(mos_scr_model_data$condition)
+mos_scr_model_data$condition <- relevel(mos_scr_model_data$condition, ref="embed_focus")
 contrasts(mos_scr_model_data$condition) <- contr.sum(2)
+levels(mos_scr_model_data$condition)
 model_scr <- lmer(acceptability_rating ~ condition * scr + 
                     (1+condition|item_id)+ # should not include scr in the by-item random effect 
                     (1+condition * scr|workerid),
@@ -371,7 +376,9 @@ mos_vff_model_data <- mos_data_acc %>%
   filter(condition %in% c("embed_focus", "verb_focus"))
 
 mos_vff_model_data$condition <- as.factor(mos_vff_model_data$condition)
+mos_vff_model_data$condition <- relevel(mos_vff_model_data$condition, ref="embed_focus")
 contrasts(mos_vff_model_data$condition) <- contr.sum(2)
+levels(mos_vff_model_data$condition)
 model_vff <- lmer(acceptability_rating ~ condition * vff + 
                     (1+condition|item_id)+ # should not include scr in the by-item random effect 
                     (1+condition * vff|workerid),

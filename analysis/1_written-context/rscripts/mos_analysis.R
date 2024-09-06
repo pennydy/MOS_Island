@@ -422,7 +422,11 @@ mos_data_bg_nofill<- mos_data_bg_nofill %>%
     ))
 mos_data_bg_nofill$bg <- as.numeric(mos_data_bg_nofill$bg)
 mos_data_bg_nofill$condition <- as.factor(mos_data_bg_nofill$condition)
+# embed_focus: -1 (reference level), verb_focus: 1
+mos_data_bg_nofill$condition <- relevel(mos_data_bg_nofill$condition, ref="embed_focus")
 contrasts(mos_data_bg_nofill$condition)=contr.sum(2)
+levels(mos_data_bg_nofill$condition)
+
 bg_model <- glmer(bg~condition+
                      (1+condition|workerid)+
                      (1+condition|item_id),
@@ -437,6 +441,8 @@ mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "embed_focus"] <-
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "verb_focus"] <- "verb_focus"
 mos_data_acc_noprac$prim_cond<- as.factor(mos_data_acc_noprac$prim_cond)
 mos_data_acc_noprac$prim_cond<-relevel(mos_data_acc_noprac$prim_cond, ref = "verb_focus")
+
+levels(mos_data_acc_noprac$prim_cond)
 
 # convergence warning using lmerTest
 acc_model <- lmer(acceptability_rating ~ prim_cond + 
@@ -454,6 +460,7 @@ mos_scr_model_data <- mos_data_acc %>%
 
 mos_scr_model_data$condition <- as.factor(mos_scr_model_data$condition)
 contrasts(mos_scr_model_data$condition) <- contr.sum(2)
+levels(mos_scr_model_data$condition)
 model_scr <- lmer(acceptability_rating ~ condition * scr + 
                     (1|item_id)+
                     (1+condition * scr|workerid),data = mos_scr_model_data)
@@ -469,6 +476,7 @@ mos_vff_model_data <- mos_data_acc %>%
 
 mos_vff_model_data$condition <- as.factor(mos_vff_model_data$condition)
 contrasts(mos_vff_model_data$condition) <- contr.sum(2)
+levels(mos_vff_model_data$condition)
 model_vff <- lmer(acceptability_rating ~ condition * vff + 
                     (1|item_id)+
                     (1+condition * vff|workerid),

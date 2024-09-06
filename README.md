@@ -3,13 +3,13 @@
 ## General information
 Experiment 1 (`1_written-context`): Discourse Backgroundedness and the Manner-of-Speaking (MoS) Islands
 
-Experiment 1a (`1a_mos_say`): Default interpretation of sentences with "say" and MoS verbs
+Experiment 2a (`1b_mos_say-context`): Discourse backgroundedness and extraction from the complement clause of "say" and MoS verbs
 
-Experiment 1a (`1b_mos_say-context`): Discourse backgroundedness and extraction from the complement clause of "say" and MoS verbs
+Experiment 2b (`1a_mos_say`): Default interpretation of sentences with "say" and MoS verbs
 
-Experiment 2 (`2_sayAdv-main`): MoS island effect with "say+adv" constructions
+Experiment 3a (`2_sayAdv-main`): MoS island effect with "say+adv" constructions
 
-Experiment 3 (`3_sayAdv-context`): Discourse backgroundedness and MoS island effect in "say + adv" constructions
+Experiment 3b (`3_sayAdv-context`): Discourse backgroundedness and MoS island effect in "say + adv" constructions
 
 ## Structure of this repository
 ```bash
@@ -60,7 +60,7 @@ Experiment 3 (`3_sayAdv-context`): Discourse backgroundedness and MoS island eff
 │   ├── 1a_mos_say
 │   ├── 1b_mos_say-context
 │   ├── 2_sayAdv-main
-│   ├── 2_sayAdv-context
+│   ├── 3_sayAdv-context
 └── writings
 ```
 

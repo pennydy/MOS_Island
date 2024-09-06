@@ -15,11 +15,10 @@ data/**/*.config
 data/**/*.exps
 # data/*.csv
 data/1a_mos_say/all_original/
-data/1b_mos_say-context/
+data/1b_mos_say-context/all_original
 
 # analysis
 analysis/1_written-context/rscripts/analysis.R
-analysis/1b_mos_say-context/
 
 # plot 
 analysis/1_written-context/graphs/main/legend.pdf

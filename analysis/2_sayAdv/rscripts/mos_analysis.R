@@ -51,6 +51,7 @@ all_data <- left_join(all_data, freq_data, by="verb") %>%
 #   mutate(centered_scr = scr - mean(scr))
 
 length(unique(all_data$workerid))
+
 ###Exclude Subjects###
 excluded_subjects <- c(1243, 1179, 1199, 1175, 1237)  # excluded due to non-native or unreported language status
 
@@ -259,7 +260,6 @@ all_data$scr <- scale(all_data$scr, center=TRUE)
 scr_model_data <- all_data %>% 
   filter(condition == "say_adv") |>
   mutate(condition = as.factor(condition))
-
 
 scr_model <- lmer(acceptability_rating ~ scr + 
                     (1+scr|item_id) +
