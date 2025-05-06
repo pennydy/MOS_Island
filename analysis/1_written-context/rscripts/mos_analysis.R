@@ -14,11 +14,11 @@ library(ggrepel)
 theme_set(theme_bw())
 cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
-#######################Load Data ######################################
+#Load Data ----
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source('locative_helpers.R')
 mos_data<-read.csv("../../../data/1_written-context/main/1_written-context-main-trials.csv")
-#######################Participant Exclusion###########################
+#Participant Exclusion----
 ##Add log SCR score to verbs###
 mos_data$scr[mos_data$verb == "moan"] = log(0.019933555)
 mos_data$scr[mos_data$verb == "mumble"] = log(0.028169014)
@@ -187,6 +187,7 @@ mos_data_overall <- mos_data %>%
 mos_data_nofill <-  subset(mos_data_acc, condition %in% c("embed_focus","verb_focus"))
 mos_data_acc_noprac <- subset(mos_data_acc, block_id != "practice")
 
+## acceptability rating ----
 mos_means = mos_data_acc %>%
 # exclude practice trials
 filter(block_id != "practice") %>%
@@ -196,18 +197,32 @@ filter(block_id != "practice") %>%
       condition == "embed_focus" ~ "Embedded Focus",
       condition == "verb_focus" ~ "Verb Focus")) %>%
       group_by(condition) %>%
-      summarize(Mean = mean(acceptability_rating), CILow = ci.low(acceptability_rating),
-                            CIHigh = ci.high(acceptability_rating)) %>%
+      summarize(Mean = mean(acceptability_rating), 
+                CILow = ci.low(acceptability_rating),
+                CIHigh = ci.high(acceptability_rating)) %>%
       ungroup() %>%
-      mutate(YMin=Mean-CILow,YMax=Mean+CIHigh) %>%
+      mutate(YMin=Mean-CILow,
+             YMax=Mean+CIHigh) %>%
 # reorder the factors
       mutate(condition = fct_relevel(condition, "Good Filler", "Embedded Focus", "Verb Focus", "Bad Filler"))
+
+# by-verb acceptability ratings
+mos_acc_verb_means = mos_data_acc %>%
+  filter(condition %in% c("embed_focus", "verb_focus")) %>%
+  mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
+  group_by(condition, verb) %>%
+  summarize(acc_mean = mean(acceptability_rating), 
+            acc_CILow = ci.low(acceptability_rating),
+            acc_CIHigh = ci.high(acceptability_rating)) %>%
+  ungroup() %>%
+  mutate(acc_YMin=acc_mean-acc_CILow,
+         acc_YMax=acc_mean+acc_CIHigh)
+
+## backgroundedness ----
 mos_data_bg_nofill <-  subset(mos_data_bg, condition %in% c("embed_focus","verb_focus"))
 mos_data_bg_noprac <- subset(mos_data_bg_nofill, block_id != "practice")
 mos_bg_means = mos_data_bg %>%
                filter(condition %in% c("embed_focus", "verb_focus")) %>%
-            # exclude out practice trials
-                  # filter(block_id != "practice") %>%
                   # combine all good/bad fillers together
                   # mutate(condition = case_when(condition == "filler_good_1" | condition == "filler_good_2" ~ "Filler Good",
                   #                              condition == "filler_bad_1" | condition == "filler_bad_2" ~ "Filler Bad",
@@ -231,8 +246,26 @@ mos_bg_means = mos_data_bg %>%
 # reorder the factors
                 # mutate(condition = fct_relevel(condition, "Filler Good", "Embedded Focus", "Verb Focus", "Filler Bad"))
 
+# by-verb backgroundedness
+mos_bg_verb_means = mos_data_bg %>%
+  filter(condition %in% c("embed_focus", "verb_focus")) %>%
+  mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
+  #  1 -> verb focus, 0 -> noun focus;lower  value,  more backgrounded
+  mutate(bg = case_when(condition == "Verb Focus" & bg_response == "correct" ~ 1,
+                        condition == "Verb Focus" & bg_response == "incorrect" ~ 0,
+                        condition == "Embedded Focus" & bg_response == "incorrect" ~ 1,
+                        condition == "Embedded Focus" & bg_response == "correct" ~ 0
+  )) %>%
+  group_by(condition, verb) %>%
+  summarize(bg_mean = mean(bg),
+            bg_CILow = ci.low(bg),
+            bg_CIHigh = ci.high(bg)) %>%
+  ungroup() %>%
+  mutate(bg_YMin=bg_mean-bg_CILow,
+         bg_YMax=bg_mean+bg_CIHigh)
 
-##########Acceptability plot########################
+#Plot----
+##Acceptability plot----
 mos_acc_graph <- ggplot(mos_means,
                         #     %>% filter(condition %in% c("Embedded Focus", "Verb Focus"))
                         aes(x=condition, y=Mean, fill=condition)) +
@@ -255,11 +288,10 @@ mos_acc_graph <- ggplot(mos_means,
                       # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Verb focus"))
                       # +facet_wrap(~ID) 
 
- 
-mos_acc_graph
+ mos_acc_graph
 ggsave(mos_acc_graph, file="../graphs/main/mos_acc_large.pdf", width=2, height=3)
 
-###########BG question plot#######################
+##BG question plot----
 mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
                          geom_bar(stat="identity", width=0.8, aes(color=condition)) +
                          geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
@@ -282,8 +314,56 @@ mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
 mos_bg_graph
 ggsave(mos_bg_graph, file="../graphs/main/mos_bg_large.pdf", width=2, height=3)
  
- 
-#######SCR plot############
+## Acceptability ~ BG plot ----
+mos_verb_means <- left_join(mos_acc_verb_means, mos_bg_verb_means,
+                      by=c("condition", "verb")) %>% 
+  mutate(label = case_when(verb %in% c("groan",  "stammer", "whisper","shriek",
+                                       "scream", "mumble") & 
+                             condition=="Embedded Focus" ~ verb,
+                           verb %in% c("shout","yell","murmur", "mutter","moan", "whine") & condition=="Verb Focus" ~ verb,
+                           TRUE ~ ""))
+
+mos_verb_plot <- ggplot(mos_verb_means,
+                       aes(x = bg_mean, y = acc_mean, 
+                           color = condition, 
+                           fill=condition)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  geom_label_repel(data=subset(mos_verb_means, verb%in%c("stammer", "whine","yell")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=-0.16, direction="y")+
+  geom_label_repel(data=subset(mos_verb_means, verb%in%c("groan", "whisper","shriek",
+                                                        "scream", "mumble", "shout","murmur", "mutter","moan")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=0.16, direction="y")+
+  geom_line(aes(group=verb),
+            color = "black",
+            alpha = 0.4,
+            # size=0.4,
+            linetype = "dashed") +
+  # scale_x_continuous(expand=expansion(mult = 0.08)) +
+  xlab("Proportion of backgrounded interpretation of the embedded object")+
+  ylab("Mean Acceptability Rating") +
+  scale_color_manual(values=c("#56B4E9", "#009E73"), 
+                     labels=c("Embedded Focus", "Verb Focus"),
+                     name = "Condition") +
+  scale_fill_manual(values=c("#56B4E9", "#009E73"), 
+                    labels=c("Embedded Focus", "Verb Focus"),
+                    name = "Condition") +
+  theme(legend.position="top",
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=16),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=18))
+mos_verb_plot
+
+
+##frequency plot ----
+###Acceptability ~ SCR ----
 mos_scr_means = mos_data_acc %>%
    filter(condition %in% c("embed_focus", "verb_focus")) %>%
    mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
@@ -336,8 +416,71 @@ mos_scr_plot <- ggplot(mos_scr_means,
 mos_scr_plot
 ggsave(mos_scr_plot, file="../graphs/main/scr_single_label_alt_1.pdf", width=7, height=6)
  
+#######BG ~ SCR ############
+mos_bg_means_by_verb = mos_data_bg %>%
+  filter(condition %in% c("embed_focus", "verb_focus")) %>%
+  mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
+  #  1 -> verb focus, 0 -> noun focus;lower  value,  more backgrounded
+  mutate(bg = case_when(condition == "Verb Focus" & bg_response == "correct" ~ 1,
+                        condition == "Verb Focus" & bg_response == "incorrect" ~ 0,
+                        condition == "Embedded Focus" & bg_response == "incorrect" ~ 1,
+                        condition == "Embedded Focus" & bg_response == "correct" ~ 0
+  )) %>%
+  group_by(verb, condition) %>%
+  summarize(Mean = mean(bg),
+            SCR = mean(scr),
+            VFF = mean(vff),
+            CILow = ci.low(bg),
+            CIHigh = ci.high(bg)) %>%
+  ungroup() %>%
+  mutate(YMin=Mean-CILow,
+         YMax=Mean+CIHigh) %>% 
+  mutate(label = case_when(verb %in% c("groan",  "whisper",
+                                       "scream", "mumble","yell") & 
+                             condition=="Embedded Focus" ~ verb,
+                           verb %in% c("shout","murmur", "mutter","moan", "whine", "shriek","stammer") & condition=="Verb Focus" ~ verb,
+                           TRUE ~ ""))
+
+mos_scr_verb_plot <- ggplot(mos_bg_means_by_verb,
+                       aes(x = SCR, y = Mean, 
+                           color = condition, 
+                           fill=condition)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  geom_label_repel(data=subset(mos_bg_means_by_verb, verb%in%c("stammer", "whine","yell")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=-0.10, direction="y")+
+  geom_label_repel(data=subset(mos_bg_means_by_verb, verb%in%c("groan", "murmur","shriek",
+                                                        "scream", "mumble", "shout","whisper", "mutter","moan")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=0.16, direction="y")+
+  geom_line(aes(group=verb),
+            color = "black",
+            alpha = 0.4,
+            # size=0.4,
+            linetype = "dashed") +
+  # scale_x_continuous(expand=expansion(mult = 0.08)) +
+  xlab("Log-transformed SCR score")+
+  ylab("Proprotion of Backgroundedness\n Interpretation of the Embedded Object") +
+  scale_color_manual(values=c("#56B4E9", "#009E73"), 
+                     labels=c("Embedded Focus", "Verb Focus"),
+                     name = "Condition") +
+  scale_fill_manual(values=c("#56B4E9", "#009E73"), 
+                    labels=c("Embedded Focus", "Verb Focus"),
+                    name = "Condition") +
+  theme(legend.position="top",
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=16),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=18))
+mos_scr_verb_plot
+ggsave(mos_scr_verb_plot, file="../graphs/main/scr_bg.pdf", width=7, height=6)
  
-#######VFF plot############
+###Acceptability ~ VFF ----
 mos_vff_means = mos_data_acc %>% 
    filter(condition %in% c("embed_focus", "verb_focus")) %>%
    mutate(condition = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>% 
@@ -391,9 +534,48 @@ mos_vff_plot <- ggplot(mos_vff_means,
          axis.title=element_text(size=18))
 mos_vff_plot
 ggsave(mos_vff_plot, file="../graphs/main/vff_single_label.pdf", width=7, height=5)
+
+###BG ~ VFF ----
+mos_vff_verb_plot <- ggplot(mos_bg_means_by_verb %>% 
+                              filter(!verb %in% c("groan", "moan", "shriek")),
+                            aes(x = VFF, y = Mean, 
+                                color = condition, 
+                                fill=condition)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  geom_label_repel(data=subset(mos_bg_means_by_verb, verb%in%c("stammer", "whine","yell")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=-0.14, direction="y")+
+  geom_label_repel(data=subset(mos_bg_means_by_verb, verb%in%c("whisper","scream","mumble","shout","murmur", "mutter")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=0.16, direction="y")+
+  geom_line(aes(group=verb),
+            color = "black",
+            alpha = 0.4,
+            # size=0.4,
+            linetype = "dashed") +
+  # scale_x_continuous(expand=expansion(mult = 0.08)) +
+  xlab("Log-transformed VFF score")+
+  ylab("Proprotion of Backgroundedness\n Interpretation of the Embedded Object") +
+  scale_color_manual(values=c("#56B4E9", "#009E73"), 
+                     labels=c("Embedded Focus", "Verb Focus"),
+                     name = "Condition") +
+  scale_fill_manual(values=c("#56B4E9", "#009E73"), 
+                    labels=c("Embedded Focus", "Verb Focus"),
+                    name = "Condition") +
+  theme(legend.position="top",
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=16),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=18))
+mos_vff_verb_plot
+ggsave(mos_vff_verb_plot, file="../graphs/main/vff_bg.pdf", width=7, height=6)
  
- 
-##############trial_order plot#############
+##trial_order plot----
 mos_trial_means = mos_data_acc %>% 
    filter(condition %in% c("embed_focus", "verb_focus") )%>%
    group_by(trial_num, condition) %>%
@@ -408,10 +590,8 @@ mos_trial_plot <- ggplot(mos_trial_means,aes(x = trial_num, y = Mean, color = co
  
 mos_trial_plot
  
-
-#########################Stats##################################
- 
-######BG analysis###########
+#Stats----
+##BG analysis----
 mos_data_bg_nofill<- mos_data_bg_nofill %>%
     mutate(cond = ifelse(condition=="verb_focus", "Verb Focus", "Embedded Focus")) %>%
     #  1 -> verb focus, 0 -> noun focus; the lower the value, the more backgrounded it is
@@ -434,7 +614,7 @@ bg_model <- glmer(bg~condition+
                   data=mos_data_bg_nofill)
 summary(bg_model)
  
-#####acceptability analysis######
+##acceptability analysis----
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_bad_1","filler_bad_2")] <- "filler_bad"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition %in% c("filler_good_1","filler_good_2")] <- "filler_good"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "embed_focus"] <- "embed_focus"
@@ -451,7 +631,7 @@ acc_model <- lmer(acceptability_rating ~ prim_cond +
                   data = mos_data_acc_noprac)
 summary(acc_model)
 
-######SCR analysis#######
+##SCR analysis----
 # mean-center scr scores: center=TRUE, scale=TRUE (divided by sd)
 mos_data_acc$scr <- scale(mos_data_acc$scr, center=TRUE)
 mos_scr_model_data <- mos_data_acc %>% 
@@ -467,7 +647,7 @@ model_scr <- lmer(acceptability_rating ~ condition * scr +
 summary(model_scr)
 
 
-######VFF analysis#######
+##VFF analysis----
 # mean-center vff: center=TRUE, scale=TRUE (divided by sd)
 mos_data_acc$vff <- scale(mos_data_acc$vff, center=TRUE)
 mos_vff_model_data <- mos_data_acc %>% 
@@ -483,7 +663,8 @@ model_vff <- lmer(acceptability_rating ~ condition * vff +
                   data = mos_vff_model_data)
 summary(model_vff)
 
-####### Satiation analysis#########
+
+## Satiation analysis----
 mos_trial_data <- mos_data_acc %>%
                   filter(condition %in% c("embed_focus", "verb_focus") )%>%
                   mutate(condition = as.factor(condition)) 

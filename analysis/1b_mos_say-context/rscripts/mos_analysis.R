@@ -149,13 +149,20 @@ mos_bg_means = mos_data_bg %>%
 
 
 ##########Acceptability plot########################
+# by verb on x-axis
 mos_acc_graph <- ggplot(mos_acc_means, 
                         aes(x=verb_type,
                             y=Mean,
-                            fill=verb_type)) +
-  geom_bar(stat="identity", position=position_dodge(), width=0.8, aes(color=verb_type)) +
-  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,
-                position=position_dodge(width=0.8),
+                            fill=verb_type,
+                            alpha=condition)) +
+  geom_bar(stat="identity", 
+           position=position_dodge(),
+           width=0.8, 
+           aes(color=verb_type)) +
+  geom_errorbar(aes(ymin=YMin,
+                    ymax=YMax),
+                width=.2,
+                position=position_dodge(width=0.9),
                 show.legend = FALSE) +
   scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
   theme_bw() +
@@ -170,16 +177,13 @@ mos_acc_graph <- ggplot(mos_acc_means,
                        labels=c("Embedded Focus"="Embedded\nFocus",
                                 "Verb Focus"="Verb\nFocs",
                                 "Filler"="Filler")) +
-  # geom_signif(comparisons=list(c("Good Filler", "Adverb Focus")), annotations="***",y_position = 0.9) +
-  # geom_signif(comparisons=list(c("Embedded Focus", "Adverb Focus")), annotations="***",y_position = 0.8) +
-  # geom_signif(comparisons=list(c("Bad Filler", "Adverb Focus")), annotations="***",y_position = 0.7) +
   theme(legend.position = "top",
         axis.text=element_text(size=10),
         axis.title=element_text(size=14))
 mos_acc_graph
 ggsave(mos_acc_graph, file="../graphs/main/mos_acc.pdf", width=4, height=4)
 
-
+# by condition on x-axis
 mos_acc_means_by_focus <- mos_acc_means %>%
   mutate(condition=if_else(condition=="Filler", verb_type ,condition),
          verb_type=if_else(verb_type %in% c("Good Filler", "Bad Filler"), "Filler", verb_type)) %>% 
@@ -191,8 +195,6 @@ mos_acc_graph_by_focus <- ggplot(mos_acc_means_by_focus,
                             y=Mean,
                             fill=condition,
                             pattern=verb_type)) +
-  # geom_bar(stat="identity", position=position_dodge(), width=0.8, 
-  #          aes(color=condition,alpha=verb_type)) +
   geom_bar_pattern(
     position = "dodge",
     stat="identity",
@@ -283,6 +285,7 @@ all_mos_acc_graph <- ggplot(all_mos_acc_means,
 all_mos_acc_graph
 
 ###########BG question plot#######################
+# by verb on x-axis
 mos_bg_graph <- ggplot(mos_bg_means,
                        aes(x=verb_type, y=Mean, fill=verb_type, alpha=condition)) +
   geom_bar(stat="identity", 
@@ -308,7 +311,8 @@ mos_bg_graph <- ggplot(mos_bg_means,
   #             annotations="***",y_position = 0.93)
 mos_bg_graph
 ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=4, height=4)
-  
+
+# by condition on x-axis
 mos_bg_graph_by_focus <- ggplot(mos_bg_means,
                        aes(x=condition, y=Mean, fill=condition,pattern=verb_type)) +
   # geom_bar(stat="identity", 
@@ -329,11 +333,8 @@ mos_bg_graph_by_focus <- ggplot(mos_bg_means,
                 show.legend = FALSE) +
   scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL, guide="none") +
   theme_bw() +
-  xlab("Verb Type") +
+  xlab("Condition") +
   scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL, guide="none") +
-  # scale_alpha_discrete(range=c(0.2,0.9),
-  #                      name="Verb Type",
-  #                      guide="none") +
   scale_pattern_manual(values = c(MoS = "stripe", Say = "none"),
                        guide="none") +
   scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Object", limits=c(0, 1)) + 
@@ -341,13 +342,13 @@ mos_bg_graph_by_focus <- ggplot(mos_bg_means,
                             "Verb Focus"="Verb\nFocus")) +
   theme(legend.position="top",
         axis.text=element_text(size=12),
-        axis.title=element_text(size=12)) +
+        axis.title=element_text(size=14)) +
   geom_signif(comparisons = list(c("Embedded Focus", "Verb Focus")),
-            annotations="***",y_position = 0.9) 
-  # geom_signif(xmin = c(0.8, 1.8),
-  #             xmax = c(1.2, 2.2),
-  #             y_position = c(0.2, 0.88),
-  #             annotations="n.s.")
+            annotations="***",y_position = 0.92) +
+  geom_signif(xmin = c(0.8, 1.8),
+              xmax = c(1.2, 2.2),
+              y_position = c(0.2, 0.87),
+              annotations="***")
 mos_bg_graph_by_focus
 ggsave(mos_bg_graph_by_focus, file="../graphs/main/mos_bg_by_focus_no_legend.pdf", width=4, height=5)
 

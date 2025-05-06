@@ -14,7 +14,7 @@ library(ggrepel)
 theme_set(theme_bw())
 cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
-#######################Load Data ######################################
+#Load Data ----
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source('locative_helpers.R')
 mos_data<-read.csv("../../../data/1a_mos_say/main/1a_mos_say-trials.csv")
@@ -50,7 +50,7 @@ mos_data$vff[mos_data$verb == "mumble"] =	-6.395773947
 mos_data$vff[mos_data$verb == "whine"] =	-6.549750892
 
 
-#######################Participant Exclusion##########################
+#Participant Exclusion----
 ###Exclude Subjects###
 length(unique(mos_data$workerid))
 excluded_subjects <- c(86, 88) ## non-english native speaker, or no response for the language status
@@ -91,9 +91,10 @@ length(eligible_subjects)
 is.element(excluded_subjects,eligible_subjects)
 mos_data = subset(mos_data, workerid %in% eligible_subjects)
 # write.csv(mos_data,"../../../data/1a_mos_say/main/exp1a_after_exclusion.csv", row.names = FALSE)
+
 ##################################Getting data ready for plotting and analysis#############################################
 # Data cleaning    
-## acceptability
+## acceptability ----
 mos_data_overall <- mos_data %>% 
      filter(block_id != "practice") %>%
      filter(condition %in% c("say","mos"))%>%
@@ -141,7 +142,18 @@ mos_acc_means = mos_data_acc %>%
 # reorder the factors
   mutate(condition = fct_relevel(condition, "Good Filler", "Say", "MoS", "Bad Filler"))
 
-## backgroundedness
+# by-verb acceptability ratings
+mos_acc_verb_means = mos_data_acc %>%
+  filter(condition %in% c("say", "mos")) %>%
+  group_by(condition, verb) %>%
+  summarize(acc_mean = mean(acceptability_rating), 
+            acc_CILow = ci.low(acceptability_rating),
+            acc_CIHigh = ci.high(acceptability_rating)) %>%
+  ungroup() %>%
+  mutate(acc_YMin=acc_mean-acc_CILow,
+         acc_YMax=acc_mean+acc_CIHigh)
+
+## backgroundedness ----
 mos_data_bg_nofill <-  subset(mos_data_bg, condition %in% c("say","mos"))
 mos_data_bg_noprac <- subset(mos_data_bg_nofill, block_id != "practice")
 
@@ -164,8 +176,22 @@ mos_bg_means = mos_data_bg %>%
               mutate(YMin=Mean-CILow,
                      YMax=Mean+CIHigh)
 
+# by-verb backgroundedness
+mos_bg_verb_means = mos_data_bg %>%
+  filter(condition %in% c("say", "mos")) %>%
+  #  1 -> verb Focus, 0 -> embed focus;lower  value,  more backgrounded
+  mutate(bg = case_when(bg_response == "embed" ~ 0,
+                        bg_response == "verb" ~ 1)) %>%
+  group_by(condition, verb) %>%
+  summarize(bg_mean = mean(bg),
+            bg_CILow = ci.low(bg),
+            bg_CIHigh = ci.high(bg)) %>%
+  ungroup() %>%
+  mutate(bg_YMin=bg_mean-bg_CILow,
+         bg_YMax=bg_mean+bg_CIHigh)
 
-##########Acceptability plot########################
+# Plot ----
+##Acceptability plot ----
 mos_acc_graph <- ggplot(mos_acc_means, 
                         aes(x=condition, y=Mean, fill=condition)) +
   geom_bar(stat="identity", width=0.8, aes(color=condition)) +
@@ -187,7 +213,7 @@ mos_acc_graph <- ggplot(mos_acc_means,
                       # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Adverb Focus"))
                       # +facet_wrap(~ID) 
 mos_acc_graph
-ggsave(mos_acc_graph, file="../graphs/main/mos_acc.pdf", width=3, height=3)
+ggsave(mos_acc_graph, file="../graphs/main/mos_acc.pdf", width=3, height=4)
 
 ### fillers by item
 mos_acc_verb_graph <- ggplot(mos_acc_verbs, 
@@ -207,14 +233,14 @@ mos_acc_verb_graph <- ggplot(mos_acc_verbs,
         axis.title=element_text(size=14))
 mos_acc_verb_graph
 
-###########BG question plot#######################
+## BG question plot ----
 mos_bg_graph <- ggplot(mos_bg_means %>% 
                          mutate(condition = fct_relevel(condition, "say", "mos")), aes(x=condition, y=Mean, fill=condition)) +
   geom_bar(stat="identity", width=0.8, aes(color=condition)) +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
   scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL, guide="none") +
   theme_bw() +
-  xlab("Condition") +
+  xlab("Verb type") +
   scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL, guide="none") +
   scale_x_discrete(labels=c("say"="Say",
                             "mos"="MoS")) +
@@ -225,10 +251,37 @@ mos_bg_graph <- ggplot(mos_bg_means %>%
   geom_signif(comparisons = list(c("say", "mos")),
               annotations="***",y_position = 0.7)
 mos_bg_graph
-ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=2, height=3)
+ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=2, height=4)
  
- 
-#######SCR plot############
+
+## Acceptability ~ BG plot ----
+mos_verb_means <- left_join(mos_acc_verb_means, mos_bg_verb_means,
+                            by=c("condition", "verb"))
+
+mos_verb_plot <- ggplot(mos_verb_means,
+                        aes(x = bg_mean, y = acc_mean)) +
+  geom_point() +
+  geom_smooth(method = "lm", color="black") +
+  geom_label_repel(aes(label=verb),color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2)+
+  geom_line(aes(group=verb),
+            color = "black",
+            alpha = 0.6,
+            linetype = "dashed") +
+  xlab("Proportion of backgrounded Interpretation\nof the Embedded Object")+
+  ylab("Mean Acceptability Rating") +
+  theme(legend.position="top",
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=16),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=18))
+mos_verb_plot
+ggsave(mos_verb_plot, file="../graphs/main/bg_acc.pdf", width=6, height=4)
+
+
+## frequency plot ----
+###SCR plot----
 mos_scr_means <- mos_data_acc %>% 
   filter(condition %in% c("mos")) %>%
   group_by(verb, condition) %>%
@@ -312,8 +365,8 @@ mos_trial_plot <- ggplot(mos_trial_means,
 mos_trial_plot
 ggsave(mos_trial_plot, file="../graphs/main/trial_plot.pdf", width=4, height=3)
 
-#########################Stats##################################
-######BG analysis###########
+# Stats----
+## BG analysis ----
 #  1 -> verb focus, 0 -> noun focus; the lower the value, the more backgrounded it is
 mos_data_bg_nofill<- mos_data_bg_nofill %>%
   mutate(bg = case_when(bg_response == "embed" ~ 0,
@@ -333,7 +386,7 @@ bg_model <- glmer(bg~condition+
                   data=mos_data_bg_nofill)
 summary(bg_model)
 
-#####acceptability analysis######
+## acceptability analysis ----
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "filler_bad"] <- "filler_bad"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "filler_good"] <- "filler_good"
 mos_data_acc_noprac$prim_cond[mos_data_acc_noprac$condition == "say"] <- "say"
@@ -348,7 +401,25 @@ acc_model <- lmer(acceptability_rating ~ prim_cond +
                   data = mos_data_acc_noprac)
 summary(acc_model)
 
-######SCR analysis#######
+## acceptability ~ BG ----
+# center the bg proportion? 
+# mos_verb_means$bg_mean = scale(mos_verb_means$bg_mean, center=TRUE)
+acc_bg_model <- lm(acc_mean ~ bg_mean,
+                   data=mos_verb_means)
+summary(acc_bg_model)
+correlation <- cor(mos_verb_means$acc_mean, mos_verb_means$bg_mean, method = 'pearson')
+correlation
+
+# mos only
+mos_means <- mos_verb_means %>% 
+  filter(condition == "mos")
+acc_bg_mos_model <- lm(acc_mean ~ bg_mean,
+                   data=mos_means)
+summary(acc_bg_mos_model)
+correlation_mos <- cor(mos_means$acc_mean, mos_means$bg_mean, method = 'pearson')
+correlation_mos
+
+## SCR analysis ----
 # mean-center scr scores: center=TRUE, scale=TRUE (divided by sd)
 mos_data_acc$scr <- scale(mos_data_acc$scr, center=TRUE)
 mos_scr_model_data <- mos_data_acc %>% 
@@ -360,7 +431,7 @@ model_scr <- lmer(acceptability_rating ~ scr +
                   data = mos_scr_model_data)
 summary(model_scr)
 
-######VFF analysis#######
+## VFF analysis ----
 # mean-center vff: center=TRUE, scale=TRUE (divided by sd)
 mos_data_acc$vff <- scale(mos_data_acc$vff, center=TRUE)
 mos_vff_model_data <- mos_data_acc %>% 
@@ -373,7 +444,7 @@ model_vff <- lmer(acceptability_rating ~ vff +
                   data = mos_vff_model_data)
 summary(model_vff)
 
-####### Satiation analysis#########
+## Satiation analysis ----
 mos_trial_data <- mos_data_acc %>%
                   filter(condition %in% c("embed_focus", "verb_focus") ) %>%
                   mutate(condition = as.factor(condition),
