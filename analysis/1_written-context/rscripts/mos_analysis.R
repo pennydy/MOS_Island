@@ -9,9 +9,13 @@ library(simr)
 library(brms)
 library(bootstrap)
 library(ggrepel)
+library(colorspace)
 
 `%notin%` <- Negate(`%in%`)
 theme_set(theme_bw())
+# grayscale palette: "#1B1B1B" "#6D6D6D" "#BEBEBE" "#F9F9F9"
+grayPalette <- sequential_hcl(4, palette="Grays")
+# colorblind friendly palette
 cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 #Load Data ----
@@ -136,7 +140,6 @@ mos_incorrect_acc_graph <- ggplot(mos_incorrect_data_subjects_means,
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
 
 mos_incorrect_acc_graph
-ggsave(mos_incorrect_acc_graph, file="../graphs/main/incorrect_acc_graph.pdf", width=7, height=6) 
 
 mos_incorrect_data <- mos_data_acc %>%
   # merge(mos_data, mos_data_bg_ratio_participant, by="workerid") %>% 
@@ -170,7 +173,6 @@ mos_incorrect_participant_graph <- ggplot(mos_incorrect_data,
   theme(legend.position="bottom",
         axis.text.x = element_text(size=8))
 mos_incorrect_participant_graph
-ggsave(mos_incorrect_participant_graph, file="../graphs/main/incorrect_participant_graph.pdf", width=7, height=6)  
 
 ##################################Getting data ready for plotting and analysis#############################################
 # Data cleaning      
@@ -267,59 +269,53 @@ mos_bg_verb_means = mos_data_bg %>%
 #Plot----
 ##Acceptability plot----
 mos_acc_graph <- ggplot(mos_means,
-                        #     %>% filter(condition %in% c("Embedded Focus", "Verb Focus"))
                         aes(x=condition, y=Mean, fill=condition)) +
-   geom_bar(stat="identity", width=0.8, aes(color=condition)) +
-   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
-   scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
-   theme_bw()+
-   xlab("Condition") +
-   scale_color_manual(values=cbPalette, name=NULL, guide="none") +
-   theme(legend.position="bottom",
-         axis.text.x = element_text(size=8)) +
-   scale_x_discrete(labels=c("Good Filler"="Good\nFiller", 
-                             "Embedded Focus"="Embedded\nFocus",
-                             "Verb Focus"="Verb\nFocus",
-                             "Bad Filler"="Bad\nFiller")) +
+  geom_bar(stat="identity", width=0.8, alpha=0.85,color="black") +
+  # geom_bar(stat="identity", width=0.8, aes(color=condition)) +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
+  scale_fill_manual(values=grayPalette, name = NULL, guide="none") +
+  # scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
+  theme_bw()+
+  xlab("Condition") +
+  scale_color_manual(values=grayPalette, name=NULL, guide="none") +
+  # scale_color_manual(values=cbPalette, name=NULL, guide="none") +
+  theme(legend.position="bottom",
+        axis.text.x = element_text(size=8)) +
+  scale_x_discrete(labels=c("Good Filler"="Good\nFiller",
+                            "Embedded Focus"="Embedded\nFocus",
+                            "Verb Focus"="Verb\nFocus",
+                            "Bad Filler"="Bad\nFiller")) +
    scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1)) +
    geom_signif(comparisons=list(c("Good Filler", "Verb Focus")), annotations="***",y_position = 0.9) +
    geom_signif(comparisons=list(c("Embedded Focus", "Verb Focus")), annotations="***",y_position = 0.8) +
    geom_signif(comparisons=list(c("Bad Filler", "Verb Focus")), annotations="***",y_position = 0.7)
-                      # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Verb focus"))
-                      # +facet_wrap(~ID) 
-
- mos_acc_graph
-ggsave(mos_acc_graph, file="../graphs/main/mos_acc_large.pdf", width=2, height=3)
+mos_acc_graph
+ggsave(mos_acc_graph, file="../graphs/main/mos_acc_grayscale.pdf", width=3, height=3)
 
 ##BG question plot----
 mos_bg_graph <- ggplot(mos_bg_means, aes(x=condition, y=Mean, fill=condition)) +
-                         geom_bar(stat="identity", width=0.8, aes(color=condition)) +
-                         geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
-                         scale_fill_manual(values=c("#56B4E9", "#009E73"),
-                                           name = NULL) +
-             # scale_fill_manual(values=cbPalette, name = NULL) +
-                        theme_bw()+
-                        xlab("Condition") +
-                        scale_color_manual(values=c("#56B4E9", "#009E73"),
-                                           name=NULL) +
-                        # scale_color_manual(values=cbPalette, name=NULL) +
+  geom_bar(stat="identity", width=0.8, alpha=0.85,color="black") +
+  # geom_bar(stat="identity", width=0.8, aes(color=condition)) +
+  geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2, show.legend = FALSE) +
+  scale_fill_manual(values=c("#6D6D6D", "#BEBEBE"),name = NULL,guide="none") +
+  # scale_fill_manual(values=c("#56B4E9", "#009E73"),name = NULL,guide="none") +
+  theme_bw()+
+  xlab("Condition") +
+  scale_color_manual(values=c("#6D6D6D", "#BEBEBE"), name=NULL, guide="none") +
+  # scale_color_manual(values=c("#56B4E9", "#009E73"), name=NULL,guide="none") +
    scale_x_discrete(labels=c("Embedded Focus" = "Embedded\nFocus", "Verb Focus"="Verb\nFocus")) +
-                        scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Clause", limits=c(0, 1)) + 
-                          guides(color = "none") +
-                          guides(fill = "none") +
-                          theme(axis.text.x = element_text(size=8),
-                                axis.title=element_text(size=10)) +
+  scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Clause", limits=c(0, 1)) + 
+  theme(axis.text.x = element_text(size=8),
+        axis.title=element_text(size=10)) +
   geom_signif(comparisons = list(c("Embedded Focus", "Verb Focus")),
               annotations="***",y_position = 0.9)
 mos_bg_graph
-ggsave(mos_bg_graph, file="../graphs/main/mos_bg_large.pdf", width=2, height=3)
+ggsave(mos_bg_graph, file="../graphs/main/mos_bg_grayscale.pdf", width=2, height=3)
  
 ## Acceptability ~ BG plot ----
 mos_verb_means <- left_join(mos_acc_verb_means, mos_bg_verb_means,
-                      by=c("condition", "verb")) %>% 
-  mutate(label = case_when(verb %in% c("groan",  "stammer", "whisper","shriek",
-                                       "scream", "mumble") & 
-                             condition=="Embedded Focus" ~ verb,
+                            by=c("condition", "verb")) %>% 
+  mutate(label = case_when(verb %in% c("groan",  "stammer", "whisper","shriek", "scream", "mumble") & condition=="Embedded Focus" ~ verb,
                            verb %in% c("shout","yell","murmur", "mutter","moan", "whine") & condition=="Verb Focus" ~ verb,
                            TRUE ~ ""))
 
@@ -380,41 +376,46 @@ mos_scr_plot <- ggplot(mos_scr_means,
                         aes(x = SCR, y = ACC, 
                             color = condition, 
                             fill=condition)) +
-   geom_point() +
-   geom_smooth(method = "lm") +
-   # geom_text(size=3, color="black", alpha=0.6, hjust="inward", vjust="inward")+
-   geom_label_repel(data=subset(mos_scr_means, verb%in%c("stammer", "whine","yell")),
-                    aes(label=label),
-                    color="black",fill="white",
-                    box.padding=0.1,
-                    segment.size=0.2, nudge_x=-0.16, direction="y")+
-  geom_label_repel(data=subset(mos_scr_means, verb%in%c("groan", "whisper","shriek",
-                                       "scream", "mumble", "shout","murmur", "mutter","moan")),
+  geom_smooth(method = "lm") +
+  geom_point(aes(shape=condition),
+             color="black",size=2.5) +
+  geom_label_repel(data=subset(mos_scr_means, verb%in%c("stammer", "whine","yell")),
+                   aes(label=label),
+                   color="black",fill="white",
+                   box.padding=0.1,
+                   segment.size=0.2, nudge_x=-0.16, direction="y")+
+  geom_label_repel(data=subset(mos_scr_means, verb%in%c("groan", "whisper","shriek", "scream", "mumble", "shout","murmur", "mutter","moan")),
                    aes(label=label),
                    color="black",fill="white",
                    box.padding=0.1,
                    segment.size=0.2, nudge_x=0.16, direction="y")+
-   geom_line(aes(group=verb),
-             color = "black",
-             alpha = 0.4,
-             # size=0.4,
-             linetype = "dashed") +
-   # scale_x_continuous(expand=expansion(mult = 0.08)) +
-   xlab("Log-transformed SCR score")+
-   ylab("Mean Acceptability Rating") +
-   scale_color_manual(values=c("#56B4E9", "#009E73"), 
-                      labels=c("Embedded Focus", "Verb Focus"),
-                      name = "Condition") +
-   scale_fill_manual(values=c("#56B4E9", "#009E73"), 
+  geom_line(aes(group=verb),
+            color = "black",
+            alpha = 0.6,
+            # size=0.4,
+            linetype = "dashed") +
+  xlab("Log-transformed SCR score")+
+  ylab("Mean Acceptability Rating") +
+  labs(shape="Condition") + 
+  scale_color_manual(values=c("#6D6D6D", "#BEBEBE"), 
                      labels=c("Embedded Focus", "Verb Focus"),
                      name = "Condition") +
-   theme(legend.position="top",
-         legend.text=element_text(size=16),
-         legend.title=element_text(size=16),
-         axis.text=element_text(size=16),
-         axis.title=element_text(size=18))
+  # scale_color_manual(values=c("#56B4E9", "#009E73"),
+  #                    labels=c("Embedded Focus", "Verb Focus"),
+  #                    name = "Condition") +
+  scale_fill_manual(values=c("#6D6D6D", "#BEBEBE"), 
+                    labels=c("Embedded Focus", "Verb Focus"),
+                    name = "Condition") +
+  # scale_fill_manual(values=c("#56B4E9", "#009E73"),
+  #                   labels=c("Embedded Focus", "Verb Focus"),
+  #                   name = "Condition") +
+  theme(legend.position="top",
+        legend.text=element_text(size=16),
+        legend.title=element_text(size=16),
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=18))
 mos_scr_plot
-ggsave(mos_scr_plot, file="../graphs/main/scr_single_label_alt_1.pdf", width=7, height=6)
+ggsave(mos_scr_plot, file="../graphs/main/scr_single_label_grayscale.pdf", width=7, height=5)
  
 #######BG ~ SCR ############
 mos_bg_means_by_verb = mos_data_bg %>%
@@ -478,8 +479,7 @@ mos_scr_verb_plot <- ggplot(mos_bg_means_by_verb,
         axis.text=element_text(size=16),
         axis.title=element_text(size=18))
 mos_scr_verb_plot
-ggsave(mos_scr_verb_plot, file="../graphs/main/scr_bg.pdf", width=7, height=6)
- 
+
 ###Acceptability ~ VFF ----
 mos_vff_means = mos_data_acc %>% 
    filter(condition %in% c("embed_focus", "verb_focus")) %>%
@@ -496,13 +496,12 @@ mos_vff_means = mos_data_acc %>%
  
 mos_vff_plot <- ggplot(mos_vff_means,
                         aes(x = VFF, y = ACC, 
-                            color = condition, 
+                            color=condition, 
                             fill=condition, 
                             label=verb)) +
-   geom_point() +
-   geom_smooth(method = "lm") +
-   # geom_text(size=3, color="black", alpha=0.6, hjust=-0.1, vjust=0.2)+
-   # geom_text(size=4, color="black", alpha=0.6, hjust="inward", vjust="inward") +
+  geom_smooth(method = "lm") + 
+  geom_point(aes(shape=condition),
+              color="black",size=2.5) +
   geom_label_repel(data=subset(mos_vff_means, verb%in%c("whisper","whine","shout", "scream","mumble")),
                    aes(label=label),
                    color="black",fill="white",
@@ -514,26 +513,33 @@ mos_vff_plot <- ggplot(mos_vff_means,
                    color="black",fill="white",
                    box.padding=0.1,
                    segment.size=0.2, nudge_x=0.12, direction="y")+
-   geom_line(aes(group=verb),
-             color = "black",
-             alpha = 0.4,
-             linetype = "dashed") +
-   scale_y_continuous(limits = c(0, 1)) +
-   xlab("Log-transformed verb-frame frequency score")+
-   ylab("Mean Acceptability Rating") +
-   scale_color_manual(values=c("#56B4E9", "#009E73"), 
-                      labels=c("Embedded Focus", "Verb Focus"),
-                      name = "Condition") +
-   scale_fill_manual(values=c("#56B4E9", "#009E73"), 
+  geom_line(aes(group=verb),
+            color = "black",
+            alpha = 0.6,
+            linetype = "dashed") +
+  scale_y_continuous(limits = c(0, 1)) +
+  xlab("Log-transformed verb-frame frequency score")+
+  ylab("Mean Acceptability Rating") +
+  labs(shape="Condition")+
+  scale_color_manual(values=c("#6D6D6D", "#BEBEBE"), 
                      labels=c("Embedded Focus", "Verb Focus"),
-                     name = "Condition") +
+                     name = "Condition") + 
+  # scale_color_manual(values=c("#56B4E9", "#009E73"), 
+  #                     labels=c("Embedded Focus", "Verb Focus"),
+  #                     name = "Condition") +
+  scale_fill_manual(values=c("#6D6D6D", "#BEBEBE"), 
+                    labels=c("Embedded Focus", "Verb Focus"),
+                    name = "Condition") + 
+  # scale_fill_manual(values=c("#56B4E9", "#009E73"), 
+  #                    labels=c("Embedded Focus", "Verb Focus"),
+  #                    name = "Condition") +
    theme(legend.position="top",
          legend.text=element_text(size=16),
          legend.title=element_text(size=16),
          axis.text=element_text(size=16),
          axis.title=element_text(size=18))
 mos_vff_plot
-ggsave(mos_vff_plot, file="../graphs/main/vff_single_label.pdf", width=7, height=5)
+ggsave(mos_vff_plot, file="../graphs/main/vff_single_label_grayscale.pdf", width=7, height=5)
 
 ###BG ~ VFF ----
 mos_vff_verb_plot <- ggplot(mos_bg_means_by_verb %>% 

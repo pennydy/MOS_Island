@@ -9,9 +9,12 @@ library(simr)
 library(brms)
 library(bootstrap)
 library(ggrepel)
+library(colorspace)
 
 `%notin%` <- Negate(`%in%`)
 theme_set(theme_bw())
+# grayscale palette: "#1B1B1B" "#6D6D6D" "#BEBEBE" "#F9F9F9"
+grayPalette <- sequential_hcl(4, palette="Grays")
 cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 #######################Load Data ######################################
@@ -21,34 +24,12 @@ all_data<-read.csv("../../../data/2_sayAdv/main/2_sayAdv-main-trials.csv")
 freq_data <- read.csv("../../../data/exp2_freq.csv")
 #######################Participant Exclusion###########################
 ##Add log SCR score and VFF to verbs###
-# all_data$scr[all_data$verb == "say softly"] = log(0.001729355815)
-# all_data$scr[all_data$verb == "say quietly"] = log(0.00321248279)
-# all_data$scr[all_data$verb == "say loudly"] = log(0.01222493888)
-# all_data$scr[all_data$verb == "say bluntly"] =log(0.09223300971)
-# all_data$scr[all_data$verb == "say cheerfully"] =log(0.009230769231)
-# all_data$scr[all_data$verb == "say wearily"] =log(0.01315789474)
-# all_data$scr[all_data$verb == "say sternly"] =log(0.005235602094)
-# all_data$scr[all_data$verb == "say gently"] =log(0.003521126761)
-# all_data$scr[all_data$verb == "say wistfully"] =log(0.01973684211)
-# all_data$scr[all_data$verb == "say ruefully"] =log(0.007407407407)
-# all_data$scr[all_data$verb == "say calmly"]=log(0.009132420091)
-# all_data$scr[all_data$verb == "say dryly"]=log(0.005882352941)
-
 all_data <- left_join(all_data, freq_data, by="verb") %>% 
   rename(vff = coca_v_sc,
          google_vff = google_v_sc) %>% 
   mutate(scr = log(scr), # using COCA
          vff = log(vff)) %>% 
   select(-google_vff)
-  # rename(coca_vff = coca_v_sc,
-  #        vff = google_v_sc) %>% 
-  # mutate(scr = log(scr), # using Google book
-  #        vff = log(vff)) %>% 
-  # select(-coca_vff)
-
-# all_data <- all_data |>
-#   filter(condition %in% c("say", "say_adv")) |>
-#   mutate(centered_scr = scr - mean(scr))
 
 length(unique(all_data$workerid))
 
@@ -132,19 +113,24 @@ df_adverb <- all_data |>
 
 ##########Acceptability plot########################
 acc_graph <- ggplot(df_summary,
-                    aes(x=condition, y=Mean, fill=condition)) +
-  geom_bar(stat="identity", width=0.6, aes(color=condition)) +
+                    aes(x=condition, 
+                        y=Mean, 
+                        fill=condition)) +
+  geom_bar(stat="identity", width=0.8, alpha=0.85,color="black") +
+  # geom_bar(stat="identity", width=0.6, aes(color=condition)) +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,show.legend = FALSE) +
   geom_signif(comparisons=list(c("Say + Adv", "Say")), annotations="***",y_position = 0.86) +
   geom_signif(comparisons=list(c("Bad Filler", "Say")), annotations="***",y_position = 0.94) +
-  scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
+  scale_fill_manual(values=grayPalette, name = NULL, guide="none") +
+  # scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
   xlab("Condition") +
-  scale_color_manual(values=cbPalette, name=NULL, guide="none") +
+  scale_color_manual(values=grayPalette, name=NULL, guide="none") +
+  # scale_color_manual(values=cbPalette, name=NULL, guide="none") +
   theme(legend.position="bottom",
-        axis.text.x = element_text(size=8)) +
+        axis.text.x = element_text(size=10)) +
   scale_y_continuous(name="Mean Acceptability Rating", limits=c(0, 1))
 acc_graph
-ggsave(acc_graph, file="../graphs/main/mos_acc_sig.pdf", width=4, height=3)
+ggsave(acc_graph, file="../graphs/main/mos_acc_grayscale.pdf", width=4, height=3)
 
 adv_graph <- ggplot(df_adverb,
                     aes(x=verb, y=Mean, color=condition)) +

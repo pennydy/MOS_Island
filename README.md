@@ -1,4 +1,7 @@
 # Discourse Effects on Manner-of-Speaking (MoS) Islands
+This is the repository that accompanies the following paper: 
+
+- Lu, J.*, Pan, D.*, & Degen, J. (to appear). Discourse Effects on the Manner-of-Speaking Island. *Language.*
 
 ## General information
 Experiment 1 (`1_written-context`): Discourse Backgroundedness and the Manner-of-Speaking (MoS) Islands

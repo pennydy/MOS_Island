@@ -9,9 +9,12 @@ library(simr)
 library(brms)
 library(bootstrap)
 library(ggrepel)
+library(colorspace)
 
 `%notin%` <- Negate(`%in%`)
 theme_set(theme_bw())
+# grayscale palette: "#1B1B1B" "#6D6D6D" "#BEBEBE" "#F9F9F9"
+grayPalette <- sequential_hcl(4, palette="Grays")
 cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
 #Load Data ----
@@ -165,7 +168,7 @@ mos_bg_verbs <- mos_data_bg_noprac %>%
 
 mos_bg_means = mos_data_bg %>%
                filter(condition %in% c("say", "mos")) %>%
-                  #  1 -> verb Focus, 0 -> embed focus;lower  value,  more backgrounded
+                  #  1 -> verb Focus, 0 -> embed focus;lower value, more backgrounded
               mutate(bg = case_when(bg_response == "embed" ~ 0,
                                     bg_response == "verb" ~ 1)) %>%
               group_by(condition) %>%
@@ -179,7 +182,7 @@ mos_bg_means = mos_data_bg %>%
 # by-verb backgroundedness
 mos_bg_verb_means = mos_data_bg %>%
   filter(condition %in% c("say", "mos")) %>%
-  #  1 -> verb Focus, 0 -> embed focus;lower  value,  more backgrounded
+  #  1 -> verb Focus, 0 -> embed focus;lower value, more backgrounded
   mutate(bg = case_when(bg_response == "embed" ~ 0,
                         bg_response == "verb" ~ 1)) %>%
   group_by(condition, verb) %>%
@@ -194,12 +197,15 @@ mos_bg_verb_means = mos_data_bg %>%
 ##Acceptability plot ----
 mos_acc_graph <- ggplot(mos_acc_means, 
                         aes(x=condition, y=Mean, fill=condition)) +
-  geom_bar(stat="identity", width=0.8, aes(color=condition)) +
+  geom_bar(stat="identity", width=0.8, alpha=0.85,color="black") +
+  # geom_bar(stat="identity", width=0.8, aes(color=condition)) +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
-  scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
+  scale_fill_manual(values=grayPalette, name = NULL, guide="none") +
+  # scale_fill_manual(values=cbPalette, name = NULL, guide="none") +
   theme_bw() +
   xlab("Condition") +
-  scale_color_manual(values=cbPalette, name=NULL, guide="none") +
+  scale_color_manual(values=grayPalette, name=NULL, guide="none") +
+  # scale_color_manual(values=cbPalette, name=NULL, guide="none") +
   scale_x_discrete(labels=c("Good Filler"="Good\nFiller", 
                             "Say"="Say",
                             "MoS"="MoS",
@@ -210,10 +216,8 @@ mos_acc_graph <- ggplot(mos_acc_means,
   geom_signif(comparisons=list(c("Say", "MoS")), annotations="***",y_position = 0.85) +
   theme(axis.text=element_text(size=10),
         axis.title=element_text(size=14))
-                      # + scale_x_discrete(labels = c("Embedded focus", "filler bad 1", "filler bad 2", "filler good 1", "filler good 2", "Adverb Focus"))
-                      # +facet_wrap(~ID) 
 mos_acc_graph
-ggsave(mos_acc_graph, file="../graphs/main/mos_acc.pdf", width=3, height=4)
+ggsave(mos_acc_graph, file="../graphs/main/mos_acc_grayscale.pdf", width=3, height=3)
 
 ### fillers by item
 mos_acc_verb_graph <- ggplot(mos_acc_verbs, 
@@ -236,12 +240,15 @@ mos_acc_verb_graph
 ## BG question plot ----
 mos_bg_graph <- ggplot(mos_bg_means %>% 
                          mutate(condition = fct_relevel(condition, "say", "mos")), aes(x=condition, y=Mean, fill=condition)) +
-  geom_bar(stat="identity", width=0.8, aes(color=condition)) +
+  geom_bar(stat="identity", width=0.8, alpha=0.85,color="black") +
+  # geom_bar(stat="identity", width=0.8, aes(color=condition)) +
   geom_errorbar(aes(ymin=YMin,ymax=YMax),width=.2,  show.legend = FALSE) +
-  scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL, guide="none") +
+  scale_fill_manual(values=c("#6D6D6D", "#BEBEBE"), name = NULL, guide="none") +
+  # scale_fill_manual(values=c("#56B4E9", "#009E73"), name = NULL, guide="none") +
+  scale_color_manual(values=c("#6D6D6D", "#BEBEBE"),name=NULL, guide="none") +
+  # scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL, guide="none") +
   theme_bw() +
   xlab("Verb type") +
-  scale_color_manual(values=c("#56B4E9", "#009E73"),name=NULL, guide="none") +
   scale_x_discrete(labels=c("say"="Say",
                             "mos"="MoS")) +
   scale_y_continuous(name="Proportion of Backgrounded\nInterpretation of the Embedded Object", limits=c(0, 1)) + 
@@ -249,9 +256,10 @@ mos_bg_graph <- ggplot(mos_bg_means %>%
         axis.text=element_text(size=12),
         axis.title=element_text(size=12))  +
   geom_signif(comparisons = list(c("say", "mos")),
-              annotations="***",y_position = 0.7)
+              annotations="***",y_position = 0.7)+
+  theme(axis.title=element_text(size=11))
 mos_bg_graph
-ggsave(mos_bg_graph, file="../graphs/main/mos_bg.pdf", width=2, height=4)
+ggsave(mos_bg_graph, file="../graphs/main/mos_bg_grayscale.pdf", width=2, height=3)
  
 
 ## Acceptability ~ BG plot ----
